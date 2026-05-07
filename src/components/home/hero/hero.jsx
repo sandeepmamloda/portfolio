@@ -49,9 +49,16 @@ const Hero = function () {
           <source src="/videos/home/hero/hero.mp4" type="video/mp4" />
         </video>
       </div>
-      <div className={`${styles["video-layer"]} ${styles["video-blue"]} ${current === 1 ? styles["video-active"] : ""}`} />
-      <div className={`${styles["video-layer"]} ${styles["video-orange"]} ${current === 2 ? styles["video-active"] : ""}`} />
-
+      <div className={`${styles["video-layer"]} ${styles["video-blue"]} ${current === 1 ? styles["video-active"] : ""}`}>
+        <video autoPlay muted loop playsInline>
+          <source src="/videos/home/hero/footer.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div className={`${styles["video-layer"]} ${styles["video-orange"]} ${current === 2 ? styles["video-active"] : ""}`}>
+        <video autoPlay muted loop playsInline>
+          <source src="/videos/home/hero/work-ui-1.mp4" type="video/mp4" />
+        </video>
+      </div>
       <div className={styles["home-section-top-text-wrapper"]}>
         <div className={styles["top-content"]}>
           <h1>
@@ -73,6 +80,7 @@ const Hero = function () {
       </div>
 
       <div className={styles["projects-strip"]}>
+        <p className={styles["project-counter"]}>{current + 1}/{projects.length}</p>
         <div className={styles["progress-track"]}>
           <div ref={fillRef} className={styles["progress-fill"]} />
         </div>

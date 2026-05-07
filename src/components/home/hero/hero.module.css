@@ -87,13 +87,22 @@
   padding-bottom: 2.5rem;
 }
 
+.project-counter {
+  color: rgba(255, 255, 255, 1);
+  font-family: 'DMMonoLight';
+  font-size: 1.2rem;
+  margin: 0 0 0.6rem;
+  line-height: 100%;
+  letter-spacing: 0.07rem;
+}
+
 .progress-track {
   inline-size: 55%;
-  block-size: 3px;
+  block-size: 0.09rem;
   background: rgba(255, 255, 255, 0.15);
   margin-bottom: 1.2rem;
   position: relative;
-  border-radius: 2px;
+  border-radius: 1rem;
 }
 
 .progress-fill {
@@ -112,9 +121,9 @@
 .project-item p {
   color: rgba(255, 255, 255, 0.45);
   font-family: 'DMMonoLight';
-  font-size: 1rem;
+  font-size: 1.2rem;
   line-height: 130%;
-  letter-spacing: 0.04rem;
+  letter-spacing: 0rem;
   margin: 0;
   transition: color 0.3s ease;
 }

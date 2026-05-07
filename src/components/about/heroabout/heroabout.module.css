@@ -1,0 +1,91 @@
+.heroabout-wrapper {
+  height: 80rem;
+  width: 100%;
+  position: relative;
+}
+
+.hero-video-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.hero-video-wrapper video {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.hero-text-wrapper {
+  width: 100%;
+  height: 100%;          /* ← fit-content se 100% kiya */
+  background-color: transparent;
+  position: absolute;
+  top: 0;                /* ← bottom ki jagah top: 0 */
+  left: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding-inline-end: 25rem;
+  padding-bottom: 10rem; /* ← bottom: 10rem ki jagah padding */
+}
+
+.img-wrapper {
+  height: 54rem;
+  width: 35rem;
+  background-color:transparent;
+  position:relative;
+  border-radius: 1.5rem;
+}
+
+/* ===== TEXT CSS ===== */
+
+.hero-text-left-1 {
+  position: absolute;
+  left: -36rem;
+  max-width:50rem;
+  top:0;
+}
+
+.hero-text-left-1 h1 {
+  font-size: 5rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin: 0;
+  font-family: 'SatoshiBold';
+}
+
+.hero-text-left-2 {
+  position: absolute;
+  top:50%;
+  transform:translateY(-50%);
+  left: -20rem;
+  max-width: 25rem;
+}
+
+.hero-text-left-2 p {
+  font-size: 2rem;
+  color: #fff;
+  line-height: 1.2;
+  margin: 0;
+  text-align: center;
+  font-family: 'SatoshiMedium';
+}
+
+.hero-text-right-bottom {
+  position: absolute;
+  bottom: 0rem;
+  right: -24rem;
+  padding: 0.6rem 1rem;
+}
+
+.hero-text-right-bottom p {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 0;
+  font-family: 'DMMonoLight';
+  max-width:20rem;
+}

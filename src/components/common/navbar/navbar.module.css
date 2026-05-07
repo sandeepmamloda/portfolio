@@ -9,7 +9,8 @@
 
 .header-main {
   block-size: fit-content;
-  inline-size: 90rem;
+  max-inline-size: 90rem;
+  inline-size:100%;
   margin-inline: auto;
   display: flex;
   align-items: center;

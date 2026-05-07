@@ -93,3 +93,94 @@
   font-style: normal;
   font-display: swap;
 }
+/* ================================================satoshi==================================== */
+
+/* Satoshi - Black */
+@font-face {
+  font-family: 'SatoshiBlack';
+  src: url('/fonts/satoshi/Satoshi-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Satoshi - Black Italic */
+@font-face {
+  font-family: 'SatoshiBlackItalic';
+  src: url('/fonts/satoshi/Satoshi-BlackItalic.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Satoshi - Bold */
+@font-face {
+  font-family: 'SatoshiBold';
+  src: url('/fonts/satoshi/Satoshi-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Satoshi - Bold Italic */
+@font-face {
+  font-family: 'SatoshiBoldItalic';
+  src: url('/fonts/satoshi/Satoshi-BoldItalic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Satoshi - Italic */
+@font-face {
+  font-family: 'SatoshiItalic';
+  src: url('/fonts/satoshi/Satoshi-Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Satoshi - Light */
+@font-face {
+  font-family: 'SatoshiLight';
+  src: url('/fonts/satoshi/Satoshi-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Satoshi - Light Italic */
+@font-face {
+  font-family: 'SatoshiLightItalic';
+  src: url('/fonts/satoshi/Satoshi-LightItalic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Satoshi - Medium */
+@font-face {
+  font-family: 'SatoshiMedium';
+  src: url('/fonts/satoshi/Satoshi-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Satoshi - Medium Italic */
+@font-face {
+  font-family: 'SatoshiMediumItalic';
+  src: url('/fonts/satoshi/Satoshi-MediumItalic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Satoshi - Regular */
+@font-face {
+  font-family: 'SatoshiRegular';
+  src: url('/fonts/satoshi/Satoshi-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
