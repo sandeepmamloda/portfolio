@@ -1,9 +1,9 @@
 import List from "@/components/work/list/list"
-const Workz=function(){
+const Work=function(){
     return (
         <>
           <List/>
         </>
     );
 }
-export default Workz;
+export default Work;

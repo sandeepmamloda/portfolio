@@ -1,0 +1,195 @@
+.grid-wrapper{
+    padding-block:0;
+    padding-inline:7rem;
+    padding-block-start:10rem;
+}
+
+.grid-main{
+    width:100%;
+    position:relative;
+    z-index:2;
+}
+
+/* ================== First Layer (WORK + Description) ================== */
+.grid-first-layer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 3rem;
+    align-items: flex-start;
+}
+
+.grid-first-layer h1{
+    font-size: 6.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: 0;
+    color: white;
+    font-family: 'SatoshiBold';
+}
+
+.grid-first-layer p{
+    font-size: 1.4rem;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.75);
+    margin-top: 1rem;
+    font-family: 'Interlight';
+}
+
+/* ================== Second Layer (Grid | List) ================== */
+.grid-second-layer{
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+    font-size: 1.15rem;
+    font-weight: 500;
+}
+
+.grid-second-layer > div{
+    cursor: pointer;
+    padding-bottom: 8px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.grid-second-layer > div:hover{
+    color: white;
+}
+
+/* Active tab (Grid) */
+.grid-second-layer > div:first-child{
+    border-bottom: 2px solid white;
+    color: white;
+}
+
+/* ================== Grid Items ================== */
+.grid-third-layer{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:1.5rem;
+}
+
+.grid-items{
+    width:100%;
+    background:rgba(34,34,34,0.95);
+    border-radius:1.5rem;
+    padding:2rem;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    transition:all 0.4s ease;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,0.03);
+}
+
+.grid-items:hover{
+    transform:translateY(-6px);
+    background:rgba(40,40,40,1);
+}
+
+.video-wrapper{
+    width: 100%;
+    border-radius: 1.2rem;
+    overflow: hidden;
+}
+
+.grid-items video{
+    width:100%;
+    height:22rem;
+    object-fit:cover;
+    border-radius:1.2rem;
+    display:block;
+}
+
+.title{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:1.5rem;
+}
+
+.title h2{
+    color:#ffffff;
+    font-size:1.5rem;
+    font-weight:500;
+    line-height:1;
+    font-family: 'Intermedium';
+    text-align: center;
+}
+
+.normal-text{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:1.2rem;
+    margin-top:1.4rem;
+}
+
+.normal-text p{
+    color:rgba(255,255,255,0.65);
+    font-size:1.2rem;
+    font-weight:400;
+    font-family: 'Interlight';
+}
+
+.normal-text span{
+    width:1px;
+    height:2rem;
+    background:rgba(255, 255, 255, 1);
+    display:block;
+}
+
+/* ---------- Responsive ---------- */
+
+@media screen and (max-width:900px){
+
+    .grid-third-layer{
+        grid-template-columns:1fr;
+    }
+
+    .grid-items video{
+        height:18rem;
+    }
+
+    .grid-first-layer{
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+@media screen and (max-width:600px){
+
+    .grid-wrapper{
+        padding:1rem;
+    }
+
+    .grid-items{
+        padding:1rem;
+        border-radius:1rem;
+    }
+
+    .grid-items video{
+        height:15rem;
+        border-radius:0.8rem;
+    }
+
+    .title h2{
+        font-size:1.2rem;
+    }
+
+    .normal-text{
+        gap:0.8rem;
+    }
+
+    .normal-text p{
+        font-size:0.9rem;
+    }
+
+    .grid-first-layer h1{
+        font-size: 4.5rem;
+    }
+}

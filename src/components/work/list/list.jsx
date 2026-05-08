@@ -1,15 +1,78 @@
+"use client";
+
+import { useState } from "react";
 import styles from "./list.module.css";
 
+const workVideos = [
+  {
+    title: "Amplifying the Tuner",
+    type: "Commercial",
+    duration: "15:30",
+    video: "/videos/work/work.mp4",
+  },
+  {
+    title: "Everyone has somewhere to be",
+    type: "Social",
+    duration: "17:21",
+    video: "/videos/work/footer.mp4",
+  },
+  {
+    title: "Daily life of a Teenager",
+    type: "Social",
+    duration: "10:41",
+    video: "/videos/work/work.mp4",
+  },
+  {
+    title: "Vibrant Day at the Dead Parade",
+    type: "Promotional",
+    duration: "27:21",
+    video: "/videos/work/footer.mp4",
+  },
+  {
+    title: "Beyond the Game",
+    type: "Commercial",
+    duration: "21:10",
+    video: "/videos/work/hero.mp4",
+  },
+  {
+    title: "The Price of Silence",
+    type: "Social",
+    duration: "18:20",
+    video: "/videos/work/footer.mp4",
+  },
+  {
+    title: "Fragments of Reality",
+    type: "Social",
+    duration: "11:40",
+    video: "/videos/work/work.mp4",
+  },
+];
+
 const Work = function () {
+  const [activeVideo, setActiveVideo] = useState(0);
+
   return (
     <section className={styles["work-wrapper"]}>
       <div className={styles["work-main"]}>
 
-        {/* Background Video */}
+        {/* Videos */}
         <div className={styles["work-image-wrapper"]}>
-          <video autoPlay muted loop playsInline>
-            <source src="/videos/work/work.mp4" type="video/mp4" />
-          </video>
+
+          {workVideos.map((item, index) => (
+            <video
+              key={index}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className={`${styles["bg-video"]} ${
+                activeVideo === index ? styles["active-video"] : ""
+              }`}
+            >
+              <source src={item.video} type="video/mp4" />
+            </video>
+          ))}
+
         </div>
 
         {/* Content */}
@@ -41,47 +104,17 @@ const Work = function () {
                 <span>Duration</span>
               </div>
 
-              <div className={styles["list-items"]}>
-                <h3>Amplifying the Tuner</h3>
-                <p>Commercial</p>
-                <span>15:30</span>
-              </div>
-
-              <div className={styles["list-items"]}>
-                <h3>Everyone has somewhere to be</h3>
-                <p>Social</p>
-                <span>17:21</span>
-              </div>
-
-              <div className={styles["list-items"]}>
-                <h3>Daily life of a Teenager</h3>
-                <p>Social</p>
-                <span>10:41</span>
-              </div>
-
-              <div className={styles["list-items"]}>
-                <h3>Vibrant Day at the Dead Parade</h3>
-                <p>Promotional</p>
-                <span>27:21</span>
-              </div>
-
-              <div className={styles["list-items"]}>
-                <h3>Beyond the Game</h3>
-                <p>Commercial</p>
-                <span>21:10</span>
-              </div>
-
-              <div className={styles["list-items"]}>
-                <h3>The Price of Silence</h3>
-                <p>Social</p>
-                <span>18:20</span>
-              </div>
-
-              <div className={styles["list-items"]}>
-                <h3>Fragments of Reality</h3>
-                <p>Social</p>
-                <span>11:40</span>
-              </div>
+              {workVideos.map((item, index) => (
+                <div
+                  key={index}
+                  className={styles["list-items"]}
+                  onMouseEnter={() => setActiveVideo(index)}
+                >
+                  <h3>{item.title}</h3>
+                  <p>{item.type}</p>
+                  <span>{item.duration}</span>
+                </div>
+              ))}
 
             </div>
 
