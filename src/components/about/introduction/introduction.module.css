@@ -1,0 +1,49 @@
+.introduction-wrapper{
+    height:fit-content;
+    width:100%;
+    background-color:rgba(25, 25, 25, 1);
+}
+.introduction-main{
+    height:fit-content;
+    max-width:90rem;
+    margin-inline:auto;
+    width:100%;
+    padding-block:2rem;
+    display:flex;
+}
+.introduction-left{
+    height:auto;
+    width:30%;
+    position:relative;
+    display:flex;
+    justify-content: flex-start;
+    align-items:center;
+}
+.introduction-left h2{
+    font-family: 'SatoshiBold';
+    font-size:3rem;
+    color:rgba(255, 255, 255, 1);
+}
+.introduction-left::after{
+    content:"";
+    height:80%;
+    width:0.2rem;
+    background-color:rgba(200, 200, 200, 1);
+    right:1.4rem;
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    border-radius:10rem;
+}
+.introduction-right{
+    height:fit-content;
+    flex:1;
+}
+.introduction-right p{
+    color:rgba(255, 255, 255, 1);
+    font-family: 'SatoshiLight';
+    line-height:150%;
+    text-align:center;
+    font-size:1.2rem;
+    font-weight:600;
+}

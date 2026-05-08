@@ -84,9 +84,7 @@
 
 /* ── LINKS ── */
 .links-col { min-width: 0; }
-.links-col .col-title{
-    text-align:end;
-}
+
 .ext-links {
   list-style: none;
   margin: 0;

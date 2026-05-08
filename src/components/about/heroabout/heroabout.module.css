@@ -2,6 +2,7 @@
   height: 80rem;
   width: 100%;
   position: relative;
+  overflow:hidden;
 }
 
 .hero-video-wrapper {
@@ -25,7 +26,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  padding-inline-end: 25rem;
+  padding-inline-end: 25%;
   padding-bottom: 10rem; /* ← bottom: 10rem ki jagah padding */
 }
 
