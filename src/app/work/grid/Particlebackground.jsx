@@ -3,76 +3,6 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-// Three depth layers — each moves at different speed/brightness
-// giving natural parallax depth without changing particle size
-const LAYERS = [
-  { count: 10000, zRange: 2.0, speedMul: 0.4, ampMul: 0.6, alphaMul: 0.10 }, // bg — slow, dim
-  { count: 8000,  zRange: 0.5, speedMul: 1.0, ampMul: 1.0, alphaMul: 0.18 }, // mid
-  { count: 4000,  zRange: 0.1, speedMul: 1.6, ampMul: 1.3, alphaMul: 0.28 }, // fg — fast, bright
-];
-
-const vertexShader = `
-  attribute float seed;
-  attribute float offset;
-  attribute float aAlpha;
-  varying float vAlpha;
-  varying float vBrightness;
-  uniform float uTime;
-  uniform float uSpeedMul;
-  uniform float uAmpMul;
-  uniform float uAlphaMul;
-
-  float hash(float n) { return fract(sin(n) * 43758.5453123); }
-
-  void main() {
-    float px = position.x;
-    float py = position.y;
-
-    float speedX = hash(seed * 1.3) * 0.6 + 0.2;
-    float speedY = hash(seed * 2.7) * 0.4 + 0.15;
-    float ampX   = (hash(seed * 3.1) * 0.25 + 0.05) * uAmpMul;
-    float ampY   = (hash(seed * 4.9) * 0.20 + 0.05) * uAmpMul;
-
-    float dx = sin(uTime * speedX * uSpeedMul + offset       + py * 0.30) * ampX
-             + cos(uTime * 0.40  * uSpeedMul  + offset * 1.3            ) * ampX * 0.5;
-    float dy = cos(uTime * speedY * uSpeedMul + offset       + px * 0.25) * ampY
-             + sin(uTime * 0.35  * uSpeedMul  + offset * 0.9            ) * ampY * 0.5;
-
-    vec3 pos = position;
-    pos.x += dx;
-    pos.y += dy;
-
-    // Two waves at different angles — interference pattern = attractive moiré
-    float wave1 = sin(px * 0.5  + uTime * 0.9 * uSpeedMul + offset      ) * 0.5 + 0.5;
-    float wave2 = sin((px + py) * 0.35 - uTime * 0.6 * uSpeedMul + offset * 0.7) * 0.5 + 0.5;
-    float waveCombined = wave1 * 0.65 + wave2 * 0.35;
-
-    float frame   = floor(uTime * 20.0);
-    float flicker = hash(seed + frame * 0.09) * 0.20 + 0.80;
-
-    vAlpha      = waveCombined * flicker * uAlphaMul * aAlpha;
-    vBrightness = waveCombined;
-
-    vec4 mvPos = modelViewMatrix * vec4(pos, 1.0);
-    gl_PointSize = 1.6;
-    gl_Position  = projectionMatrix * mvPos;
-  }
-`;
-
-const fragmentShader = `
-  varying float vAlpha;
-  varying float vBrightness;
-
-  void main() {
-    if (vAlpha < 0.008) discard;
-    // Wave crest = slightly warmer white, trough = cooler — very subtle
-    float r = 1.0;
-    float g = 0.97 + vBrightness * 0.03;
-    float b = 0.92 + vBrightness * 0.05;
-    gl_FragColor = vec4(r, g, b, vAlpha);
-  }
-`;
-
 export default function ParticleBackground() {
   const canvasRef = useRef(null);
 
@@ -80,90 +10,134 @@ export default function ParticleBackground() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: false,
-      alpha: true,
+    const renderer = new THREE.WebGLRenderer({ 
+      canvas, 
+      antialias: true, 
+      alpha: true 
     });
-
+    
     const W = window.innerWidth;
     const H = window.innerHeight;
     renderer.setSize(W, H);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, W / H, 0.1, 1000);
-    camera.position.z = 5;
+    // Field of view thoda kam kiya taaki perspective aur elegant lage
+    const camera = new THREE.PerspectiveCamera(60, W / H, 0.1, 1000);
+    camera.position.z = 4;
 
-    // Build each layer as a separate Points object
-    const materials = [];
+    const COUNT = 5200; // Thode zyada particles for density
+    const positions = new Float32Array(COUNT * 3);
+    const colors = new Float32Array(COUNT * 3);
+    const speeds = new Float32Array(COUNT);
+    const phases = new Float32Array(COUNT);
 
-    LAYERS.forEach(({ count, zRange, speedMul, ampMul, alphaMul }) => {
-      const positions = new Float32Array(count * 3);
-      const seeds     = new Float32Array(count);
-      const offsets   = new Float32Array(count);
-      const alphas    = new Float32Array(count);
+    for (let i = 0; i < COUNT; i++) {
+      positions[i * 3]     = (Math.random() - 0.5) * 12; 
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 10; 
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 5;  
+      
+      // Pure White with a hint of blue-ish silver for "Cool" look
+      colors[i * 3]     = 0.9; // R
+      colors[i * 3 + 1] = 0.95; // G
+      colors[i * 3 + 2] = 1.0; // B
 
-      for (let i = 0; i < count; i++) {
-        positions[i * 3]     = (Math.random() - 0.5) * 24;
-        positions[i * 3 + 1] = (Math.random() - 0.5) * 24;
-        positions[i * 3 + 2] = (Math.random() - 0.5) * zRange;
-        seeds[i]   = Math.random() * 100.0;
-        offsets[i] = Math.random() * 6.2832;
-        alphas[i]  = Math.random() * 0.5 + 0.5; // per-particle brightness variation
-      }
+      speeds[i] = Math.random() * 0.3 + 0.05;
+      phases[i] = Math.random() * Math.PI * 2;
+    }
 
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-      geo.setAttribute("seed",     new THREE.BufferAttribute(seeds, 1));
-      geo.setAttribute("offset",   new THREE.BufferAttribute(offsets, 1));
-      geo.setAttribute("aAlpha",   new THREE.BufferAttribute(alphas, 1));
+    // --- High Precision Sharp Circle Texture ---
+    const sharpTex = (() => {
+      const size = 64;
+      const c = document.createElement('canvas');
+      c.width = c.height = size;
+      const ctx = c.getContext('2d');
+      const r = size / 2;
+      
+      ctx.beginPath();
+      ctx.arc(r, r, r * 0.4, 0, Math.PI * 2); // Chhota aur sharp circle
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowBlur = 5; // Bahut halka sa soft edge sharpness barkarar rakhne ke liye
+      ctx.shadowColor = 'white';
+      ctx.fill();
+      
+      return new THREE.CanvasTexture(c);
+    })();
 
-      const mat = new THREE.ShaderMaterial({
-        transparent: true,
-        depthWrite:  false,
-        uniforms: {
-          uTime:     { value: 0 },
-          uSpeedMul: { value: speedMul },
-          uAmpMul:   { value: ampMul },
-          uAlphaMul: { value: alphaMul },
-        },
-        vertexShader,
-        fragmentShader,
-      });
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color',    new THREE.BufferAttribute(colors, 3));
 
-      materials.push(mat);
-      scene.add(new THREE.Points(geo, mat));
+    const mat = new THREE.PointsMaterial({
+      size: 0.035, // Ekdum chhota size
+      map: sharpTex,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.7,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      sizeAttenuation: true, // Dur wale particles chhote dikhenge
     });
 
-    const onResize = () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
-    };
-    window.addEventListener("resize", onResize);
+    const particles = new THREE.Points(geo, mat);
+    scene.add(particles);
 
+    let mouse = { x: 0, y: 0 };
+    const onMouseMove = (e) => {
+      mouse.x = (e.clientX / window.innerWidth - 0.5);
+      mouse.y = -(e.clientY / window.innerHeight - 0.5);
+    };
+    window.addEventListener('mousemove', onMouseMove);
+
+    const clock = new THREE.Clock();
     let animId;
-    let t = 0;
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
-      t += 0.01;
-      materials.forEach(m => { m.uniforms.uTime.value = t; });
+      const t = clock.getElapsedTime();
+      
+      const posAttr = geo.attributes.position;
+      
+      for (let i = 0; i < COUNT; i++) {
+        const ph = phases[i];
+        const sp = speeds[i];
+
+        // Linear Rising (Slow & Elegant)
+        posAttr.array[i * 3 + 1] += sp * 0.005; 
+        if (posAttr.array[i * 3 + 1] > 5) posAttr.array[i * 3 + 1] = -5;
+
+        // Subtle Organic Floating
+        posAttr.array[i * 3] += Math.sin(t * 0.5 + ph) * 0.0015;
+      }
+
+      posAttr.needsUpdate = true;
+
+      // Mouse Lerping (Smooth movement)
+      particles.rotation.y += (mouse.x * 0.15 - particles.rotation.y) * 0.03;
+      particles.rotation.x += (mouse.y * 0.1 - particles.rotation.x) * 0.03;
+      
+      // Constant Cinematic Drift
+      particles.rotation.z += 0.0005;
+
       renderer.render(scene, camera);
     };
 
     animate();
 
+    const onResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+    window.addEventListener("resize", onResize);
+
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", onResize);
-      scene.children.forEach(child => {
-        child.geometry.dispose();
-      });
-      materials.forEach(m => m.dispose());
+      window.removeEventListener("mousemove", onMouseMove);
+      geo.dispose();
+      mat.dispose();
+      sharpTex.dispose();
       renderer.dispose();
     };
   }, []);
