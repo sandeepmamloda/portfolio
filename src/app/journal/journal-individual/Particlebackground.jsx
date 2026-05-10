@@ -10,7 +10,7 @@ export default function ParticleBackground() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const renderer = new THREE.WebGLRenderer({ 
+    const renderer = new THREE.WebGLRenderer({
       canvas, 
       antialias: true, 
       alpha: true 
