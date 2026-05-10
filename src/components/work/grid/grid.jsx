@@ -1,7 +1,8 @@
-'use client';   // ← Yeh zaroori hai Next.js mein
+'use client';
 
-import styles from "./grid.module.css";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
+import styles from "./grid.module.css";
 
 const gridData = [
   {
@@ -36,6 +37,7 @@ const gridData = [
 
 const Grid = function () {
   const videoRefs = useRef({});
+  const router = useRouter();
 
   const handleMouseEnter = (id) => {
     const video = videoRefs.current[id];
@@ -51,18 +53,37 @@ const Grid = function () {
     }
   };
 
+  const handleVideoClick = (item) => {
+    const encodedUrl = encodeURIComponent(item.video);
+    router.push(`/video-player?url=${encodedUrl}&title=${encodeURIComponent(item.title)}`);
+  };
+
   return (
     <section className={styles["grid-wrapper"]}>
       <div className={styles["grid-main"]}>
         <div className={styles["grid-first-layer"]}>
-            <div className="grid-first-layer-inner-1">
-                <h1>WORK</h1>
-            </div>
-            <div className="grid-first-layer-inner-2">
-                <p>Sharing personal thoughts, work-in-progress ideas, and deep-dives about design. Learnings from a decade in the industry.</p>
-            </div>
+          <div className="grid-first-layer-inner-1">
+            <h1>WORK</h1>
+          </div>
+          <div className="grid-first-layer-inner-2">
+            <p>
+              Sharing personal thoughts, work-in-progress ideas, and deep-dives
+              about design. Learnings from a decade in the industry.
+            </p>
+          </div>
         </div>
-        <div className={styles["grid-second-layer"]}></div>
+
+        <div className={styles["grid-second-layer"]}>
+          <div className={styles["grid-second-layer-grid"]}>
+            <span>Grid</span>
+          </div>
+          <div
+            className={styles["grid-second-layer-list"]}
+            onClick={() => router.push("/work/list")}
+          >
+            <span>List</span>
+          </div>
+        </div>
 
         <div className={styles["grid-third-layer"]}>
           {gridData.map((item) => (
@@ -72,7 +93,10 @@ const Grid = function () {
               onMouseEnter={() => handleMouseEnter(item.id)}
               onMouseLeave={() => handleMouseLeave(item.id)}
             >
-              <div className={styles["video-wrapper"]}>
+              <div
+                className={styles["video-wrapper"]}
+                onClick={() => handleVideoClick(item)}
+              >
                 <video
                   ref={(el) => (videoRefs.current[item.id] = el)}
                   muted

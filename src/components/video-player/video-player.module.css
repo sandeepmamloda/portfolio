@@ -1,0 +1,225 @@
+.vp-wrapper {
+  width: 100%;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.vp-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* ── Video ── */
+.vp-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* hide browser default controls in fullscreen */
+.vp-video::-webkit-media-controls {
+  display: none !important;
+}
+.vp-video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+
+/* ── Dark Overlay ── */
+.vp-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+/* ── Title ── */
+.vp-title {
+  position: absolute;
+  top: 11rem;
+  left: 3rem;
+}
+
+.vp-title h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+  text-transform: uppercase;
+  max-width: 40rem;
+  font-family: 'Interbold';
+}
+
+/* ── CLOSE Button (fullscreen only) ── */
+.vp-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-family: 'Interlight', sans-serif;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, color 0.2s ease;
+  z-index: 10;
+}
+
+.vp-inner:hover .vp-close {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.vp-close:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── Center Play/Pause Button ── */
+.vp-center-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.1);
+  transition: opacity 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.vp-inner:hover .vp-center-play {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.vp-center-play:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #ffffff;
+}
+
+.vp-center-play span {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  font-family: 'DMMonoLight';
+}
+
+/* ── Bottom Controls — Normal Mode ── */
+.vp-controls {
+  position: absolute;
+  bottom: 2rem;
+  left: 3rem;
+  right: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.vp-inner:hover .vp-controls {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.vp-controls-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vp-controls-left button {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.85rem;
+  font-family: 'DMMonoLight';
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.vp-controls-left button:hover {
+  color: #ffffff;
+}
+
+.vp-controls-right span {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.85rem;
+  font-family: 'Interlight', sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  font-family: 'DMMonoLight';
+}
+
+.vp-controls-right span:hover {
+  color: #ffffff;
+}
+
+/* ── Bottom Controls — Fullscreen Mode ── */
+.vp-fs-controls {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.vp-inner:hover .vp-fs-controls {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.vp-fs-time {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.85rem;
+  font-family: 'Interlight', monospace;
+  letter-spacing: 0.08em;
+}
+
+.vp-fs-mute {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.vp-fs-mute:hover {
+  color: #ffffff;
+}
+
+/* ── Error ── */
+.error {
+  color: white;
+  text-align: center;
+  padding: 4rem;
+}

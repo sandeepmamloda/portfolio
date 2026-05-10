@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./list.module.css";
 
@@ -50,6 +51,7 @@ const workVideos = [
 
 const Work = function () {
   const [activeVideo, setActiveVideo] = useState(0);
+  const router = useRouter();
 
   return (
     <section className={styles["work-wrapper"]}>
@@ -85,7 +87,10 @@ const Work = function () {
             {/* Toggle Buttons */}
             <div className={styles["toggle-buttons"]}>
 
-              <div className={styles["grid"]}>
+              <div
+                className={styles["grid"]}
+                onClick={() => router.push("/work/grid")}
+              >
                 <span>Grid</span>
               </div>
 

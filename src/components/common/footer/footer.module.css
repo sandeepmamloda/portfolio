@@ -1,7 +1,8 @@
 /* footer.module.css */
 
 .footer {
-  background-color: rgba(25, 25, 25, 1);
+  /* background-color: rgba(25, 25, 25, 1); */
+  background-color:#000;
   color: #ffffff;
   width: 100%;
   box-sizing: border-box;

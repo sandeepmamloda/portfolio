@@ -38,7 +38,28 @@
   font-style: normal;
   font-display: swap;
 }
-
+/* ExtraBold */
+@font-face {
+  font-family: 'Interextrabold';
+  src: url('/fonts/inter/static/Inter_18pt-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Interblack';
+  src: url('/fonts/inter/static/Inter_24pt-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Intersemi';
+  src: url('/fonts/inter/static/Inter_18pt-SemiBold.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
 /* ================================================dm-mono==================================== */
 /* DM Mono - Italic */
 @font-face {

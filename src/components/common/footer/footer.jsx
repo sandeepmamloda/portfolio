@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import styles from "./footer.module.css";
 
-const VideoText = ({ src, text }) => {
+const VideoText = ({ src, text, letterSpacing = -7}) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -27,6 +27,24 @@ const VideoText = ({ src, text }) => {
 
     let animId;
 
+    // Letter spacing ke saath total width calculate karo
+    const getTotalWidth = (txt) => {
+      let total = 0;
+      for (let i = 0; i < txt.length; i++) {
+        total += ctx.measureText(txt[i]).width + letterSpacing;
+      }
+      return total - letterSpacing; // Last char ke baad spacing nahi
+    };
+
+    // Letter spacing ke saath text draw karo
+    const drawTextWithSpacing = (txt, x, y) => {
+      let currentX = x;
+      for (let i = 0; i < txt.length; i++) {
+        ctx.fillText(txt[i], currentX, y);
+        currentX += ctx.measureText(txt[i]).width + letterSpacing;
+      }
+    };
+
     const draw = () => {
       const w = canvas.width;
       const h = canvas.height;
@@ -35,21 +53,20 @@ const VideoText = ({ src, text }) => {
 
       // START LARGE
       let fontSize = h * 0.9;
-
-      ctx.font = `900 ${fontSize}px "Interbold"`;
+      ctx.font = `900 ${fontSize}px 'Interblack'`;
 
       // SHRINK UNTIL TEXT FITS
-      while (ctx.measureText(text).width > w * 0.98) {
+      while (getTotalWidth(text) > w * 0.98) {
         fontSize -= 2;
-        ctx.font = `900 ${fontSize}px "Interbold"`;
+        ctx.font = `900 ${fontSize}px 'Interblack'`;
       }
 
       ctx.textBaseline = "middle";
       ctx.textAlign = "left";
 
-      // DRAW TEXT
+      // DRAW TEXT with letter spacing
       ctx.fillStyle = "#fff";
-      ctx.fillText(text, 0, h / 2);
+      drawTextWithSpacing(text, 0, h / 2);
 
       // VIDEO MASK
       ctx.globalCompositeOperation = "source-in";
@@ -66,7 +83,7 @@ const VideoText = ({ src, text }) => {
         await video.play();
 
         document.fonts
-          .load(`900 ${canvas.height * 0.9}px "Interbold"`)
+          .load(`900 ${canvas.height * 0.9}px "Interblack"`)
           .then(() => {
             draw();
           });
@@ -84,7 +101,7 @@ const VideoText = ({ src, text }) => {
       video.pause();
       window.removeEventListener("resize", resizeCanvas);
     };
-  }, [src, text]);
+  }, [src, text, letterSpacing]);
 
   return <canvas ref={canvasRef} className={styles["name-canvas"]} />;
 };
@@ -103,6 +120,7 @@ const Footer = function () {
               <VideoText
                 src="/videos/footer/footer.mp4"
                 text="HONEY B. SINGH"
+                letterSpacing={-7} 
               />
             </div>
 

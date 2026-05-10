@@ -1,127 +1,254 @@
 "use client"
+import { gsap } from "gsap";
 import { useEffect, useRef } from "react";
+import * as THREE from "three";
 import styles from "./heroabout.module.css";
 
-const ParticleBox = ({ children }) => {
+const ParticleBox = ({ children, imageSrc }) => {
   const canvasRef = useRef(null);
   const mouse = useRef({ x: -999, y: -999 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
 
-    let raf;
-    let particles = [];
+    const W = canvas.clientWidth;
+    const H = canvas.clientHeight;
 
-    const init = () => {
-      // getBoundingClientRect gives true CSS rendered size
-      const rect = canvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(W, H, false);
+    renderer.setPixelRatio(window.devicePixelRatio || 1);
+    renderer.setClearColor(0x000000, 0);
 
-      const W = rect.width;
-      const H = rect.height;
+    const scene  = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, W / H, 0.1, 100);
+    camera.position.set(0, 0, 10);
 
-      // Set internal canvas resolution = CSS size × dpr (no blur on retina)
-      canvas.width = Math.round(W * dpr);
-      canvas.height = Math.round(H * dpr);
-      ctx.scale(dpr, dpr);
+    // ── Grid config ────────────────────────────────────────────────────────
+    const PARTS     = 32;             // more tiles → smaller cubes
+    const SIZE      = 10;
+    const TILE      = SIZE / PARTS;   // each tile's world size
+    const GAP       = 1.0;            // tile fill ratio (1.0 = no gap)
 
-      const COLS = 70;
-      const ROWS = Math.round((H / W) * COLS);
-      const PW = W / COLS;
-      const PH = H / ROWS;
-      const RADIUS = 90;
+    // ── Object-fit: cover UVs ──────────────────────────────────────────────
+    const canvasAspect = W / H;
+    const imageAspect  = 1.0;
+    let uScale = 1, vScale = 1, uOff = 0, vOff = 0;
+    if (canvasAspect > imageAspect) {
+      vScale = imageAspect / canvasAspect;
+      vOff   = (1 - vScale) / 2;
+    } else {
+      uScale = canvasAspect / imageAspect;
+      uOff   = (1 - uScale) / 2;
+    }
 
-      // r = half of cell diagonal → zero gap between touching circles
-      const BASE_R = Math.sqrt(PW * PW + PH * PH) / 2;
+    // ── Texture ────────────────────────────────────────────────────────────
+    const texture = new THREE.TextureLoader().load(imageSrc, (tex) => {
+      tex.colorSpace      = THREE.SRGBColorSpace;
+      tex.generateMipmaps = true;
+      tex.minFilter       = THREE.LinearMipMapLinearFilter;
+      tex.magFilter       = THREE.LinearFilter;
+      tex.anisotropy      = renderer.capabilities.getMaxAnisotropy();
+      tex.needsUpdate     = true;
+    });
 
-      class Particle {
-        constructor(x, y) {
-          this.ox = x; this.oy = y;
-          this.x = x; this.y = y;
-          this.vx = 0; this.vy = 0;
+    // ── Build tiles ────────────────────────────────────────────────────────
+    const planes = [];
+
+    for (let xi = 0; xi < PARTS; xi++) {
+      for (let yi = 0; yi < PARTS; yi++) {
+
+        const geo = new THREE.PlaneGeometry(TILE * GAP, TILE * GAP);
+
+        // Cover UVs
+        const u0  = uOff + (xi / PARTS) * uScale;
+        const v0  = vOff + (yi / PARTS) * vScale;
+        const uS  = uScale / PARTS;
+        const vS  = vScale / PARTS;
+        const uvArr = geo.attributes.uv.array;
+        for (let k = 0; k < uvArr.length; k += 2) {
+          uvArr[k]     = u0 + uvArr[k]     * uS;
+          uvArr[k + 1] = v0 + uvArr[k + 1] * vS;
         }
-        update() {
-          const dx = this.x - mouse.current.x;
-          const dy = this.y - mouse.current.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < RADIUS) {
-            const force = (RADIUS - dist) / RADIUS;
-            const angle = Math.atan2(dy, dx);
-            const push = force * force * 10;
-            this.vx += Math.cos(angle) * push;
-            this.vy += Math.sin(angle) * push;
-          }
-          this.vx += (this.ox - this.x) * 0.06;
-          this.vy += (this.oy - this.y) * 0.06;
-          this.vx *= 0.78;
-          this.vy *= 0.78;
-          this.x += this.vx;
-          this.y += this.vy;
-        }
-        draw() {
-          const dx = this.x - mouse.current.x;
-          const dy = this.y - mouse.current.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const t = Math.max(0, 1 - dist / RADIUS);
-          const g = Math.round(120 + t * 60);
-          ctx.fillStyle = `rgba(${g}, ${g}, ${g}, ${1 + t * 0.15})`;
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, BASE_R + t * 1.5, 0, Math.PI * 2);
-          ctx.fill();
-        }
+        geo.attributes.uv.needsUpdate = true;
+
+        const mat  = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
+        const mesh = new THREE.Mesh(geo, mat);
+
+        // Grid resting position (image assembled)
+        const rx = xi * TILE - SIZE / 2 + TILE / 2;
+        const ry = yi * TILE - SIZE / 2 + TILE / 2;
+        mesh.position.set(rx, ry, 0);
+
+        // ── Circular scattered position ──────────────────────────────────
+        // Each tile gets a "burst" position — random angle, random radius
+        // within a circular area centered at origin
+        const angle   = Math.random() * Math.PI * 2;
+        const radius  = 1.5 + Math.random() * 3.5; // 1.5–5 world units from center
+        const sx      = Math.cos(angle) * radius;
+        const sy      = Math.sin(angle) * radius;
+        const sz      = (Math.random() - 0.5) * 2;  // slight Z depth variation
+
+        // Random rotation for scattered state
+        const srx = (Math.random() - 0.5) * Math.PI * 2;
+        const sry = (Math.random() - 0.5) * Math.PI * 2;
+        const srz = (Math.random() - 0.5) * Math.PI * 2;
+
+        mesh.userData = {
+          // Grid (assembled) state
+          gx: rx, gy: ry, gz: 0,
+          grx: 0, gry: 0, grz: 0,
+          // Scattered (circular burst) state
+          sx, sy, sz,
+          srx, sry, srz,
+          // Hover
+          hoverProgress: 0,
+          hoverTarget:   0,
+          randomDir: new THREE.Vector3(
+            (Math.random() - 0.5) * 2,
+            (Math.random() - 0.5) * 2,
+            (Math.random() - 0.5) * 2,
+          ),
+        };
+
+        scene.add(mesh);
+        planes.push(mesh);
       }
+    }
 
-      particles = [];
-      for (let row = 0; row < ROWS; row++)
-        for (let col = 0; col < COLS; col++)
-          particles.push(new Particle(col * PW + PW / 2, row * PH + PH / 2));
+    // ── GSAP: assembled ↔ circular-scattered loop ─────────────────────────
+    // Animate each tile between its grid position and its circular burst pos
+    const tl = gsap.timeline({ repeat: -1, yoyo: true, defaults: { ease: "sine.inOut" } });
 
-      const loop = () => {
-        ctx.clearRect(0, 0, W, H);
-        for (const p of particles) { p.update(); p.draw(); }
-        raf = requestAnimationFrame(loop);
-      };
+    // Phase 1 → assembled (grid)
+    tl.to(planes.map(p => p.userData), {
+      duration: 1.8,
+      ease: "power2.inOut",
+      stagger: {
+        amount: 1.2,
+        from:   "center",   // stagger radiates outward from center
+        grid:   [PARTS, PARTS],
+      },
+      onUpdate() {
+        // driven by GSAP progress — actual position set in render loop
+      },
+    });
 
-      cancelAnimationFrame(raf);
-      loop();
-    };
+    // We'll drive position via a simpler approach:
+    // animate a single "progress" value per tile using gsap.to on userData
+    // Phase A: 0 = grid, 1 = scattered
+    planes.forEach((p) => {
+      p.userData.blend = 0; // 0 = grid, 1 = scattered
+    });
 
-    // Wait one frame so canvas has its CSS layout size
-    raf = requestAnimationFrame(init);
+    // Kill the above dummy tl, use proper one
+    tl.kill();
+
+    const tl2 = gsap.timeline({ repeat: -1, yoyo: true });
+    // → scatter out
+    tl2.to(planes.map(p => p.userData), {
+      blend: 1,
+      duration: 1.6,
+      ease: "power2.inOut",
+      stagger: { amount: 1.0, from: "center", grid: [PARTS, PARTS] },
+    })
+    // hold scattered
+    .to({}, { duration: 0.6 })
+    // → assemble back  (yoyo handles this via repeat:-1 yoyo:true)
+    ;
+
+    // ── Mouse hover via raycaster ─────────────────────────────────────────
+    const raycaster     = new THREE.Raycaster();
+    const threeMouseVec = new THREE.Vector2();
 
     const onMove = (e) => {
       const rect = canvas.getBoundingClientRect();
-      mouse.current = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      };
+      mouse.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      threeMouseVec.x =  ((e.clientX - rect.left) / rect.width)  * 2 - 1;
+      threeMouseVec.y = -((e.clientY - rect.top)  / rect.height) * 2 + 1;
+      raycaster.setFromCamera(threeMouseVec, camera);
+      const hits = raycaster.intersectObjects(planes);
+      planes.forEach((p) => {
+        p.userData.hoverTarget = hits.find(h => h.object === p) ? 1 : 0;
+      });
     };
-    const onLeave = () => { mouse.current = { x: -999, y: -999 }; };
+
+    const onLeave = () => {
+      mouse.current = { x: -999, y: -999 };
+      planes.forEach(p => { p.userData.hoverTarget = 0; });
+    };
+
     const onTouch = (e) => {
       e.preventDefault();
       const rect = canvas.getBoundingClientRect();
-      mouse.current = {
-        x: e.touches[0].clientX - rect.left,
-        y: e.touches[0].clientY - rect.top,
-      };
+      mouse.current = { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+      threeMouseVec.x =  ((e.touches[0].clientX - rect.left) / rect.width)  * 2 - 1;
+      threeMouseVec.y = -((e.touches[0].clientY - rect.top)  / rect.height) * 2 + 1;
+      raycaster.setFromCamera(threeMouseVec, camera);
+      const hits = raycaster.intersectObjects(planes);
+      planes.forEach((p) => {
+        p.userData.hoverTarget = hits.find(h => h.object === p) ? 1 : 0;
+      });
     };
-    const onTouchEnd = () => { mouse.current = { x: -999, y: -999 }; };
 
-    canvas.addEventListener("mousemove", onMove);
+    const onTouchEnd = () => {
+      mouse.current = { x: -999, y: -999 };
+      planes.forEach(p => { p.userData.hoverTarget = 0; });
+    };
+
+    canvas.addEventListener("mousemove",  onMove);
     canvas.addEventListener("mouseleave", onLeave);
-    canvas.addEventListener("touchmove", onTouch, { passive: false });
-    canvas.addEventListener("touchend", onTouchEnd);
+    canvas.addEventListener("touchmove",  onTouch, { passive: false });
+    canvas.addEventListener("touchend",   onTouchEnd);
 
+    // ── Render loop ────────────────────────────────────────────────────────
+    let raf;
+    const loop = () => {
+      raf = requestAnimationFrame(loop);
+
+      planes.forEach((p) => {
+        const ud = p.userData;
+
+        // Lerp hover progress
+        ud.hoverProgress = THREE.MathUtils.lerp(ud.hoverProgress, ud.hoverTarget, 0.1);
+
+        // Base position: lerp between grid and circular-scattered via blend
+        const b = ud.blend;
+        const bx = ud.gx + (ud.sx - ud.gx) * b;
+        const by = ud.gy + (ud.sy - ud.gy) * b;
+        const bz = ud.gz + (ud.sz - ud.gz) * b;
+
+        // Hover offset (scatter away from cursor)
+        const hoverDist = 1.2;
+        const hx = bx + ud.randomDir.x * hoverDist * ud.hoverProgress;
+        const hy = by + ud.randomDir.y * hoverDist * ud.hoverProgress;
+        const hz = bz + ud.randomDir.z * hoverDist * ud.hoverProgress;
+
+        p.position.set(hx, hy, hz);
+
+        // Rotation: lerp between grid (flat) and scattered (random)
+        p.rotation.x = ud.srx * b;
+        p.rotation.y = ud.sry * b;
+        p.rotation.z = ud.srz * b;
+      });
+
+      renderer.render(scene, camera);
+    };
+    loop();
+
+    // ── Cleanup ────────────────────────────────────────────────────────────
     return () => {
       cancelAnimationFrame(raf);
-      canvas.removeEventListener("mousemove", onMove);
+      tl2.kill();
+      canvas.removeEventListener("mousemove",  onMove);
       canvas.removeEventListener("mouseleave", onLeave);
-      canvas.removeEventListener("touchmove", onTouch);
-      canvas.removeEventListener("touchend", onTouchEnd);
+      canvas.removeEventListener("touchmove",  onTouch);
+      canvas.removeEventListener("touchend",   onTouchEnd);
+      planes.forEach(p => { p.geometry.dispose(); p.material.dispose(); });
+      texture.dispose();
+      renderer.dispose();
     };
-  }, []);
+  }, [imageSrc]);
 
   return (
     <div className={styles["img-wrapper"]} style={{ position: "relative" }}>
@@ -149,7 +276,7 @@ const Heroabout = function () {
         </video>
       </div>
       <div className={styles["hero-text-wrapper"]}>
-        <ParticleBox>
+        <ParticleBox imageSrc="/images/normal.png">
           <div className={styles["hero-text-left-1"]}>
             <h1>WHERE SCRIPTS BECOME SIGHT</h1>
           </div>

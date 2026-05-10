@@ -76,6 +76,7 @@
 .grid{
     height:fit-content;
     width:fit-content;
+    cursor:pointer;
 }
 
 .grid span{
@@ -83,18 +84,24 @@
     letter-spacing:0.008rem;
     line-height:100%;
     font-size:1.5rem;
+    transition:font-size 0.2s ease;
+}
+
+.grid:hover span{
+    font-size:1.75rem;
 }
 
 .list{
     height:fit-content;
     width:fit-content;
+    cursor:default;
 }
 
 .list span{
     color:white;
     letter-spacing:0.008rem;
     line-height:100%;
-    font-size:1.5rem;
+    font-size:1.75rem;
 }
 
 .list-main{
