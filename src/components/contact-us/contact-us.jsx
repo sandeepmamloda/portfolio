@@ -5,7 +5,6 @@ import styles from "./contact-us.module.css";
 export default function ContactSection() {
   return (
     <section className={styles.contactSection}>
-
       {/* Header — card ke bahar */}
       <div className={styles.contactHeader}>
         <h1 className={styles.contactTitle}>CONTACT</h1>
@@ -15,9 +14,8 @@ export default function ContactSection() {
         </p>
       </div>
 
-      {/* Body Card — form + image dono andar */}
+      {/* Body Card — form + video dono andar */}
       <div className={styles.contactCard}>
-
         {/* Form */}
         <div className={styles.contactForm}>
           <div className={styles.formGroup}>
@@ -37,21 +35,25 @@ export default function ContactSection() {
 
           <div className={styles.formGroup}>
             <label>Message</label>
-            <textarea placeholder="Value" rows={5} />
+            <textarea placeholder="Value" rows={3} />
           </div>
 
           <button className={styles.submitBtn}>Submit</button>
         </div>
 
-        {/* Image */}
-        <div className={styles.contactImageWrapper}>
-          <img
-            src="/contact-image.jpg"
-            alt="Contact visual"
-            className={styles.contactImage}
-          />
+        {/* Video Section */}
+        <div className={styles.contactVideoWrapper}>
+          <div className={styles.videoFrame}>
+            <video
+              className={styles.contactVideo}
+              src="/videos/contact-us/contact-us.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+            />
+          </div>
         </div>
-
       </div>
     </section>
   );
