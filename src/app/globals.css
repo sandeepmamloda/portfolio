@@ -60,6 +60,13 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: 'Intersemibold';
+  src: url('/fonts/inter/static/Inter_18pt-SemiBold.ttf') format('truetype');
+  font-weight: 600;  /* 900 nahi, SemiBold = 600 hota hai */
+  font-style: normal;
+  font-display: swap;
+}
 /* ================================================dm-mono==================================== */
 /* DM Mono - Italic */
 @font-face {

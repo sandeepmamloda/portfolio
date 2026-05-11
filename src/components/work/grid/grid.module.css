@@ -171,8 +171,59 @@
     display:block;
 }
 
-/* ---------- Responsive ---------- */
+/* ================== Load More ================== */
+.load-more-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;
+  padding-bottom: 3rem;
+}
 
+.load-more-btn {
+  background: #222222;
+  border: none;
+  color: #fff;
+  font-family: 'Interlight', sans-serif;
+  font-size: 1rem;
+  padding: 0.8rem 2rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  letter-spacing: 0.05rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 
+    0px 0px 5.15px 0px rgba(255, 255, 255, 0.25) inset,
+    0px 4.49px 5.15px 0px rgba(0, 0, 0, 0.36) inset;
+}
+
+.load-more-btn span:first-child {
+  font-size: 1.5rem;
+  font-family: 'Intersemibold';
+}
+
+.load-more-btn span:last-child {
+  font-size: 2rem;
+}
+
+.btn-icon {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.load-more-btn:hover {
+  background: #8A38F5;
+  color: #fff;
+}
+
+.load-more-btn:hover .btn-icon {
+  transform: rotate(45deg);
+}
+
+/* ================== Responsive ================== */
 @media screen and (max-width:900px){
 
     .grid-third-layer{

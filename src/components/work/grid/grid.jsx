@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from "next/navigation";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import styles from "./grid.module.css";
 
 const gridData = [
@@ -33,11 +33,49 @@ const gridData = [
     duration: "27:21",
     video: "/videos/home/hero/footer.mp4",
   },
+  {
+    id: 5,
+    title: "Heer",
+    date: "October 8, 2015",
+    duration: "13 min.",
+    video: "/videos/home/hero/hero.mp4",
+  },
+  {
+    id: 6,
+    title: "I Am A Banana",
+    date: "Feb , 2015",
+    duration: "13 min.",
+    video: "/videos/home/hero/footer.mp4",
+  },
+  {
+    id: 7,
+    title: "Daily life of a Teenager",
+    date: "Jan 23, 2026",
+    duration: "10:41",
+    video: "/videos/home/hero/work-ui-1.mp4",
+  },
+  {
+    id: 8,
+    title: "Vibrant Day at the Dead Parade",
+    date: "Feb 04, 2026",
+    duration: "27:21",
+    video: "/videos/home/hero/footer.mp4",
+  },
 ];
+
+const ITEMS_PER_PAGE = 4;
 
 const Grid = function () {
   const videoRefs = useRef({});
   const router = useRouter();
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+
+  const visibleItems = gridData.slice(0, visibleCount);
+  const hasMore = visibleCount < gridData.length;
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + ITEMS_PER_PAGE);
+  };
 
   const handleMouseEnter = (id) => {
     const video = videoRefs.current[id];
@@ -86,7 +124,7 @@ const Grid = function () {
         </div>
 
         <div className={styles["grid-third-layer"]}>
-          {gridData.map((item) => (
+          {visibleItems.map((item) => (
             <div
               className={styles["grid-items"]}
               key={item.id}
@@ -120,6 +158,16 @@ const Grid = function () {
             </div>
           ))}
         </div>
+
+        {hasMore && (
+          <div className={styles["load-more-wrapper"]}>
+            <button className={styles["load-more-btn"]} onClick={handleLoadMore}>
+              <span>Load More</span>
+              <span className={styles["btn-icon"]}>+</span>
+            </button>
+          </div>
+        )}
+
       </div>
     </section>
   );

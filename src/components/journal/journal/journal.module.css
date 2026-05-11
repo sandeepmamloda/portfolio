@@ -189,9 +189,16 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  box-shadow: 0px 0px 5.15px 0px rgba(255, 255, 255, 0.25) inset;
+  box-shadow: 0px 4.49px 5.15px 0px rgba(0, 0, 0, 0.36) inset;
+
 }
-.load-more-btn span{
+.load-more-btn span:first-child{
   font-size:1.5rem;
+  font-family: 'Intersemibold';
+}
+.load-more-btn span:last-child{
+  font-size:2rem;
 }
 .btn-icon {
   display: inline-block;
