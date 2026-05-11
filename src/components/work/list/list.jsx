@@ -130,6 +130,6 @@ const Work = function () {
       </div>
     </section>
   );
-};
+}; 
 
 export default Work;
