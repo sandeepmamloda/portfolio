@@ -24,13 +24,11 @@ const ParticleBox = ({ children, imageSrc }) => {
     const camera = new THREE.PerspectiveCamera(60, W / H, 0.1, 100);
     camera.position.set(0, 0, 10);
 
-    // ── Grid config ────────────────────────────────────────────────────────
-    const PARTS     = 32;             // more tiles → smaller cubes
+    const PARTS     = 32;
     const SIZE      = 10;
-    const TILE      = SIZE / PARTS;   // each tile's world size
-    const GAP       = 1.0;            // tile fill ratio (1.0 = no gap)
+    const TILE      = SIZE / PARTS;
+    const GAP       = 1.0;
 
-    // ── Object-fit: cover UVs ──────────────────────────────────────────────
     const canvasAspect = W / H;
     const imageAspect  = 1.0;
     let uScale = 1, vScale = 1, uOff = 0, vOff = 0;
@@ -42,7 +40,6 @@ const ParticleBox = ({ children, imageSrc }) => {
       uOff   = (1 - uScale) / 2;
     }
 
-    // ── Texture ────────────────────────────────────────────────────────────
     const texture = new THREE.TextureLoader().load(imageSrc, (tex) => {
       tex.colorSpace      = THREE.SRGBColorSpace;
       tex.generateMipmaps = true;
@@ -52,15 +49,12 @@ const ParticleBox = ({ children, imageSrc }) => {
       tex.needsUpdate     = true;
     });
 
-    // ── Build tiles ────────────────────────────────────────────────────────
     const planes = [];
 
     for (let xi = 0; xi < PARTS; xi++) {
       for (let yi = 0; yi < PARTS; yi++) {
-
         const geo = new THREE.PlaneGeometry(TILE * GAP, TILE * GAP);
 
-        // Cover UVs
         const u0  = uOff + (xi / PARTS) * uScale;
         const v0  = vOff + (yi / PARTS) * vScale;
         const uS  = uScale / PARTS;
@@ -75,33 +69,25 @@ const ParticleBox = ({ children, imageSrc }) => {
         const mat  = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
         const mesh = new THREE.Mesh(geo, mat);
 
-        // Grid resting position (image assembled)
         const rx = xi * TILE - SIZE / 2 + TILE / 2;
         const ry = yi * TILE - SIZE / 2 + TILE / 2;
         mesh.position.set(rx, ry, 0);
 
-        // ── Circular scattered position ──────────────────────────────────
-        // Each tile gets a "burst" position — random angle, random radius
-        // within a circular area centered at origin
         const angle   = Math.random() * Math.PI * 2;
-        const radius  = 1.5 + Math.random() * 3.5; // 1.5–5 world units from center
+        const radius  = 1.5 + Math.random() * 3.5;
         const sx      = Math.cos(angle) * radius;
         const sy      = Math.sin(angle) * radius;
-        const sz      = (Math.random() - 0.5) * 2;  // slight Z depth variation
+        const sz      = (Math.random() - 0.5) * 2;
 
-        // Random rotation for scattered state
         const srx = (Math.random() - 0.5) * Math.PI * 2;
         const sry = (Math.random() - 0.5) * Math.PI * 2;
         const srz = (Math.random() - 0.5) * Math.PI * 2;
 
         mesh.userData = {
-          // Grid (assembled) state
           gx: rx, gy: ry, gz: 0,
           grx: 0, gry: 0, grz: 0,
-          // Scattered (circular burst) state
           sx, sy, sz,
           srx, sry, srz,
-          // Hover
           hoverProgress: 0,
           hoverTarget:   0,
           randomDir: new THREE.Vector3(
@@ -116,48 +102,26 @@ const ParticleBox = ({ children, imageSrc }) => {
       }
     }
 
-    // ── GSAP: assembled ↔ circular-scattered loop ─────────────────────────
-    // Animate each tile between its grid position and its circular burst pos
     const tl = gsap.timeline({ repeat: -1, yoyo: true, defaults: { ease: "sine.inOut" } });
-
-    // Phase 1 → assembled (grid)
     tl.to(planes.map(p => p.userData), {
       duration: 1.8,
       ease: "power2.inOut",
-      stagger: {
-        amount: 1.2,
-        from:   "center",   // stagger radiates outward from center
-        grid:   [PARTS, PARTS],
-      },
-      onUpdate() {
-        // driven by GSAP progress — actual position set in render loop
-      },
+      stagger: { amount: 1.2, from: "center", grid: [PARTS, PARTS] },
+      onUpdate() {},
     });
 
-    // We'll drive position via a simpler approach:
-    // animate a single "progress" value per tile using gsap.to on userData
-    // Phase A: 0 = grid, 1 = scattered
-    planes.forEach((p) => {
-      p.userData.blend = 0; // 0 = grid, 1 = scattered
-    });
-
-    // Kill the above dummy tl, use proper one
+    planes.forEach((p) => { p.userData.blend = 0; });
     tl.kill();
 
     const tl2 = gsap.timeline({ repeat: -1, yoyo: true });
-    // → scatter out
     tl2.to(planes.map(p => p.userData), {
       blend: 1,
       duration: 1.6,
       ease: "power2.inOut",
       stagger: { amount: 1.0, from: "center", grid: [PARTS, PARTS] },
     })
-    // hold scattered
-    .to({}, { duration: 0.6 })
-    // → assemble back  (yoyo handles this via repeat:-1 yoyo:true)
-    ;
+    .to({}, { duration: 0.6 });
 
-    // ── Mouse hover via raycaster ─────────────────────────────────────────
     const raycaster     = new THREE.Raycaster();
     const threeMouseVec = new THREE.Vector2();
 
@@ -201,42 +165,29 @@ const ParticleBox = ({ children, imageSrc }) => {
     canvas.addEventListener("touchmove",  onTouch, { passive: false });
     canvas.addEventListener("touchend",   onTouchEnd);
 
-    // ── Render loop ────────────────────────────────────────────────────────
     let raf;
     const loop = () => {
       raf = requestAnimationFrame(loop);
-
       planes.forEach((p) => {
         const ud = p.userData;
-
-        // Lerp hover progress
         ud.hoverProgress = THREE.MathUtils.lerp(ud.hoverProgress, ud.hoverTarget, 0.1);
-
-        // Base position: lerp between grid and circular-scattered via blend
         const b = ud.blend;
         const bx = ud.gx + (ud.sx - ud.gx) * b;
         const by = ud.gy + (ud.sy - ud.gy) * b;
         const bz = ud.gz + (ud.sz - ud.gz) * b;
-
-        // Hover offset (scatter away from cursor)
         const hoverDist = 1.2;
         const hx = bx + ud.randomDir.x * hoverDist * ud.hoverProgress;
         const hy = by + ud.randomDir.y * hoverDist * ud.hoverProgress;
         const hz = bz + ud.randomDir.z * hoverDist * ud.hoverProgress;
-
         p.position.set(hx, hy, hz);
-
-        // Rotation: lerp between grid (flat) and scattered (random)
         p.rotation.x = ud.srx * b;
         p.rotation.y = ud.sry * b;
         p.rotation.z = ud.srz * b;
       });
-
       renderer.render(scene, camera);
     };
     loop();
 
-    // ── Cleanup ────────────────────────────────────────────────────────────
     return () => {
       cancelAnimationFrame(raf);
       tl2.kill();
@@ -277,6 +228,7 @@ const Heroabout = function () {
       </div>
       <div className={styles["hero-text-wrapper"]}>
         <ParticleBox imageSrc="/images/normal.png">
+          {/* ✅ Original JSX — sab andar */}
           <div className={styles["hero-text-left-1"]}>
             <h1>WHERE SCRIPTS BECOME SIGHT</h1>
           </div>

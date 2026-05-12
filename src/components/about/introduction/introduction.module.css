@@ -1,7 +1,7 @@
 .introduction-wrapper{
     height:fit-content;
     width:100%;
-    background-color:rgba(25, 25, 25, 1);
+    /* background-color:rgba(25, 25, 25, 1); */
 }
 .introduction-main{
     height:fit-content;
@@ -46,4 +46,77 @@
     text-align:center;
     font-size:1.2rem;
     font-weight:600;
+}
+
+/* ── RESPONSIVE: 1700px ── */
+@media (max-width: 1700px) {
+  .introduction-main {
+    max-width: 80rem;
+  }
+}
+
+/* ── RESPONSIVE: 1300px ── */
+@media (max-width: 1300px) {
+  .introduction-main {
+    max-width: 75rem;
+    padding-inline: 2rem;
+  }
+  .introduction-left h2 {
+    font-size: 2.5rem;
+  }
+}
+
+/* ── RESPONSIVE: 1066px ── */
+@media (max-width: 1066px) {
+  .introduction-main {
+    flex-direction: column;
+    padding-inline: 2rem;
+    gap: 1.5rem;
+  }
+  .introduction-left {
+    width: 100%;
+    justify-content: center;
+  }
+  .introduction-left h2 {
+    font-size: 2rem;
+    text-align:center;
+  }
+  /* ✅ Vertical line ki jagah horizontal line */
+  .introduction-left::after {
+    height: 0.2rem;
+    width: 80%;
+    right: unset;
+    left: 50%;                        /* ✅ */
+    top: unset;
+    bottom: -0.75rem;
+    transform: translateX(-50%);      /* ✅ center */
+    border-radius: 10rem;
+}
+  .introduction-right p {
+    text-align: center;
+    font-size: 1.1rem;
+  }
+}
+
+/* ── RESPONSIVE: 768px ── */
+@media (max-width: 768px) {
+  /* .introduction-left h2 {
+    font-size: 1.8rem;
+  } */
+  .introduction-right p {
+    font-size: 1rem;
+  }
+}
+
+/* ── RESPONSIVE: 480px ── */
+@media (max-width: 480px) {
+  .introduction-main {
+    padding-inline: 1.2rem;
+  }
+  /* .introduction-left h2 {
+    font-size: 1.5rem;
+  } */
+  .introduction-right p {
+    font-size: 1rem;   /* ✅ floor */
+  }
 }

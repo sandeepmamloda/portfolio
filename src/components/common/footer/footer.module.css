@@ -150,21 +150,102 @@
 
 .privacy:hover { color: #aaaaaa; }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 60rem) {
-  .top-content {
-    grid-template-columns: 1fr 1fr;
-    row-gap: 2rem;
+/* ── RESPONSIVE: 1700px ── */
+@media (max-width: 1700px) {
+  .main {
+    max-width: 80rem;
   }
-  .left-col { grid-column: 1 / -1; }
 }
 
-@media (max-width: 40rem) {
-  .top-content { grid-template-columns: 1fr; }
-  .ext-links { align-items: flex-start; }
+/* ── RESPONSIVE: 1300px ── */
+@media (max-width: 1300px) {
+  .main {
+    max-width: 75rem;
+  }
+  .tagline {
+    font-size: 1.3rem;
+  }
+  .col-title {
+    font-size: 1.6rem;
+  }
+}
+
+/* ── RESPONSIVE: 1066px (Mobile trigger) ── */
+@media (max-width: 1066px) {
+  .top-content {
+    flex-direction: column;
+    gap: 2rem;
+    padding-top: 2rem;
+  }
+  .left-col {
+    max-width: 100%;
+    width: 100%;
+    order: 3;
+  }
+  .sitemap-col {
+    order: 1;
+    width: 100%;
+  }
+  .links-col {
+    order: 2;
+    width: 100%;
+  }
+  .ext-links {
+    align-items: flex-start;
+  }
+  .name-canvas {
+    height: 7rem;
+  }
+
+  /* ✅ Sirf yahi add kiya */
+  .site-links {
+    column-gap: 0;
+  }
+  .site-links li:nth-child(even) a {
+    display: block;
+    text-align: right;
+  }
+}
+
+/* ── RESPONSIVE: 768px ── */
+@media (max-width: 768px) {
+  .tagline {
+    font-size: 1.2rem;
+  }
+  .col-title {
+    font-size: 1.4rem;
+  }
+  .name-canvas {
+    height: 6rem;
+  }
+}
+
+/* ── RESPONSIVE: 480px ── */
+@media (max-width: 480px) {
+  .tagline {
+    font-size: 1rem;
+  }
+  .col-title {
+    font-size: 1.2rem;
+  }
+  .name-canvas {
+    height: 5rem;
+  }
+  .site-links li a {
+    font-size: 1rem;
+  }
+  .ext-links li a {
+    font-size: 1rem;
+  }
   .bottom-content {
     flex-direction: column;
     gap: 0.4rem;
     align-items: flex-start;
+  }
+  .copyright {
+    font-size: 1rem;
+  }
+  .privacy {
+    font-size: 1rem;
   }
 }

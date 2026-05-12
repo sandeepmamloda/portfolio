@@ -2,7 +2,7 @@
   height: 80rem;
   width: 100%;
   position: relative;
-  overflow:hidden;
+  overflow: hidden;
 }
 
 .hero-video-wrapper {
@@ -18,32 +18,33 @@
 
 .hero-text-wrapper {
   width: 100%;
-  height: 100%;          /* ← fit-content se 100% kiya */
+  height: 100%;
   background-color: transparent;
   position: absolute;
-  top: 0;                /* ← bottom ki jagah top: 0 */
+  top: 0;
   left: 0;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
   padding-inline-end: 25%;
-  padding-bottom: 10rem; /* ← bottom: 10rem ki jagah padding */
+  padding-bottom: 10rem;
 }
 
 .img-wrapper {
   height: 54rem;
   width: 35rem;
-  background-color:transparent;
-  position:relative;
+  background-color: transparent;
+  position: relative;
   border-radius: 1.5rem;
 }
+
 /* ===== TEXT CSS ===== */
 
 .hero-text-left-1 {
   position: absolute;
   left: -36rem;
-  max-width:50rem;
-  top:0;
+  max-width: 50rem;
+  top: 0;
 }
 
 .hero-text-left-1 h1 {
@@ -58,8 +59,8 @@
 
 .hero-text-left-2 {
   position: absolute;
-  top:50%;
-  transform:translateY(-50%);
+  top: 50%;
+  transform: translateY(-50%);
   left: -20rem;
   max-width: 25rem;
 }
@@ -87,5 +88,136 @@
   letter-spacing: 0.05em;
   margin: 0;
   font-family: 'DMMonoLight';
-  max-width:20rem;
+  max-width: 20rem;
+}
+/* ── RESPONSIVE: 1580px ── */
+@media (max-width: 1580px) {
+  .hero-text-wrapper {
+    padding-inline-end: 20%;
+  }
+  .hero-text-right-bottom{
+    right:-20rem;
+  }
+}
+@media (max-width: 1440px) {
+  .heroabout-wrapper {
+    height: 110rem;        /* ✅ content fit hone ke liye */
+  }
+  .hero-text-wrapper {
+    padding-inline-end: 0;
+    padding-bottom: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+    padding-block: 8rem 3rem;
+  }
+  .img-wrapper {
+    height: 90rem;         /* ✅ desktop jaisi height */
+    width: 60%;          /* ✅ desktop jaisi width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-text-left-1 {
+    position: relative;
+    left: unset;
+    top: unset;
+    max-width: 100%;
+    text-align: center;
+    order: -1;
+  }
+  .hero-text-left-2 {
+    position: relative;
+    left: unset;
+    top: unset;
+    transform: none;
+    max-width: 100%;
+    text-align: center;
+  }
+  .hero-text-right-bottom {
+    position: relative;
+    bottom: unset;
+    right: unset;
+    text-align: center;
+  }
+  .hero-text-right-bottom p {
+    max-width: 100%;
+  }
+}/* ── RESPONSIVE: 1066px ── */
+@media (max-width: 1066px) {
+  .heroabout-wrapper {
+    height: 80rem;
+  }
+  .hero-text-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-inline-end: 0;
+    padding-bottom: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+    padding-block: 8rem 3rem;
+  }
+  .img-wrapper {
+    width: 60%;
+    /* height: 45rem; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-text-left-1 {
+    position: relative;
+    left: unset;
+    top: unset;
+    max-width: 100%;
+    text-align: center;
+    order: -1;
+  }
+  .hero-text-left-1 h1 {
+    font-size: 3rem;
+  }
+  .hero-text-left-2 {
+    position: relative;
+    left: unset;
+    top: unset;
+    transform: none;
+    max-width: 100%;
+    text-align: center;
+  }
+  .hero-text-left-2 p {
+    font-size: 1.2rem;
+  }
+  .hero-text-right-bottom {
+    position: relative;
+    bottom: unset;
+    right: unset;
+    text-align: center;
+  }
+  .hero-text-right-bottom p {
+    font-size: 1.2rem;
+    max-width: 100%;
+  }
+}
+
+/* ── RESPONSIVE: 480px ── */
+@media (max-width: 480px) {
+  .heroabout-wrapper {
+    height: 80rem;
+  }
+  .img-wrapper {
+    width: 75%;
+    /* height: 38rem; */
+  }
+  .hero-text-left-1 h1 {
+    font-size: 2.2rem;
+  }
+  .hero-text-left-2 p {
+    font-size: 1rem;
+  }
+  .hero-text-right-bottom p {
+    font-size: 1rem;
+  }
 }

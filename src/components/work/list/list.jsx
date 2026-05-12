@@ -59,7 +59,6 @@ const Work = function () {
 
         {/* Videos */}
         <div className={styles["work-image-wrapper"]}>
-
           {workVideos.map((item, index) => (
             <video
               key={index}
@@ -74,35 +73,29 @@ const Work = function () {
               <source src={item.video} type="video/mp4" />
             </video>
           ))}
-
         </div>
 
         {/* Content */}
         <div className={styles["text-wrapper"]}>
-
           <h1>WORK</h1>
 
           <div className={styles["list-wrapper"]}>
 
             {/* Toggle Buttons */}
             <div className={styles["toggle-buttons"]}>
-
               <div
                 className={styles["grid"]}
                 onClick={() => router.push("/work/grid")}
               >
                 <span>Grid</span>
               </div>
-
               <div className={styles["list"]}>
                 <span>List</span>
               </div>
-
             </div>
 
             {/* List Main */}
             <div className={styles["list-main"]}>
-
               <div className={styles["list-head"]}>
                 <span>Name</span>
                 <span>Type</span>
@@ -120,16 +113,14 @@ const Work = function () {
                   <span>{item.duration}</span>
                 </div>
               ))}
-
             </div>
 
           </div>
-
         </div>
 
       </div>
     </section>
   );
-}; 
+};
 
 export default Work;

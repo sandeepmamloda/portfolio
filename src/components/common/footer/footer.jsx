@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import styles from "./footer.module.css";
 
-const VideoText = ({ src, text, letterSpacing = -7}) => {
+const VideoText = ({ src, text, letterSpacing = -5}) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -27,21 +27,26 @@ const VideoText = ({ src, text, letterSpacing = -7}) => {
 
     let animId;
 
-    // Letter spacing ke saath total width calculate karo
-    const getTotalWidth = (txt) => {
-      let total = 0;
-      for (let i = 0; i < txt.length; i++) {
-        total += ctx.measureText(txt[i]).width + letterSpacing;
-      }
-      return total - letterSpacing; // Last char ke baad spacing nahi
+    // ✅ Responsive letterSpacing
+    const getLetterSpacing = () => {
+      return window.innerWidth <= 840 ? 0 : letterSpacing;
     };
 
-    // Letter spacing ke saath text draw karo
+    const getTotalWidth = (txt) => {
+      const ls = getLetterSpacing();
+      let total = 0;
+      for (let i = 0; i < txt.length; i++) {
+        total += ctx.measureText(txt[i]).width + ls;
+      }
+      return total - ls;
+    };
+
     const drawTextWithSpacing = (txt, x, y) => {
+      const ls = getLetterSpacing();
       let currentX = x;
       for (let i = 0; i < txt.length; i++) {
         ctx.fillText(txt[i], currentX, y);
-        currentX += ctx.measureText(txt[i]).width + letterSpacing;
+        currentX += ctx.measureText(txt[i]).width + ls;
       }
     };
 
@@ -51,11 +56,9 @@ const VideoText = ({ src, text, letterSpacing = -7}) => {
 
       ctx.clearRect(0, 0, w, h);
 
-      // START LARGE
       let fontSize = h * 0.9;
       ctx.font = `900 ${fontSize}px 'Interblack'`;
 
-      // SHRINK UNTIL TEXT FITS
       while (getTotalWidth(text) > w * 0.98) {
         fontSize -= 2;
         ctx.font = `900 ${fontSize}px 'Interblack'`;
@@ -64,15 +67,12 @@ const VideoText = ({ src, text, letterSpacing = -7}) => {
       ctx.textBaseline = "middle";
       ctx.textAlign = "left";
 
-      // DRAW TEXT with letter spacing
       ctx.fillStyle = "#fff";
       drawTextWithSpacing(text, 0, h / 2);
 
-      // VIDEO MASK
       ctx.globalCompositeOperation = "source-in";
       ctx.drawImage(video, 0, 0, w, h);
 
-      // RESET
       ctx.globalCompositeOperation = "source-over";
 
       animId = requestAnimationFrame(draw);
@@ -120,7 +120,7 @@ const Footer = function () {
               <VideoText
                 src="/videos/footer/footer.mp4"
                 text="HONEY B. SINGH"
-                letterSpacing={-7} 
+                letterSpacing={-5} 
               />
             </div>
 
@@ -155,7 +155,6 @@ const Footer = function () {
                     </em>
                   </a>
                 </li>
-
                 <li>
                   <a href="https://instagram.com" target="_blank" rel="noreferrer">
                     Instagram
@@ -166,7 +165,6 @@ const Footer = function () {
                     </em>
                   </a>
                 </li>
-
                 <li>
                   <a href="https://tumblr.com" target="_blank" rel="noreferrer">
                     Tumblr
@@ -177,7 +175,6 @@ const Footer = function () {
                     </em>
                   </a>
                 </li>
-
                 <li>
                   <a href="https://twitter.com" target="_blank" rel="noreferrer">
                     Twitter

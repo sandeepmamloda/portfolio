@@ -24,13 +24,10 @@
     height:100%;
     width:100%;
     object-fit:cover;
-
     position:absolute;
     inset:0;
-
     opacity:0;
     visibility:hidden;
-
     transition:
     opacity 0.5s ease,
     visibility 0.5s ease;
@@ -50,7 +47,7 @@
     bottom:4rem;
     left:0;
     padding-inline:3rem;
-    z-index:2; /* important */
+    z-index:2;
 }
 
 .text-wrapper h1{
@@ -58,6 +55,7 @@
     color:rgba(255, 255, 255, 1);
     font-family: 'SatoshiBold';
     line-height:100%;
+    margin-bottom:1.4rem;
 }
 
 .list-wrapper{
@@ -112,10 +110,8 @@
 .list-head{
     height:4rem;
     width:100%;
-
     display:grid;
     grid-template-columns:1fr 1fr 1fr;
-
     align-items:center;
 }
 
@@ -139,10 +135,8 @@
     height:4rem;
     width:100%;
     border-block:solid 0.008rem white;
-
     display:grid;
     grid-template-columns:1fr 1fr 1fr;
-
     align-items:center;
     position:relative;
     overflow:hidden;
@@ -205,4 +199,89 @@
 .list-main .list-items:hover p,
 .list-main .list-items:hover span{
     color:black;
+}
+
+/* ── RESPONSIVE: 1066px ── */
+@media (max-width: 1066px) {
+  .text-wrapper h1 {
+    font-size: 5rem;
+  }
+}
+
+/* ── RESPONSIVE: 768px ── */
+@media (max-width: 768px) {
+  .text-wrapper {
+    padding-inline: 2rem;
+  }
+  .text-wrapper h1 {
+    font-size: 4rem;
+    text-align: center;
+  }
+  .toggle-buttons {
+    margin-inline: auto;
+  }
+  .list-head {
+    grid-template-columns: 1fr auto;
+  }
+  .list-items {
+    grid-template-columns: 1fr auto !important;
+    height: auto;
+    min-height: 4rem;
+    padding-block: 0.8rem;
+  }
+  .list-head span:nth-child(2),
+  .list-items p {
+    display: none;
+  }
+  .list-head span:last-child {
+    justify-self: end;
+  }
+  .list-items span {
+    justify-self: end;
+  }
+  .list-head span {
+    font-size: 1.2rem;
+  }
+  .list-items h3,
+  .list-items span {
+    font-size: 1.2rem;
+  }
+  /* ✅ Grid inactive — chhota, List active — bada */
+  .grid span {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .list span {
+    font-size: 1.4rem;
+    color: white;
+  }
+}
+
+/* ── RESPONSIVE: 480px ── */
+@media (max-width: 480px) {
+  .text-wrapper {
+    padding-inline: 1.2rem;
+    bottom: 8rem;
+  }
+  .list-items {
+    height: auto;
+    min-height: 4rem;
+    padding-block: 0.8rem;
+  }
+  .list-head span {
+    font-size: 1rem;
+  }
+  .list-items h3,
+  .list-items span {
+    font-size: 1rem;
+  }
+  /* ✅ floor pe bhi active/inactive difference */
+  .grid span {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .list span {
+    font-size: 1.2rem;
+    color: white;
+  }
 }

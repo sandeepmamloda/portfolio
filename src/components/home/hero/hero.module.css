@@ -31,11 +31,12 @@
 .home-section-top-text-wrapper {
   block-size: fit-content;
   inline-size: 100%;
-  max-inline-size: 90rem;
+  max-inline-size: 94rem;
   position: absolute;
   top: 10rem;
   left: 50%;
   transform: translate(-50%);
+  padding-inline:2rem;
 }
 .top-content {
   block-size: fit-content;
@@ -85,8 +86,9 @@
   left: 50%;
   transform: translateX(-50%);
   inline-size: 100%;
-  max-inline-size: 90rem;
+  max-inline-size: 94rem;
   padding-bottom: 2.5rem;
+  padding-inline:2rem;
 }
 
 .project-counter {
@@ -133,4 +135,139 @@
 }
 .project-active p {
   color: rgba(255, 255, 255, 1);
+}
+
+/* ---- RESPONSIVE: 1700px ---- */
+@media (max-width: 1700px) {
+  .home-section-top-text-wrapper {
+    max-inline-size: 84rem;
+  }
+  .projects-strip {
+    max-inline-size: 84rem;
+  }
+}
+
+/* ---- RESPONSIVE: 1300px ---- */
+@media (max-width: 1300px) {
+  .home-section-top-text-wrapper {
+    max-inline-size: 79rem;
+  }
+  .projects-strip {
+    max-inline-size: 79rem;
+  }
+  .top-content h1 {
+    font-size: 7.5rem;
+  }
+}
+
+/* ---- RESPONSIVE: 1066px (Mobile breakpoint) ---- */
+@media (max-width: 1066px) {
+  .home-section-top-text-wrapper {
+    max-inline-size: 100%;
+    top: 8rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .projects-strip {
+    max-inline-size: 100%;
+  }
+  .top-content h1 {
+    font-size: 6rem;
+  }
+  .content p {
+    font-size: 1.1rem;
+  }
+  .project-counter {
+    font-size: 1.1rem;
+  }
+  .project-item p {
+    font-size: 1.1rem;
+  }
+  .progress-track {
+    inline-size: 70%;
+  }
+  .projects-list {
+    gap: 2.5rem;
+  }
+}
+@media (max-width: 848px){
+  .top-content h1{
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+/* ---- RESPONSIVE: 768px ---- */
+@media (max-width: 768px) {
+  .top-content h1 {
+    font-size: 4.5rem;
+    row-gap:1rem;
+  }
+  .bottom-content {
+    margin-top: 1.4rem;
+  }
+  .content p {
+    font-size: 1rem;
+  }
+  .project-counter {
+    font-size: 1rem;
+  }
+  .project-item p {
+    font-size: 1rem;
+  }
+  .progress-track {
+    inline-size: 80%;
+  }
+  .projects-list {
+    gap: 1.8rem;
+  }
+}
+@media (max-width: 768px) {
+  .bottom-content {
+    margin-top: 1.4rem;
+  }
+  .progress-track {
+    inline-size: 100%;   /* 80% → 100% ✅ */
+  }
+  .projects-list {
+    /* gap: 0rem; */
+    justify-content: space-between;
+  }
+}
+/* ---- RESPONSIVE: 480px (Small Mobile) ---- */
+@media (max-width: 480px) {
+  .home-section-top-text-wrapper {
+    max-inline-size: 100%;
+    top: 7rem;
+  }
+  .projects-strip {
+    max-inline-size: 100%;
+    padding-bottom: 2rem;
+  }
+  .top-content h1 {
+    font-size: 3.2rem;
+  }
+  .bottom-content {
+    margin-top: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .content:last-child {
+    align-self: flex-end;
+  }
+  .progress-track {
+    inline-size: 100%;
+  }
+  .projects-list {
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  /* ✅ Sirf yahi add kiya */
+  .project-item {
+    display: none;
+  }
+  .project-active {
+    display: block;
+  }
 }
