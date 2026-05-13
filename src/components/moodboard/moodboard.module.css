@@ -4,6 +4,7 @@
   padding-inline: 7rem;
   padding-block-start: 12rem;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 /* ================== Header ================== */
@@ -48,15 +49,10 @@
   border-radius: 0.8rem;
   overflow: hidden;
   cursor: pointer;
-
-  /* Stacked at center */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(0deg);
-
-  /* No shadow when stacked */
   box-shadow: none;
-
   transition:
     top        0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--delay),
     left       0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--delay),
@@ -69,8 +65,6 @@
   top:  var(--top);
   left: calc(var(--col-center) - (var(--w) / 2));
   transform: translate(0, 0) rotate(var(--rotate));
-
-  /* Subtle shadow only after scattered */
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
 }
 
@@ -81,33 +75,146 @@
   z-index: 10;
 }
 
-/* ================== Responsive ================== */
-@media screen and (max-width: 900px) {
-  .moodboard-header {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
+/* ================== Show/Hide ================== */
+.desktop-only {
+  display: block;
+}
+.mobile-only {
+  display: none;
+}
 
-  .moodboard-canvas {
-    height: 55rem;
+/* ================== Mobile Deck ================== */
+.deck-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: 2rem;
+}
+
+.deck-canvas {
+  position: relative;
+  width: 18rem;
+  height: 24rem;
+  cursor: grab;
+  user-select: none;
+}
+
+.deck-canvas:active {
+  cursor: grabbing;
+}
+
+.deck-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  will-change: transform;
+}
+
+.deck-counter {
+  margin-top: 2rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'DMMonoMedium';
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.deck-hint {
+  margin-top: 0.5rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: 'DMMonoMedium';
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+}
+
+/* ── RESPONSIVE: 1700px ── */
+@media (max-width: 1700px) {
+  .moodboard-wrapper {
+    padding-inline: 5rem;
   }
 }
 
-@media screen and (max-width: 600px) {
+/* ── RESPONSIVE: 1300px ── */
+@media (max-width: 1300px) {
   .moodboard-wrapper {
-    padding: 1rem;
-    padding-block-start: 8rem;
+    padding-inline: 3rem;
   }
+  .moodboard-header h1 {
+    font-size: 5.5rem;
+  }
+  .moodboard-header p {
+    font-size: 1.2rem;
+  }
+}
 
+/* ── RESPONSIVE: 1066px ── */
+@media (max-width: 1066px) {
+  .moodboard-wrapper {
+    padding-inline: 2rem;
+    padding-block-start: 10rem;
+  }
+  .moodboard-header {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    place-items: center;
+  }
   .moodboard-header h1 {
     font-size: 4.5rem;
+    text-align: center;
   }
+  .moodboard-header p {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  /* ✅ Mobile deck show, desktop canvas hide */
+  .desktop-only {
+    display: none;
+  }
+  .mobile-only {
+    display: block;
+  }
+  .deck-canvas {
+    width: 20rem;
+    height: 26rem;
+  }
+}
 
+/* ── RESPONSIVE: 768px ── */
+@media (max-width: 768px) {
+  .moodboard-wrapper {
+    padding-inline: 1.5rem;
+    padding-block-start: 8rem;
+  }
+  .moodboard-header h1 {
+    font-size: 3.5rem;
+  }
+  .moodboard-header p {
+    font-size: 1rem;
+  }
+  .deck-canvas {
+    width: 18rem;
+    height: 24rem;
+  }
+}
+
+/* ── RESPONSIVE: 480px ── */
+@media (max-width: 480px) {
+  .moodboard-wrapper {
+    padding-inline: 1.2rem;
+    padding-block-start: 7rem;
+  }
+  .moodboard-header h1 {
+    font-size: 2.5rem;
+  }
+  .moodboard-header p {
+    font-size: 1rem;
+  }
+  .deck-canvas {
+    width: 16rem;
+    height: 22rem;
+  }
   .moodboard-card {
     border-radius: 0.5rem;
-  }
-
-  .moodboard-canvas {
-    height: 44rem;
   }
 }

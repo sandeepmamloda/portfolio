@@ -1,0 +1,19 @@
+.workPage{
+    min-height:100vh;
+    background-color:rgba(25,25,25,1);
+
+    background-image:
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+
+    background-size:200px
+}
+.particles{
+    /* min-height:100vh; */
+    /* background-color:rgba(25,25,25,1); */
+    background-color:rgba(0,0,0,1);
+
+    /* background-image:
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); */
+
+    /* background-size:200px */
+}
