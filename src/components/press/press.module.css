@@ -245,7 +245,7 @@
 @media (max-width: 480px) {
   .text-wrapper {
     padding-inline: 1.2rem;
-    bottom: 2rem;
+    bottom: 8rem;
   }
   .text-wrapper h1 {
     font-size: 3rem;

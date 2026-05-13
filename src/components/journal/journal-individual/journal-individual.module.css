@@ -45,6 +45,7 @@
   color: #fff;
   margin: 0;
   text-align: center;
+  max-width: 70%;        /* ✅ back-btn se overlap na ho */
 }
 
 /* ================== Title Section ================== */
@@ -136,39 +137,41 @@
   .hero-image {
     height: 40vh;
   }
-
   .header h1 {
     font-size: 2.5rem;
   }
 }
 
 @media screen and (max-width: 600px) {
+  /* ✅ header stack — back-btn upar, h1 neeche */
   .header {
-    padding: 1.5rem;
+    padding: 1.5rem 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    justify-content: flex-start;
   }
-
   .back-btn {
-    left: 1.5rem;
+    position: relative;   /* ✅ absolute hatao */
+    left: unset;
+    font-size: 1.2rem;
   }
-
+  .header h1 {
+    font-size: 1.8rem;
+    /* text-align: left;      */
+    max-width: 100%;      /* ✅ full width */
+  }
   .hero-image {
     height: 30vh;
     border-radius: 0.8rem;
     width: 95%;
   }
-
-  .header h1 {
-    font-size: 1.5rem;
-  }
-
   .subtitle {
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
-
   .section h2 {
     font-size: 1.4rem;
   }
-
   .section p {
     font-size: 1rem;
   }
