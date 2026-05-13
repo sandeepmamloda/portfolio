@@ -23,7 +23,6 @@
   display: block;
 }
 
-/* hide browser default controls in fullscreen */
 .vp-video::-webkit-media-controls {
   display: none !important;
 }
@@ -68,15 +67,10 @@
   font-family: 'Interlight', sans-serif;
   letter-spacing: 0.12em;
   cursor: pointer;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease, color 0.2s ease;
-  z-index: 10;
-}
-
-.vp-inner:hover .vp-close {
   opacity: 1;
   pointer-events: auto;
+  transition: color 0.2s ease;
+  z-index: 10;
 }
 
 .vp-close:hover {
@@ -100,12 +94,11 @@
   background: rgba(255, 255, 255, 0.1);
   transition: opacity 0.3s ease, background 0.3s ease, border-color 0.3s ease;
   opacity: 0;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .vp-inner:hover .vp-center-play {
   opacity: 1;
-  pointer-events: auto;
 }
 
 .vp-center-play:hover {
@@ -130,14 +123,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.vp-inner:hover .vp-controls {
   opacity: 1;
   pointer-events: auto;
+  transition: opacity 0.3s ease;
 }
 
 .vp-controls-left {
@@ -165,7 +153,6 @@
 .vp-controls-right span {
   color: rgba(255, 255, 255, 0.75);
   font-size: 0.85rem;
-  font-family: 'Interlight', sans-serif;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
@@ -177,6 +164,36 @@
   color: #ffffff;
 }
 
+/* ── [PLAY] button — desktop pe hidden, sirf tab dikhega jab MORE PROJECTS hide ho ── */
+.vp-btn-play-solo {
+  display: none;
+}
+
+/* ── Progress Bar — Fullscreen ── */
+.vp-fs-progress {
+  position: absolute;
+  bottom: 3.5rem;
+  left: 2rem;
+  right: 2rem;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  pointer-events: auto;
+  border-radius: 2px;
+  transition: height 0.2s ease;
+}
+
+.vp-fs-progress:hover {
+  height: 5px;
+}
+
+.vp-fs-progress-fill {
+  height: 100%;
+  background: #ffffff;
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
 /* ── Bottom Controls — Fullscreen Mode ── */
 .vp-fs-controls {
   position: absolute;
@@ -186,14 +203,31 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  opacity: 0;
-  pointer-events: none;
+  opacity: 1;
+  pointer-events: auto;
   transition: opacity 0.3s ease;
 }
 
-.vp-inner:hover .vp-fs-controls {
+.vp-fs-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.vp-fs-play-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.vp-fs-play-btn:hover {
   opacity: 1;
-  pointer-events: auto;
 }
 
 .vp-fs-time {
@@ -210,6 +244,8 @@
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0;
+  display: flex;
+  align-items: center;
   transition: color 0.2s ease;
 }
 
@@ -222,4 +258,161 @@
   color: white;
   text-align: center;
   padding: 4rem;
+}
+
+/* ── INFO Button — default hidden, shows when More Projects is hidden ── */
+.vp-info-btn {
+  display: none;
+  margin-top: 0.75rem;
+  padding: 0.3rem 0.85rem;
+  background: #ffffff;
+  color: #000000;
+  border: none;
+  font-size: 0.78rem;
+  font-family: "Interbold";
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.vp-info-btn:hover {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+/* ─────────────────────────────────────────
+   ≤ 1700px
+───────────────────────────────────────── */
+@media (max-width: 1700px) {
+  .vp-title h1 {
+    font-size: 2.6rem;
+  }
+}
+
+/* ─────────────────────────────────────────
+   ≤ 1300px
+───────────────────────────────────────── */
+@media (max-width: 1300px) {
+  .vp-title h1 {
+    font-size: 2.3rem;
+  }
+}
+
+/* ─────────────────────────────────────────
+   ≤ 1066px  (tablet + mobile)
+───────────────────────────────────────── */
+@media (max-width: 1066px) {
+  .vp-title {
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .vp-title h1 {
+    max-width: 100%;
+  }
+
+  /* MORE PROJECTS hide, PLAY button show */
+  .vp-controls-right {
+    display: none;
+  }
+
+  .vp-btn-play-solo {
+    display: inline;
+  }
+
+  /* INFO button show jab More Projects hide ho */
+  .vp-info-btn {
+    display: inline-block;
+  }
+}
+
+/* ─────────────────────────────────────────
+   MOBILE  (≤ 768px)
+───────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  .vp-title {
+    left: 1.25rem;
+    right: 1.25rem;
+  }
+
+  .vp-title h1 {
+    max-width: 100%;
+    line-height: 1.15;
+  }
+
+  .vp-inner:active .vp-center-play {
+    opacity: 1;
+  }
+
+  /* Center play button — mobile pe hide */
+  .vp-center-play {
+    display: none;
+  }
+
+  /* Bottom controls */
+  .vp-controls {
+    bottom: 1.5rem;
+    left: 1.25rem;
+    right: 1.25rem;
+  }
+
+  .vp-controls-left {
+    gap: 0.5rem;
+  }
+
+  .vp-controls-left button {
+    font-size: 0.78rem;
+  }
+
+  /* Fullscreen controls */
+  .vp-fs-controls {
+    bottom: 1rem;
+    left: 1.25rem;
+    right: 1.25rem;
+  }
+
+  .vp-fs-progress {
+    bottom: 3rem;
+    left: 1.25rem;
+    right: 1.25rem;
+  }
+
+  .vp-fs-time {
+    font-size: 0.75rem;
+  }
+
+  .vp-fs-mute {
+    font-size: 1rem;
+  }
+
+  .vp-close {
+    top: 1rem;
+    right: 1.25rem;
+    font-size: 0.8rem;
+  }
+
+  /* Hide FULLSCREEN + center play button on mobile */
+  .vp-btn-fullscreen,
+  .vp-center-play {
+    display: none;
+  }
+}
+
+/* ─────────────────────────────────────────
+   SMALL MOBILE  (≤ 480px)
+───────────────────────────────────────── */
+@media (max-width: 480px) {
+
+  .vp-title {
+    left: 1rem;
+    right: 1rem;
+  }
+
+  .vp-controls {
+    bottom: 1.25rem;
+    left: 1rem;
+    right: 1rem;
+  }
 }
