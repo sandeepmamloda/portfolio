@@ -17,7 +17,7 @@
 }
 
 .contactTitle {
-  font-size: 8rem;
+  font-size: clamp(5rem, 5.5vw, 8rem);
   font-weight: 900;
   font-family: 'SatoshiBlack';
   line-height: 1;
@@ -28,20 +28,21 @@
 
 .contactDesc {
   max-width: 35rem;
-  font-size: 1.8125rem;
+  font-size: clamp(1.25rem, 1.4vw, 1.8125rem);
   font-family: 'Intermedium';
   line-height: 1.3;
   color: #999999;
   margin: 0;
   padding-top: 0.375rem;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 /* ── Body Card ── */
 .contactCard {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  align-items: start;          /* video row height = form height */
+  align-items: start;
   gap: 0;
   border: 1px solid rgba(255, 255, 255, 1);
   overflow: hidden;
@@ -67,14 +68,15 @@
   font-size: 1rem;
   color: #aaaaaa;
   letter-spacing: 0.0125rem;
+  font-family: 'Interregular';
 }
 
 .formGroup input,
 .formGroup textarea {
-  background-color: #1c1c1c;
+  background-color: #2C2C2C;
   border: 0.008rem solid transparent;
   border-radius: 0.6rem;
-  color: #cccccc;
+  color: #2C2C2C;
   font-size: 0.8125rem;
   outline: none;
   transition: border-color 0.2s ease;
@@ -95,7 +97,8 @@
 
 .formGroup input::placeholder,
 .formGroup textarea::placeholder {
-  color: #444444;
+  color: #B3B3B3;
+  font-family: 'Interregular';
 }
 
 .formGroup input:focus,
@@ -136,7 +139,7 @@
   background-color: transparent;
   padding: 1.5rem;
   display: flex;
-  align-items: center;        /* stretch → center */
+  align-items: center;
   justify-content: center;
   align-self: stretch;
 }
@@ -145,8 +148,8 @@
 .videoFrame {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;       /* ← fixed ratio, height auto */
-  max-height: 100%;            /* ← kabhi bhi wrapper se bada nahi hoga */
+  aspect-ratio: 16 / 9;
+  max-height: 100%;
   min-height: unset;
   border-radius: 1rem;
   overflow: hidden;
@@ -195,41 +198,129 @@
   border-radius: inherit;
 }
 
-/* ── Responsive ── */
+/* ── Responsive — Tablet ── */
+@media (max-width: 1024px) {
+  .contactSection {
+    padding: 6rem 2.5rem 3rem;
+  }
+
+  .contactTitle {
+    font-size: 6rem;
+  }
+
+  .contactDesc {
+    font-size: 1.5rem;
+    max-width: 26rem;
+  }
+
+  .contactForm {
+    padding: 2rem;
+  }
+}
+
+/* ── Responsive — Mobile (image ke hisab se) ── */
 @media (max-width: 768px) {
   .contactSection {
-    padding: 1.75rem 1.25rem 3rem;
+    padding: 10rem 2rem 2.5rem;
   }
 
   .contactHeader {
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1rem;
+    align-items:center;
   }
 
   .contactTitle {
-    font-size: 4rem;
+    font-size: 3rem;
+    letter-spacing: -0.02em;
+    text-align:center;
+  }
+
+  .contactDesc {
+    font-size: 0.9375rem;
+    max-width: 100%;
+    color: #888888;
+    line-height: 1.45;
+    text-align:center;
   }
 
   .contactCard {
     grid-template-columns: 1fr;
-    align-items: unset;
+    grid-template-rows: auto auto;
+    border-radius: 0.75rem;
   }
 
   .contactForm {
-    padding: 1.5rem;
+    padding: 1.5rem 1.25rem;
+    gap: 2rem;
   }
 
-  .contactVideoWrapper {
-    min-height: 15rem;
-    padding: 1rem;
-    align-self: auto;
+  .formGroup {
+    row-gap: 0.5rem;
   }
 
-  .videoFrame {
-    min-height: 200px;
+  .formGroup label {
+    font-size: 0.875rem;
+    color: #999999;
+  }
+
+  .formGroup input,
+  .formGroup textarea {
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    background-color: #181818;
+  }
+
+  .formGroup input {
+    padding: 0.75rem 0.875rem;
+  }
+
+  .formGroup textarea {
+    padding: 0.625rem 0.875rem;
+    min-height: 90px;
   }
 
   .submitBtn {
-    padding: 0.925rem 4rem;
+    align-self: stretch;
+    text-align: center;
+    padding: 0.9rem 1rem;
+    font-size: 0.9375rem;
+    border-radius: 999rem;
+    margin-top: 0.5rem;
+  }
+
+  .contactVideoWrapper {
+    padding: 0;
+    align-self: auto;
+    min-height: unset;
+    border-radius: 0 0 0.75rem 0.75rem;
+    overflow: hidden;
+  }
+
+  .videoFrame {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    max-height: none;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  .videoFrame::before,
+  .videoFrame::after {
+    border-radius: 0;
+  }
+
+  .videoFrame::after {
+    height: 40%;
+  }
+}
+
+/* ── Extra small — very narrow phones ── */
+@media (max-width: 400px) {
+  .contactTitle {
+    font-size: 2.5rem;
   }
 }

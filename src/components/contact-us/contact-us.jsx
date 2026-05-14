@@ -19,23 +19,23 @@ export default function ContactSection() {
         {/* Form */}
         <div className={styles.contactForm}>
           <div className={styles.formGroup}>
-            <label>Name</label>
-            <input type="text" placeholder="Value" />
+            <label htmlFor="contact-name">Name</label>
+            <input id="contact-name" type="text" placeholder="Value" />
           </div>
 
           <div className={styles.formGroup}>
-            <label>Enquiry</label>
-            <input type="text" placeholder="Value" />
+            <label htmlFor="contact-enquiry">Enquiry</label>
+            <input id="contact-enquiry" type="text" placeholder="Value" />
           </div>
 
           <div className={styles.formGroup}>
-            <label>Email</label>
-            <input type="email" placeholder="Value" />
+            <label htmlFor="contact-email">Email</label>
+            <input id="contact-email" type="email" placeholder="Value" />
           </div>
 
           <div className={styles.formGroup}>
-            <label>Message</label>
-            <textarea placeholder="Value" rows={3} />
+            <label htmlFor="contact-message">Message</label>
+            <textarea id="contact-message" placeholder="Value" rows={3} />
           </div>
 
           <button className={styles.submitBtn}>Submit</button>
@@ -49,8 +49,8 @@ export default function ContactSection() {
               src="/videos/contact-us/contact-us.mp4"
               autoPlay
               loop
-              muted
               playsInline
+              suppressHydrationWarning
             />
           </div>
         </div>
