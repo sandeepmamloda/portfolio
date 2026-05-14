@@ -77,6 +77,27 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
+/* ── Back Arrow Button ── */
+.vp-back-arrow {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.vp-back-arrow:hover {
+  opacity: 1;
+}
+
 /* ── Center Play/Pause Button ── */
 .vp-center-play {
   position: absolute;

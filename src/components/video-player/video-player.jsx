@@ -195,6 +195,16 @@ const VideoPlayerContent = function () {
 
               <span className={styles["vp-fs-time"]}>{currentTime} / {duration}</span>
             </div>
+
+            {/* Back arrow — fullscreen mobile only */}
+            <button
+              className={styles["vp-back-arrow"]}
+              onClick={(e) => { e.stopPropagation(); handleExitFullscreen(); }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+            </button>
           </>
         )}
 
@@ -211,37 +221,13 @@ const VideoPlayerContent = function () {
           </div>
         )}
 
-        {/* CLOSE button — fullscreen desktop (left aligned) */}
+        {/* CLOSE button — fullscreen desktop */}
         {isFullscreen && !isMobile && (
           <button
             className={styles["vp-close"]}
             onClick={(e) => { e.stopPropagation(); handleExitFullscreen(); }}
           >
             CLOSE
-          </button>
-        )}
-
-        {/* Back arrow — fullscreen mobile */}
-        {isFullscreen && isMobile && (
-          <button
-            className={styles["vp-back-arrow"]}
-            onClick={(e) => { e.stopPropagation(); handleExitFullscreen(); }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 18 9 12 15 6"/>
-            </svg>
-          </button>
-        )}
-
-        {/* Back arrow — normal mode mobile only */}
-        {!isFullscreen && isMobile && (
-          <button
-            className={styles["vp-back-arrow"]}
-            onClick={(e) => { e.stopPropagation(); window.history.back(); }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 18 9 12 15 6"/>
-            </svg>
           </button>
         )}
 
