@@ -220,3 +220,21 @@
   font-style: normal;
   font-display: swap;
 }
+/* ========================================san================================== */
+@font-face {
+  font-family: 'senregular';
+  src: url('/fonts/sen/Sen-Regular.woff') format('woff'),
+       url('/fonts/sen/Sen-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'senbold';
+  src: url('/fonts/sen/Sen-Bold.woff') format('woff'),
+       url('/fonts/sen/Sen-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'senextrabold';
+  src: url('/fonts/sen/Sen-ExtraBold.woff') format('woff'),
+       url('/fonts/sen/Sen-ExtraBold.ttf') format('truetype');
+}
