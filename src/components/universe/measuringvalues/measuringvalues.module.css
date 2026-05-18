@@ -158,6 +158,8 @@
   flex-direction: row;
   align-items: flex-start;
   gap: 1rem;
+  max-width:90rem;
+  margin-inline:auto;
 }
 
 .grid > * {
@@ -170,7 +172,7 @@
 }
 
 .card {
-  background: #1A1A1A;
+  background: rgba(44, 44, 44, 1);
   border-radius: 0.875rem;
   padding: 1.5rem;
   display: flex;
@@ -187,8 +189,8 @@
 
 .card-title {
   font-family: 'Interregular';
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 1);
   margin: 0;
 }
 
@@ -197,33 +199,36 @@
   align-items: baseline;
   gap: 0.25rem;
   flex-wrap: wrap;
+  border-bottom:solid 0.01rem #fff;
+  margin-top:4.5rem;
 }
 
 .card-number {
-  font-family: 'senextrabold';
-  font-size: clamp(2.5rem, 4vw, 3.5rem);
+   font-family: 'DMMonoMedium';
+  font-size: 4rem;
   color: #fff;
   line-height: 1;
 }
 
 .card-suffix {
-  font-family: 'senextrabold';
-  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-family: 'DMMonoMedium';
+  font-size: 4rem;
   color: #fff;
   line-height: 1;
 }
 
 .card-sub {
   font-family: 'Interregular';
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin-left: 0.25rem;
+  font-size: 1rem;
+  color:rgba(217, 217, 217, 1);
+  margin-left: 0.6rem;
 }
 
 .card-desc {
   font-family: 'Interregular';
-  font-size: 0.8125rem;
-  color: rgba(255, 255, 255, 0.45);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 1);
   line-height: 1.6;
   margin: 0;
+  text-align:center;
 }

@@ -1,0 +1,240 @@
+.teamSection {
+  width: 100%;
+  padding-top: 6rem;
+  padding-inline: 2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 8rem;
+  position: relative;
+}
+
+/* ── LEFT COLUMN ── */
+.leftCol {
+  width: 500px;
+  flex-shrink: 0;
+  padding-top: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  color: #fff;
+  font-family: 'DMMonoMedium';
+  font-size: 0.6875rem;
+  letter-spacing: 0.04rem;
+  text-transform: uppercase;
+  line-height: 100%;
+  background-color: #2C2C2C;
+  margin-bottom: 1.5rem;
+}
+
+.tagDot {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: #8A38F5;
+  flex-shrink: 0;
+}
+
+.heading {
+  font-family: 'Intersemibold';
+  font-size: 3.2rem;
+  color: #fff;
+  line-height: 1.1;
+  margin: 0 0 1.5rem 0;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.headingMuted {
+  color: #555;
+}
+
+.bodyText {
+  font-family: 'Interregular';
+  font-size: 0.875rem;
+  color: rgba(200, 200, 200, 0.85);
+  line-height: 1.7;
+  margin: 0 0 2rem 0;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #8A38F5;
+  color: #fff;
+  border: none;
+  border-radius:3px;
+  padding: 0.5rem 1rem;
+  font-family: 'DMMonoMedium';
+  font-size: 0.75rem;
+  letter-spacing: 0.05rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.ctaBtn:hover {
+  background: #7025e0;
+  transform: translateY(-1px);
+}
+
+.ctaPlus {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* ── RIGHT GRID ── */
+.grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.gridItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.gridItemOffset {
+  margin-top: 0;
+}
+
+/* ── CARD ── */
+.card {
+  border-radius: 0.875rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  min-height: 26rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  background: #1a1a1a;
+}
+
+.cardHovered {
+  transform: translateY(-0.25rem);
+  box-shadow: 0 0.75rem 2.5rem rgba(138, 56, 245, 0.2);
+}
+
+/* Image fills entire card */
+.cardImageWrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.cardHovered .cardImage {
+  transform: scale(1.04);
+}
+
+/* placeholder when image errors */
+.noImage {
+  background: #333;
+}
+
+/* gradient so bottom text is readable */
+.cardOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 25%,
+    rgba(0, 0, 0, 0.6) 60%,
+    rgba(0, 0, 0, 0.88) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Card body overlays image at bottom */
+.cardBody {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  padding: 1.1rem 1.3rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.cardName {
+  font-family: 'Intersemibold';
+  font-size: 1.05rem;
+  color: #fff;
+  margin: 0.35rem 0 0;
+  line-height: 1.2;
+}
+
+.cardRole {
+  font-family: 'Intersemibold';
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 1);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.03rem;
+}
+
+.cardDivider {
+  width: 100%;
+  height: 0.0625rem;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 0.55rem 0 0.4rem;
+  border: none;
+  border-top: dashed 0.0625rem rgba(255,255,255,0.2);
+}
+
+.cardDesc {
+  font-family: 'Interregular';
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 1);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .teamSection {
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+  .leftCol {
+    width: 100%;
+  }
+  .heading {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .gridItemOffset {
+    margin-top: 0;
+  }
+  .heading {
+    font-size: 2rem;
+  }
+}

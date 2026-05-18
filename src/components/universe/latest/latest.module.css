@@ -1,0 +1,270 @@
+.section {
+  width: 100%;
+  padding-top: 6rem;
+  padding-inline: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  position: relative;
+}
+
+/* ── TOP ROW ── */
+.topRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* ── LEFT COL ── */
+.leftCol {
+  width: 30rem;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  color: #fff;
+  font-family: 'DMMonoMedium';
+  font-size: 0.6875rem;
+  letter-spacing: 0.04rem;
+  text-transform: uppercase;
+  line-height: 100%;
+  background-color: #2C2C2C;
+}
+
+.tagDot {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: #8A38F5;
+  flex-shrink: 0;
+}
+
+.heading {
+  font-family: 'Intersemibold';
+  font-size: 3.5rem;
+  color: #fff;
+  line-height: 1.05;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* ── RIGHT COL ── */
+.rightCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding-bottom: 0.3rem;
+}
+
+.subtitle {
+  font-family: 'Interregular';
+  font-size: 1.3rem;
+  color: rgba(200, 200, 200, 0.85);
+  line-height: 1.3;
+  margin: 0;
+  max-width: 50rem;
+}
+
+/* ── CTA BUTTON ── */
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: rgba(25, 25, 25, 1);
+  color: #fff;
+  border-radius: 999px;
+  padding: 1.3rem 12rem;
+  font-family: 'DMMonoMedium';
+  font-size: 1.5rem;
+  letter-spacing: 0.05rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.15s ease;
+  box-shadow:
+    -0.75px -0.75px 0px 0px rgba(0, 0, 0, 0.686),
+    21px 21px 31.82px -5.63px rgba(0, 0, 0, 0.2),
+    8.85px 8.85px 12.52px -4.5px rgba(0, 0, 0, 0.192),
+    3.99px 3.99px 5.64px -3.38px rgba(0, 0, 0, 0.23),
+    1.82px 1.82px 2.57px -2.25px rgba(0, 0, 0, 0.247),
+    0.67px 0.67px 0.94px -1.13px rgba(0, 0, 0, 0.26),
+    -1.5px -1.5px 1.5px 0px rgba(0, 0, 0, 0.23) inset,
+    1.5px 1.5px 1.5px 0px rgba(255, 255, 255, 0.7) inset;
+}
+
+.ctaBtn:hover {
+  transform: translateY(-0.0625rem);
+}
+
+/* wrapper — clip karta hai dono rows ko */
+.btnInner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 1.1em;
+  overflow: hidden;
+}
+
+/* shared row style */
+.btnRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  white-space: nowrap;
+  transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+  line-height: 1.1;
+}
+
+/* default row — visible, exits upward */
+.btnRowDefault {
+  transform: translateY(0%);
+}
+
+/* hover row — hidden below, enters upward */
+.btnRowHover {
+  position: absolute;
+  top: 100%;
+  transform: translateY(0%);
+}
+
+/* on hover: default exits up */
+.ctaBtn:hover .btnRowDefault {
+  transform: translateY(-200%);
+}
+
+/* on hover: hover row comes up */
+.ctaBtn:hover .btnRowHover {
+  transform: translateY(-100%);
+}
+
+/* star spin on hover row */
+.starSpin {
+  animation: spinStar 0.5s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+@keyframes spinStar {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(180deg); }
+}
+
+/* ── ARTICLES GRID ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* ── CARD ── */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  padding-right: 0;
+  cursor: pointer;
+}
+
+.card:not(:first-child) {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.card:last-child {
+  padding-right: 0;
+}
+
+.cardDate {
+  font-family: 'Intersemibold';
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 1);
+  letter-spacing: 0.04rem;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.cardImageWrap {
+  width: 100%;
+  overflow: hidden;
+  background: #2C2C2C;
+}
+
+.card1 .cardImageWrap { height: 22rem; }
+.card2 .cardImageWrap { height: 32rem; }
+.card3 .cardImageWrap { height: 22rem; }
+.card4 .cardImageWrap { height: 26rem; }
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .cardImage {
+  transform: scale(1.04);
+}
+
+.cardTitle {
+  font-family: 'DMMonoMedium';
+  font-size: 1.5rem;
+  color: #fff;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .topRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  .leftCol {
+    width: 100%;
+  }
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .card:not(:last-child) {
+    border-right: none;
+  }
+  .card:not(:first-child) {
+    padding-left: 0;
+  }
+  .card1 .cardImageWrap,
+  .card2 .cardImageWrap,
+  .card3 .cardImageWrap,
+  .card4 .cardImageWrap {
+    height: 18rem;
+  }
+  .heading {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .heading {
+    font-size: 2rem;
+  }
+}

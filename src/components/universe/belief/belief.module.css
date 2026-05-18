@@ -1,0 +1,109 @@
+.beliefSection {
+  width: 100%;
+  padding-top: 6rem;
+  padding-inline: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  position: relative;
+}
+
+/* ── TOP ROW ── */
+.topRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 6rem;
+  width: 100%;
+}
+
+/* ── LEFT COL ── */
+.leftCol {
+  width: 18rem;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding-top: 0.2rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  color: #fff;
+  font-family: 'DMMonoMedium';
+  font-size: 0.6875rem;
+  letter-spacing: 0.04rem;
+  text-transform: uppercase;
+  line-height: 100%;
+  background-color: #2C2C2C;
+}
+
+.tagDot {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: #8A38F5;
+  flex-shrink: 0;
+}
+
+.subText {
+  font-family: 'Intersemibold';
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 1);
+  line-height: 1.3;
+  margin: 0;
+  letter-spacing: 0.03rem;
+}
+
+/* ── RIGHT COL ── */
+.rightCol {
+  flex: 1;
+}
+
+.quote {
+  font-family: 'Intersemibold';
+  font-size: 3.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.15;
+  margin: 0;
+  font-weight: normal;
+}
+
+/* ── IMAGE ── */
+.imageWrap {
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  max-height: 40rem;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .topRow {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .leftCol {
+    width: 100%;
+  }
+  .quote {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .quote {
+    font-size: 2rem;
+  }
+}
