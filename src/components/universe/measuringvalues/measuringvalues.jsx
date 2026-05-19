@@ -105,7 +105,7 @@ const Whatyouget = function () {
         <div className={styles["left-col"]}>
           <div className={styles["tag"]}>
             <span className={styles["tag-dot"]} />
-            02 &nbsp; WHAT YOU GET
+            02 &nbsp;WHAT YOU GET
           </div>
         </div>
 
@@ -126,41 +126,38 @@ const Whatyouget = function () {
               </div>
             </div>
 
+            {/* ── DIVIDER ROW — star+line upar, text neeche ── */}
             <div className={styles["divider-row"]}>
-              <svg
-                className={styles["line-star"]}
-                xmlns="http://www.w3.org/2000/svg"
-                width="21"
-                height="15"
-                viewBox="0 0 21 15"
-                fill="none"
-              >
-                <path
-                  d="M10.3327 0L11.1241 5.18717C11.264 6.10427 12.0162 6.80475 12.941 6.87909L20.6654 7.5L12.941 8.12091C12.0162 8.19525 11.264 8.89573 11.1241 9.81283L10.3327 15L9.54127 9.81283C9.40135 8.89573 8.64913 8.19525 7.7244 8.12091L0 7.5L7.7244 6.87909C8.64913 6.80475 9.40135 6.10427 9.54127 5.18717L10.3327 0Z"
-                  fill="white"
-                />
-              </svg>
-              <svg
-                className={styles["line"]}
-                height="1"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="none"
-              >
-                <line
-                  x1="0"
-                  y1="0"
-                  x2="100%"
-                  y2="0"
-                  stroke="#fff"
-                  strokeWidth="1"
-                />
-              </svg>
+              <div className={styles["divider-top"]}>
+                <svg
+                  className={styles["line-star"]}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="21"
+                  height="15"
+                  viewBox="0 0 21 15"
+                  fill="none"
+                >
+                  <path
+                    d="M10.3327 0L11.1241 5.18717C11.264 6.10427 12.0162 6.80475 12.941 6.87909L20.6654 7.5L12.941 8.12091C12.0162 8.19525 11.264 8.89573 11.1241 9.81283L10.3327 15L9.54127 9.81283C9.40135 8.89573 8.64913 8.19525 7.7244 8.12091L0 7.5L7.7244 6.87909C8.64913 6.80475 9.40135 6.10427 9.54127 5.18717L10.3327 0Z"
+                    fill="white"
+                  />
+                </svg>
+                <svg
+                  className={styles["line"]}
+                  height="1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="none"
+                >
+                  <line x1="0" y1="0" x2="100%" y2="0" stroke="#fff" strokeWidth="1" />
+                </svg>
+              </div>
               <p className={styles["subtitle"]}>
                 Clear metrics, transparent
                 <br />
                 process, results you can rely on.
               </p>
             </div>
+
           </div>
         </div>
       </div>

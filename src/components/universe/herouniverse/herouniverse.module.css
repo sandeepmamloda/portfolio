@@ -9,7 +9,7 @@
 .top-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   column-gap: 1.5rem;
 }
 
@@ -31,41 +31,43 @@
 }
 
 .tag {
+  width: fit-content;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   border-radius: 999px;
-  padding: 0.7rem 1rem;
+  padding: 1rem 1.5rem;
   color: #fff;
   font-family: 'DMMonoMedium';
-  font-size: 0.6875rem;
+  font-size: 1.3rem;
   letter-spacing: 0.04rem;
   text-transform: uppercase;
   line-height: 100%;
   background-color: #2C2C2C;
+  margin-bottom: 2.5rem;
+  white-space: nowrap;
 }
 
 .tag-dot {
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
   background: #8A38F5;
   flex-shrink: 0;
-  font-family: 'DMMonoMedium';
 }
 
 .desc {
   font-family: 'Interregular';
   color: rgba(255, 255, 255, 0.75);
-  font-size: clamp(0.8125rem, 1.2vw, 0.9375rem);
-  line-height: 1.75;
+  font-size: 1.4rem;
+  line-height: 1.2;
   text-align: right;
-  max-width: 27rem;
+  max-width: 40rem;
   margin: 0;
 }
 
 .media-wrap {
-  margin-top: 2rem;
+  margin-top: 10rem;
   border-radius: 1rem;
   overflow: hidden;
   width: 100%;

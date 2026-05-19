@@ -16,7 +16,7 @@ const Herouniverse = function () {
           {/* Tag */}
           <div className={styles["tag"]}>
             <span className={styles["tag-dot"]} />
-            01 &nbsp; WHO WE ARE
+            01 &nbsp;WHO WE ARE
           </div>
 
           {/* Description */}

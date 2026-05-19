@@ -89,7 +89,7 @@ const TeamSection = function () {
       <div className={styles.leftCol}>
         <div className={styles.tag}>
           <span className={styles.tagDot} />
-          03 &nbsp; EXPERTS
+          03 &nbsp;EXPERTS
         </div>
 
         <h2 className={styles.heading}>
@@ -101,12 +101,7 @@ const TeamSection = function () {
         </h2>
 
         <p className={styles.bodyText}>
-          Behind every great film is a team of passionate storytellers, creators,
-          and problem-solvers. Our crew brings together creative vision, technical
-          expertise, and years of production experience to craft films that connect
-          with audiences and leave a lasting impact. From concept development to
-          final cut, every project is driven by collaboration, innovation, and a
-          shared love for storytelling.
+          Behind every great film is a team of passionate storytellers, creators, and problem-solvers. Our crew brings together creative vision, technical expertise, and years of production experience to craft films that connect with audiences and leave a lasting impact. From concept development to final cut, every project is driven by collaboration, innovation, and a shared love for storytelling.
         </p>
 
         <button className={styles.ctaBtn}>

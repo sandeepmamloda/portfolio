@@ -94,13 +94,21 @@
 .deco-bars span:nth-child(20) { height: 0.16rem; }
 .deco-bars span:nth-child(21) { height: 0.05rem; }
 
+/* ── DIVIDER ROW ── */
 .divider-row {
   display: flex;
-  align-items: center;
-  gap: 0;
+  flex-direction: row;
+  gap: 1rem;
   margin-top: 1.2rem;
   margin-bottom: 3rem;
   width: 100%;
+}
+
+.divider-top {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0;
 }
 
 .line-star {
@@ -121,33 +129,33 @@
   font-family: 'Interregular';
   font-size: 0.8125rem;
   color: #ffffff;
-  text-align: right;
+  text-align: left;
   margin: 0;
-  margin-left: 1.5rem;
   line-height: 1.6;
-  white-space: nowrap;
   flex-shrink: 0;
 }
 
 .tag {
+  width: fit-content;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   border-radius: 999px;
-  padding: 0.7rem 1rem;
+  padding: 1rem 1.5rem;
   color: #fff;
   font-family: 'DMMonoMedium';
-  font-size: 0.6875rem;
+  font-size: 1.3rem;
   letter-spacing: 0.04rem;
   text-transform: uppercase;
   line-height: 100%;
   background-color: #2C2C2C;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
+  white-space: nowrap;
 }
 
 .tag-dot {
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
   background: #8A38F5;
   flex-shrink: 0;
@@ -158,13 +166,12 @@
   flex-direction: row;
   align-items: flex-start;
   gap: 1rem;
-  max-width:90rem;
-  margin-inline:auto;
+  max-width: 90rem;
+  margin-inline: auto;
 }
 
 .grid > * {
   flex: 1;
-  /* width:fit-content; */
 }
 
 .grid > :nth-child(2n) {
@@ -199,12 +206,12 @@
   align-items: baseline;
   gap: 0.25rem;
   flex-wrap: wrap;
-  border-bottom:solid 0.01rem #fff;
-  margin-top:4.5rem;
+  border-bottom: solid 0.01rem #fff;
+  margin-top: 4.5rem;
 }
 
 .card-number {
-   font-family: 'DMMonoMedium';
+  font-family: 'DMMonoMedium';
   font-size: 4rem;
   color: #fff;
   line-height: 1;
@@ -220,7 +227,7 @@
 .card-sub {
   font-family: 'Interregular';
   font-size: 1rem;
-  color:rgba(217, 217, 217, 1);
+  color: rgba(217, 217, 217, 1);
   margin-left: 0.6rem;
 }
 
@@ -230,5 +237,182 @@
   color: rgba(255, 255, 255, 1);
   line-height: 1.6;
   margin: 0;
-  text-align:center;
+  text-align: center;
+}
+
+/* ── RESPONSIVE: 1280px ── */
+@media (max-width: 1280px) {
+  .heading {
+    font-size: 5.5rem;
+  }
+  .card-number,
+  .card-suffix {
+    font-size: 3.2rem;
+  }
+  .card-stat {
+    margin-top: 3rem;
+  }
+}
+
+/* ── RESPONSIVE: 1024px ── */
+@media (max-width: 1024px) {
+  .whatyouget {
+    padding-top: 4rem;
+    padding-inline: 1.5rem;
+  }
+  .top-row {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .left-col {
+    width: 100%;
+  }
+  .right-col {
+    max-width: 100%;
+    width: 100%;
+  }
+  .right-col-inner {
+    width: 100%;
+  }
+  .heading {
+    font-size: 4.5rem;
+  }
+  .deco-bars {
+    display: none;
+  }
+  .grid {
+    flex-wrap: wrap;
+  }
+  .grid > * {
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: calc(50% - 0.5rem);
+  }
+  .grid > :nth-child(2n) {
+    margin-top: 4rem;
+  }
+  .card-number,
+  .card-suffix {
+    font-size: 3rem;
+  }
+  .card-stat {
+    margin-top: 2.5rem;
+  }
+}
+
+/* ── RESPONSIVE: 768px ── */
+@media (max-width: 768px) {
+  .whatyouget {
+    padding-top: 3.5rem;
+    padding-inline: 1.5rem;
+  }
+  .heading {
+    font-size: 3.5rem;
+  }
+  .tag {
+    font-size: 1.1rem;
+    padding: 0.8rem 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .grid > * {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+  .grid > :nth-child(2n) {
+    margin-top: 0;
+  }
+  .card-number,
+  .card-suffix {
+    font-size: 3rem;
+  }
+  .card-stat {
+    margin-top: 2rem;
+  }
+  .card-title {
+    font-size: 1.2rem;
+  }
+}
+
+/* ── RESPONSIVE: 560px ── */
+@media (max-width: 560px) {
+  .top-row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .divider-row {
+    flex-direction: column;
+  }
+  .left-col {
+    width: 100%;
+  }
+  .right-col {
+    max-width: 100%;
+    width: 100%;
+  }
+  .right-col-inner {
+    width: 100%;
+  }
+  .heading {
+    font-size: 2.8rem;
+  }
+  .deco-bars {
+    display: none;
+  }
+  .subtitle {
+    font-size: 0.75rem;
+  }
+  .grid > * {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+  .grid > :nth-child(2n) {
+    margin-top: 0;
+  }
+}
+
+/* ── RESPONSIVE: 480px ── */
+@media (max-width: 480px) {
+  .whatyouget {
+    padding-top: 3rem;
+    padding-inline: 1.2rem;
+  }
+  .heading {
+    font-size: 2.5rem;
+  }
+  .tag {
+    font-size: 1rem;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .tag-dot {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+  .divider-row {
+    margin-bottom: 2rem;
+  }
+  .subtitle {
+    font-size: 0.75rem;
+  }
+  .grid {
+    gap: 1.2rem;
+  }
+  .card {
+    padding: 1.2rem;
+  }
+  .card-number,
+  .card-suffix {
+    font-size: 2.5rem;
+  }
+  .card-stat {
+    margin-top: 1.5rem;
+  }
+  .card-title {
+    font-size: 1.1rem;
+  }
+  .card-sub {
+    font-size: 0.9rem;
+  }
+  .card-desc {
+    font-size: 0.9rem;
+  }
 }

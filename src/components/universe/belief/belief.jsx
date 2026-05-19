@@ -12,7 +12,7 @@ const BeliefSection = function () {
         <div className={styles.leftCol}>
           <div className={styles.tag}>
             <span className={styles.tagDot} />
-            04 &nbsp; BELIEF
+            04 &nbsp;BELIEF
           </div>
           <p className={styles.subText}>
             The thinking behind how we work — guiding how we Write, Direct, and produce films.

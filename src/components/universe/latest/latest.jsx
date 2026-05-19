@@ -1,5 +1,6 @@
 "use client";
 import styles from "./latest.module.css";
+import { useRouter } from "next/navigation";
 
 const articles = [
   {
@@ -44,6 +45,18 @@ const StarIcon = ({ spin }) => (
 );
 
 const LatestForm = function () {
+  const router = useRouter();
+
+  const handleCardClick = (article) => {
+    router.push(
+      `/articles/articles-individual?title=${encodeURIComponent(article.title)}&image=${encodeURIComponent(article.image)}&date=${encodeURIComponent(article.date)}`
+    );
+  };
+
+  const handleAllArticles = () => {
+    router.push("/articles/articles");
+  };
+
   return (
     <section className={styles.section}>
 
@@ -52,7 +65,7 @@ const LatestForm = function () {
         <div className={styles.leftCol}>
           <div className={styles.tag}>
             <span className={styles.tagDot} />
-            05 &nbsp; INSIGHTS
+            05 &nbsp;INSIGHTS
           </div>
           <h2 className={styles.heading}>
             LATEST FROM OUR STUDIO
@@ -65,13 +78,11 @@ const LatestForm = function () {
             cinema, visual storytelling, and modern production.
           </p>
 
-          <button className={styles.ctaBtn}>
+          <button className={styles.ctaBtn} onClick={handleAllArticles}>
             <span className={styles.btnInner}>
-              {/* default — exits upward on hover */}
               <span className={`${styles.btnRow} ${styles.btnRowDefault}`}>
                 <StarIcon /> ALL ARTICLES
               </span>
-              {/* hover — enters from below */}
               <span className={`${styles.btnRow} ${styles.btnRowHover}`}>
                 <StarIcon spin /> ALL ARTICLES
               </span>
@@ -86,6 +97,7 @@ const LatestForm = function () {
           <div
             key={article.id}
             className={`${styles.card} ${styles[`card${i + 1}`]}`}
+            onClick={() => handleCardClick(article)}
           >
             <p className={styles.cardDate}>{article.date}</p>
             <div className={styles.cardImageWrap}>

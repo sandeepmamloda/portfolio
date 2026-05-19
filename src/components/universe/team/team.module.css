@@ -4,7 +4,7 @@
   padding-inline: 2rem;
   display: flex;
   align-items: flex-start;
-  gap: 8rem;
+  gap: 4rem;
   position: relative;
 }
 
@@ -23,20 +23,20 @@
   align-items: center;
   gap: 0.5rem;
   border-radius: 999px;
-  padding: 0.7rem 1rem;
+  padding: 0.9rem 1.2rem;
   color: #fff;
   font-family: 'DMMonoMedium';
-  font-size: 0.6875rem;
+  font-size: 1.2rem;
   letter-spacing: 0.04rem;
   text-transform: uppercase;
   line-height: 100%;
   background-color: #2C2C2C;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .tagDot {
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
   background: #8A38F5;
   flex-shrink: 0;
@@ -44,9 +44,9 @@
 
 .heading {
   font-family: 'Intersemibold';
-  font-size: 3.2rem;
+  font-size: 4.3rem;
   color: #fff;
-  line-height: 1.1;
+  line-height: 1.3;
   margin: 0 0 1.5rem 0;
   text-align: left;
   text-transform: uppercase;
@@ -58,9 +58,9 @@
 
 .bodyText {
   font-family: 'Interregular';
-  font-size: 0.875rem;
+  font-size: 1.5rem;
   color: rgba(200, 200, 200, 0.85);
-  line-height: 1.7;
+  line-height: 1.2;
   margin: 0 0 2rem 0;
 }
 
@@ -71,10 +71,10 @@
   background: #8A38F5;
   color: #fff;
   border: none;
-  border-radius:3px;
-  padding: 0.5rem 1rem;
-  font-family: 'DMMonoMedium';
-  font-size: 0.75rem;
+  border-radius: 5px;
+  padding: 0.7rem 1rem;
+  font-family: 'Intersemibold';
+  font-size: 1rem;
   letter-spacing: 0.05rem;
   text-transform: uppercase;
   cursor: pointer;
@@ -84,11 +84,6 @@
 .ctaBtn:hover {
   background: #7025e0;
   transform: translateY(-1px);
-}
-
-.ctaPlus {
-  font-size: 1rem;
-  line-height: 1;
 }
 
 /* ── RIGHT GRID ── */
@@ -117,7 +112,7 @@
   flex-direction: column;
   width: 100%;
   position: relative;
-  min-height: 26rem;
+  min-height: 32rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   background: #1a1a1a;
@@ -125,10 +120,12 @@
 
 .cardHovered {
   transform: translateY(-0.25rem);
-  box-shadow: 0 0.75rem 2.5rem rgba(138, 56, 245, 0.2);
+  box-shadow: 
+    0 0 2rem rgba(138, 56, 245, 0.25),
+    0 0 5rem rgba(138, 56, 245, 0.2),
+    0 0 8rem rgba(138, 56, 245, 0.15),
+    0 0 12rem rgba(138, 56, 245, 0.1);
 }
-
-/* Image fills entire card */
 .cardImageWrap {
   position: absolute;
   inset: 0;
@@ -149,12 +146,10 @@
   transform: scale(1.04);
 }
 
-/* placeholder when image errors */
 .noImage {
   background: #333;
 }
 
-/* gradient so bottom text is readable */
 .cardOverlay {
   position: absolute;
   inset: 0;
@@ -168,7 +163,6 @@
   z-index: 1;
 }
 
-/* Card body overlays image at bottom */
 .cardBody {
   position: relative;
   z-index: 2;
@@ -202,7 +196,7 @@
   background: rgba(255, 255, 255, 0.12);
   margin: 0.55rem 0 0.4rem;
   border: none;
-  border-top: dashed 0.0625rem rgba(255,255,255,0.2);
+  border-top: dashed 0.0625rem rgba(255, 255, 255, 0.2);
 }
 
 .cardDesc {
@@ -213,28 +207,131 @@
   margin: 0;
 }
 
-/* ── RESPONSIVE ── */
+/* ── RESPONSIVE: 1280px ── */
+@media (max-width: 1280px) {
+  .teamSection {
+    gap: 5rem;
+  }
+  .leftCol {
+    width: 420px;
+  }
+  .heading {
+    font-size: 3.5rem;
+  }
+  .bodyText {
+    font-size: 1.3rem;
+  }
+  .card {
+    min-height: 22rem;
+  }
+}
+
+/* ── RESPONSIVE: 1024px ── */
 @media (max-width: 1024px) {
   .teamSection {
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 3rem;
+    padding-top: 4rem;
   }
   .leftCol {
     width: 100%;
   }
   .heading {
-    font-size: 2.5rem;
+    font-size: 3rem;
+  }
+  .bodyText {
+    font-size: 1.3rem;
+  }
+  .grid {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  .card {
+    min-height: 24rem;
   }
 }
 
-@media (max-width: 640px) {
+/* ── RESPONSIVE: 768px ── */
+@media (max-width: 768px) {
+  .teamSection {
+    padding-top: 3.5rem;
+    padding-inline: 1.5rem;
+    gap: 2.5rem;
+  }
+  .heading {
+    font-size: 2.5rem;
+  }
+  .bodyText {
+    font-size: 1.2rem;
+  }
+  .tag {
+    font-size: 1rem;
+    padding: 0.7rem 1rem;
+  }
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .card {
+    min-height: 20rem;
+  }
+  .cardName {
+    font-size: 0.95rem;
+  }
+  .cardRole {
+    font-size: 0.75rem;
+  }
+  .cardDesc {
+    font-size: 0.75rem;
+  }
+}
+
+/* ── RESPONSIVE: 480px ── */
+@media (max-width: 480px) {
+  .teamSection {
+    padding-top: 3rem;
+    padding-inline: 1.2rem;
+    gap: 2rem;
+  }
+  .heading {
+    font-size: 2rem;
+  }
+  .bodyText {
+    font-size: 1.1rem;
+  }
+  .tag {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.9rem;
+    margin-bottom: 1.8rem;
+  }
+  .tagDot {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+  .ctaBtn {
+    width: 100%;
+    justify-content: center;
+    font-size: 0.95rem;
+    padding: 0.9rem 1rem;
+  }
   .grid {
     grid-template-columns: 1fr;
+    gap: 1.2rem;
   }
   .gridItemOffset {
     margin-top: 0;
   }
-  .heading {
-    font-size: 2rem;
+  .card {
+    min-height: 22rem;
+  }
+  .cardName {
+    font-size: 1rem;
+  }
+  .cardRole {
+    font-size: 0.75rem;
+  }
+  .cardDesc {
+    font-size: 0.8rem;
   }
 }
