@@ -296,9 +296,14 @@
   }
   .heading {
     font-size: 2.2rem;
+    text-align: center;
+  }
+  .tag{
+    margin-inline:auto;
   }
   .subtitle {
     font-size: 1.2rem;
+    text-align: center;
   }
   .ctaBtn {
     padding: 1.1rem 5rem;

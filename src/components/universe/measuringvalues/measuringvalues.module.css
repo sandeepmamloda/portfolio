@@ -301,12 +301,17 @@
 
 /* ── RESPONSIVE: 768px ── */
 @media (max-width: 768px) {
+  .left-col{
+    display:flex;
+    justify-content: center;
+  }
   .whatyouget {
     padding-top: 3.5rem;
     padding-inline: 1.5rem;
   }
   .heading {
     font-size: 3.5rem;
+    text-align:center;
   }
   .tag {
     font-size: 1.1rem;

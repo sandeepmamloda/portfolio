@@ -3,7 +3,13 @@ import styles from "./herouniverse.module.css";
 const Herouniverse = function () {
   return (
     <section className={styles["herouniverse"]}>
-        
+
+      {/* Tag */}
+      <div className={styles["tag"]}>
+        <span className={styles["tag-dot"]} />
+        01 &nbsp;WHO WE ARE
+      </div>
+
       {/* Top Row */}
       <div className={styles["top-row"]}>
 
@@ -12,12 +18,6 @@ const Herouniverse = function () {
 
         {/* Right Side */}
         <div className={styles["right"]}>
-
-          {/* Tag */}
-          <div className={styles["tag"]}>
-            <span className={styles["tag-dot"]} />
-            01 &nbsp;WHO WE ARE
-          </div>
 
           {/* Description */}
           <p className={styles["desc"]}>

@@ -104,7 +104,17 @@
 }
 
 @media (max-width: 640px) {
+  .tag {
+    margin-inline:auto;
+  }
+  .subText{
+    text-align:center;
+  }
+  .imageWrap{
+    height:27.2rem;
+  }
   .quote {
     font-size: 2rem;
+    text-align:center;
   }
 }
