@@ -6,6 +6,7 @@
   flex-direction: column;
   gap: 3rem;
   position: relative;
+  padding-bottom:6rem;
 }
 
 /* ── TOP ROW ── */

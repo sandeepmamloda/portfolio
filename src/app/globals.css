@@ -238,3 +238,11 @@
   src: url('/fonts/sen/Sen-ExtraBold.woff') format('woff'),
        url('/fonts/sen/Sen-ExtraBold.ttf') format('truetype');
 }
+/* Anton - Regular */
+@font-face {
+  font-family: 'AntonRegular';
+  src: url('/fonts/antons/Anton-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

@@ -41,12 +41,12 @@ const HamburgerMenu = function () {
                 <div className={`${styles["mobile-menu"]} ${menuOpen ? styles["mobile-menu--open"] : ""}`}>
                   <nav onClick={closeMenu}>
                     <Link href="/about">ABOUT</Link>
-                    <Link href="/work">WORK</Link>
-                    <Link href="/press">PRESS</Link>
-                    <Link href="/journal">JOURNAL</Link>
+                    <Link href="/work/list">WORK</Link>
+                    <Link href="/press/press">PRESS</Link>
+                    <Link href="/journal/journal">JOURNAL</Link>
                     <Link href="/moodboard">MOODBOARD</Link>
                     <Link href="/universe">THE UNIVERSE</Link>
-                    <Link href="/contact">CONTACT</Link>
+                    <Link href="/contact-us">CONTACT</Link>
                   </nav>
                 </div>,
                 headerEl
