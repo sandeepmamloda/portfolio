@@ -41,6 +41,12 @@
   font-family: 'DMMonoRegular';
 }
 
+/* ── NAME LINK WRAPPER ── */
+.name-link {
+  display: block;
+  cursor: pointer;
+}
+
 /* ── CANVAS — video clipped to text shape ── */
 .name-canvas {
   display: block;

@@ -19,10 +19,8 @@ const VideoText = ({ src, text, letterSpacing = -5}) => {
     video.playsInline = true;
 
     const resizeCanvas = () => {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = canvas.offsetWidth * dpr;
-      canvas.height = canvas.offsetHeight * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
     };
 
     resizeCanvas();
@@ -53,9 +51,8 @@ const VideoText = ({ src, text, letterSpacing = -5}) => {
     };
 
     const draw = () => {
-      const dpr = window.devicePixelRatio || 1;
-      const w = canvas.width / dpr;
-      const h = canvas.height / dpr;
+      const w = canvas.width;
+      const h = canvas.height;
 
       ctx.clearRect(0, 0, w, h);
 
@@ -106,7 +103,11 @@ const VideoText = ({ src, text, letterSpacing = -5}) => {
     };
   }, [src, text, letterSpacing]);
 
-  return <canvas ref={canvasRef} className={styles["name-canvas"]} />;
+  return (
+    <a href="/" className={styles["name-link"]}>
+      <canvas ref={canvasRef} className={styles["name-canvas"]} />
+    </a>
+  );
 };
 
 const Footer = function () {
