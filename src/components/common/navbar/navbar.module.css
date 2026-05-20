@@ -326,6 +326,9 @@
     position: relative;
     justify-content: space-between;
   }
+  .header-main::before {
+    border-radius:10rem;
+  }
   .header-left {
     display: none;
   }
@@ -337,13 +340,24 @@
   }
 }
 
+@media (max-width: 768px) {
+  .header-main {
+    padding-inline: 2.5rem;
+  }
+  .header-main::before {
+    border-radius:10rem;
+  }
+  .logo {
+    padding-block: 0.7rem;
+  }
+  .logo a{
+    font-size:1.2rem;
+  }
+}
+
 @media (max-width: 480px) {
   .header-main {
     max-inline-size: 100%;
-    padding-inline: 1.2rem;
-  }
-  .logo a {
-    font-size: 1.5rem;
   }
   .overlay-nav a {
     font-size: 2rem;
