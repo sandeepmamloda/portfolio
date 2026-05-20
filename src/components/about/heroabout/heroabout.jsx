@@ -73,11 +73,12 @@ const ParticleBox = ({ children, imageSrc }) => {
         const ry = yi * TILE - SIZE / 2 + TILE / 2;
         mesh.position.set(rx, ry, 0);
 
-        const angle   = Math.random() * Math.PI * 2;
-        const radius  = 1.5 + Math.random() * 3.5;
-        const sx      = Math.cos(angle) * radius;
-        const sy      = Math.sin(angle) * radius;
-        const sz      = (Math.random() - 0.5) * 2;
+        // wave motion — xi aur yi ke basis pe sine wave
+        const waveFreq  = 2.5;
+        const waveAmp   = 2.0;
+        const sx = rx + Math.sin(yi / PARTS * Math.PI * waveFreq) * waveAmp;
+        const sy = ry + Math.cos(xi / PARTS * Math.PI * waveFreq) * waveAmp;
+        const sz = Math.sin((xi + yi) / PARTS * Math.PI * waveFreq) * 1.5;
 
         const srx = (Math.random() - 0.5) * Math.PI * 2;
         const sry = (Math.random() - 0.5) * Math.PI * 2;
@@ -116,11 +117,11 @@ const ParticleBox = ({ children, imageSrc }) => {
     const tl2 = gsap.timeline({ repeat: -1, yoyo: true });
     tl2.to(planes.map(p => p.userData), {
       blend: 1,
-      duration: 1.6,
-      ease: "power2.inOut",
-      stagger: { amount: 1.0, from: "center", grid: [PARTS, PARTS] },
+      duration: 2.2,
+      ease: "sine.inOut",
+      stagger: { amount: 1.4, from: "edges", grid: [PARTS, PARTS] },
     })
-    .to({}, { duration: 0.6 });
+    .to({}, { duration: 0.8 });
 
     const raycaster     = new THREE.Raycaster();
     const threeMouseVec = new THREE.Vector2();
@@ -228,7 +229,6 @@ const Heroabout = function () {
       </div>
       <div className={styles["hero-text-wrapper"]}>
         <ParticleBox imageSrc="/images/normal.png">
-          {/* ✅ Original JSX — sab andar */}
           <div className={styles["hero-text-left-1"]}>
             <h1>WHERE SCRIPTS BECOME SIGHT</h1>
           </div>
