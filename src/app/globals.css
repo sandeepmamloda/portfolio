@@ -246,3 +246,7 @@
   font-style: normal;
   font-display: swap;
 }
+
+body.info-panel-open header {
+  display: none !important;
+}

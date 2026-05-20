@@ -45,13 +45,19 @@ const workVideos = [
     title: "Fragments of Reality",
     type: "Social",
     duration: "11:40",
-    video: "/videos/work/work.mp4",
+    video: "/videos/work/contact-us.mp4",
   },
 ];
 
 const Work = function () {
   const [activeVideo, setActiveVideo] = useState(0);
   const router = useRouter();
+
+  // ✅ 1. Grid wala click handler add kiya
+  const handleVideoClick = (item) => {
+    const encodedUrl = encodeURIComponent(item.video);
+    router.push(`/video-player?url=${encodedUrl}&title=${encodeURIComponent(item.title)}`);
+  };
 
   return (
     <section className={styles["work-wrapper"]}>
@@ -107,6 +113,7 @@ const Work = function () {
                   key={index}
                   className={styles["list-items"]}
                   onMouseEnter={() => setActiveVideo(index)}
+                  onClick={() => handleVideoClick(item)} // ✅ 2. Click handler lagaya
                 >
                   <h3>{item.title}</h3>
                   <p>{item.type}</p>
