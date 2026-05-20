@@ -261,7 +261,7 @@
     grid-template-columns: 1fr;
   }
   .grid-items {
-    background: transparent;
+    background: transparent!important;
   }
   .image-wrapper {
     height: 18rem;

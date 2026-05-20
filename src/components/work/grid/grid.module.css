@@ -613,7 +613,7 @@
     grid-template-columns: 1fr;
   }
   .grid-items {
-    background: transparent;
+    background: transparent!important;
   }
   .grid-items video {
     height: 18rem;
