@@ -134,13 +134,13 @@ const Footer = function () {
 
               <ul className={styles["site-links"]}>
                 <li><a href="/about">About</a></li>
-                <li><a href="/journal">Journal</a></li>
-                <li><a href="/work">Work</a></li>
+                <li><a href="/journal/journal">Journal</a></li>
+                <li><a href="/work/list">Work</a></li>
                 <li><a href="/moodboard">Moodboard</a></li>
                 <li><a href="/press">Press</a></li>
-                <li><a href="/the-universe">THE UNIVERSE</a></li>
+                <li><a href="/universe">THE UNIVERSE</a></li>
                 <li></li>
-                <li><a href="/contact">Contact</a></li>
+                <li><a href="/contact-us">Contact</a></li>
               </ul>
             </div>
 
