@@ -19,8 +19,10 @@ const VideoText = ({ src, text, letterSpacing = -5}) => {
     video.playsInline = true;
 
     const resizeCanvas = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = canvas.offsetWidth * dpr;
+      canvas.height = canvas.offsetHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
     resizeCanvas();
@@ -51,8 +53,9 @@ const VideoText = ({ src, text, letterSpacing = -5}) => {
     };
 
     const draw = () => {
-      const w = canvas.width;
-      const h = canvas.height;
+      const dpr = window.devicePixelRatio || 1;
+      const w = canvas.width / dpr;
+      const h = canvas.height / dpr;
 
       ctx.clearRect(0, 0, w, h);
 
