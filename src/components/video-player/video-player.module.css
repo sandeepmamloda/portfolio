@@ -788,7 +788,7 @@
 .info-content {
   width: 100%;
   max-width: 21rem;
-  background: rgba(28, 28, 28, 0.72);
+  background: rgba(90, 90,90, 0.2);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
   border: 1px solid #D9D9D933;
