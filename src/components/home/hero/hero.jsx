@@ -44,7 +44,7 @@ const Hero = function () {
   return (
     <section className={styles["home-section-wrapper"]}>
 
-      <div className={`${styles["video-layer"]} ${current === 0 ? styles["video-active"] : ""}`}>
+      <div className={`${styles["video-layer"]} ${current === 0 ? styles["video-active"] : ""}`} >
         <video autoPlay muted loop playsInline>
           <source src="/videos/home/hero/hero.mp4" type="video/mp4" />
         </video>
