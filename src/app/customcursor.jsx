@@ -57,8 +57,8 @@ export default function CustomCursor() {
     }
 
     const showMedia = (type, src) => {
-      ring.style.width        = '160px'
-      ring.style.height       = '160px'
+      ring.style.width        = '120px'
+      ring.style.height       = '120px'
       ring.style.overflow     = 'hidden'
       ring.style.mixBlendMode = 'normal'
       ring.style.background   = 'transparent'
