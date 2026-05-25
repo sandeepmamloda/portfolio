@@ -108,33 +108,7 @@ export default function Hero() {
         },
       })
 
-      /* 6. Bottom text — gradual fade, starts later */
-      gsap.to(bottomRef.current, {
-        yPercent: -28,
-        opacity: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "15% top",
-          end: "65% top",
-          scrub: 2,
-        },
-      })
-
-      /* 7. Projects strip — starts even later */
-      gsap.to(stripRef.current, {
-        yPercent: -20,
-        opacity: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "25% top",
-          end: "75% top",
-          scrub: 2,
-        },
-      })
-
-      /* 8. EXIT — cinematic, very gradual */
+      /* 6. EXIT — cinematic, very gradual */
       gsap.to(section, {
         scale: 0.9,
         opacity: 0,
