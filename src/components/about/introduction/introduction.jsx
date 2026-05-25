@@ -14,14 +14,11 @@ const Introduction = function () {
   useEffect(() => {
     const ctx = gsap.context(() => {
 
-      /* H2 — pehle se hidden */
-      gsap.set(h2Ref.current, { yPercent: 80, opacity: 0 })
-
       /* Para ke words split karo */
       const rawText = paraRef.current.innerText
       paraRef.current.innerHTML = rawText
         .split(" ")
-        .map(word => `<span style="display:inline-block; opacity:0; transform:translateY(18px)">${word}</span>`)
+        .map(word => `<span style="display:inline-block">${word}</span>`)
         .join(" ")
 
       const words = paraRef.current.querySelectorAll("span")
@@ -29,23 +26,23 @@ const Introduction = function () {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 70%",
+          start: "top 80%",
           toggleActions: "play none none none",
         },
       })
 
-      /* H2 slide up */
-      tl.to(h2Ref.current, {
-        yPercent: 0,
-        opacity: 1,
+      /* H2 — from se aayega, set nahi hoga */
+      tl.from(h2Ref.current, {
+        yPercent: 80,
+        opacity: 0,
         duration: 1.4,
         ease: "expo.out",
       }, 0)
 
-      /* Words — wave stagger */
-      .to(words, {
-        opacity: 1,
-        y: 0,
+      /* Words — from se aayenge */
+      .from(words, {
+        opacity: 0,
+        y: 18,
         duration: 0.8,
         ease: "power2.out",
         stagger: {
