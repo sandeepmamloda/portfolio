@@ -77,12 +77,17 @@
 
 // ========================================================================
 "use client";
-import { useState, useEffect } from "react";
+import { gsap } from "gsap";
+import { useEffect, useRef, useState } from "react";
 import styles from "./navbar.module.css";
 import Link from "next/link";
 
 const Navbar = function () {
   const [menuOpen, setMenuOpen] = useState(false);
+  const headerRef = useRef(null);
+  const logoRef   = useRef(null);
+  const navRef    = useRef(null);
+  const burgerRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -101,22 +106,62 @@ const Navbar = function () {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
+  /* ── Mount animation ── */
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+
+      const tl = gsap.timeline();
+
+      /* Header — clip-path upar se neeche */
+      tl.from(headerRef.current, {
+        clipPath: "inset(0 0 100% 0)",
+        duration: 1,
+        ease: "expo.inOut",
+      })
+
+      /* Logo — clip-path left se right */
+      .from(logoRef.current, {
+        clipPath: "inset(0 100% 0 0)",
+        duration: 1,
+        ease: "expo.out",
+      }, "-=0.4")
+
+      /* Nav links — staggered clip-path left se right */
+      .from(navRef.current?.querySelectorAll("a"), {
+        clipPath: "inset(0 100% 0 0)",
+        duration: 0.7,
+        ease: "expo.out",
+        stagger: 0.08,
+      }, "-=0.6")
+
+      /* Hamburger — clip-path left se right */
+      .from(burgerRef.current, {
+        clipPath: "inset(0 100% 0 0)",
+        duration: 0.6,
+        ease: "expo.out",
+      }, "-=0.4");
+
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const closeMenu = () => setMenuOpen(false);
 
   return (
     <>
-      <header className={styles["header-wrapper"]}>
+      <header ref={headerRef} className={styles["header-wrapper"]}>
         <div className={styles["header-main"]}>
 
           <div className={styles["header-right"]}>
-            <nav className={styles["logo"]}>
+            <nav className={styles["logo"]} ref={logoRef}>
               <Link href="/" onClick={closeMenu}>Portfolio</Link>
             </nav>
           </div>
 
           <div className={styles["header-left"]}>
-            <nav>
+            <nav ref={navRef}>
               <Link href="/about">ABOUT</Link>
               <Link href="/work/list">WORK</Link>
               <Link href="/press">PRESS</Link>
@@ -128,6 +173,7 @@ const Navbar = function () {
           </div>
 
           <button
+            ref={burgerRef}
             className={`${styles["hamburger"]} ${menuOpen ? styles["open"] : ""}`}
             onClick={toggleMenu}
             aria-label="Toggle menu"
