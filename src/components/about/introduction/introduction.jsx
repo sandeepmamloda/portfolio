@@ -30,7 +30,7 @@ const Introduction = function () {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 70%",
-          once: true,
+          toggleActions: "play none none none",
         },
       })
 
