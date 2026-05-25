@@ -1,8 +1,8 @@
 "use client";
-import { useEffect } from "react";
-import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+import { useEffect } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,21 +14,22 @@ export default function LenisProvider({ children }) {
       smoothTouch: false,
     });
 
-    /* ── GSAP ticker se Lenis sync ── */
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-
+    const tickerFn = (time) => lenis.raf(time * 1000);
+    gsap.ticker.add(tickerFn);
     gsap.ticker.lagSmoothing(0);
 
-    /* ── Scroll hone par ScrollTrigger update ── */
     lenis.on("scroll", ScrollTrigger.update);
 
-    /* ── Page load ke baad ScrollTrigger refresh ── */
-    ScrollTrigger.refresh();
+    // ✅ Ye add karo — html ko scroller batao
+    ScrollTrigger.defaults({
+      scroller: document.documentElement,
+    })
+
+    window.addEventListener("load", () => ScrollTrigger.refresh());
 
     return () => {
       lenis.destroy();
+      gsap.ticker.remove(tickerFn);
     };
   }, []);
 
