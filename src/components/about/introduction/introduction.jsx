@@ -36,7 +36,7 @@ const Introduction = function () {
           scroller: document.documentElement, // ✅
           start: "top 70%",
           toggleActions: "play none none none",
-          markers: true,
+          markers: false,
         },
       })
 
