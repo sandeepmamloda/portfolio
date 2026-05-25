@@ -141,7 +141,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./journal.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -374,6 +374,7 @@ const Journal = function () {
 
   const handleLoadMore = () => setVisibleCount((prev) => prev + ITEMS_PER_PAGE);
 
+  // ─── Hero text animation (runs once on mount) ───────────────────────────────
   useEffect(() => {
     const ctx = gsap.context(() => {
 
@@ -409,53 +410,65 @@ const Journal = function () {
     return () => ctx.revert();
   }, []);
 
-  useEffect(() => {
+  // ─── Card scroll animations ──────────────────────────────────────────────────
+  // FIX 1: useLayoutEffect → DOM paint ke baad fire hota hai, refs already ready hote hain
+  useLayoutEffect(() => {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    const newItems = visibleItems.filter(item => !animatedIds.current.has(item.id));
+    const newItems = visibleItems.filter((item) => !animatedIds.current.has(item.id));
 
-    newItems.forEach((item, i) => {
-      const el = itemAnimRefs.current[item.id];
-      if (!el) return;
+    if (newItems.length === 0) return;
 
-      animatedIds.current.add(item.id);
+    // FIX 2: requestAnimationFrame → layout settle hone do, phir ScrollTrigger refresh karo
+    const raf = requestAnimationFrame(() => {
+      // FIX 3: ScrollTrigger.refresh() → naye elements ki position GSAP ko batata hai
+      ScrollTrigger.refresh();
 
-      if (isMobile) {
-        gsap.set(el, { opacity: 0, y: 50 });
-        gsap.to(el, {
-          opacity: 1,
-          y: 0,
-          duration: 1.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 90%", once: true },
-          delay: i * 0.12,
-        });
-      } else {
-        const parent = el.parentElement;
-        if (parent) parent.style.perspective = "1200px";
+      newItems.forEach((item, i) => {
+        const el = itemAnimRefs.current[item.id];
+        if (!el) return;
 
-        gsap.set(el, {
-          opacity: 0,
-          y: 55,
-          rotateX: 16,
-          transformOrigin: "bottom center",
-          transformStyle: "preserve-3d",
-        });
+        animatedIds.current.add(item.id);
 
-        gsap.to(el, {
-          opacity: 1,
-          y: 0,
-          rotateX: 0,
-          duration: 2.0,
-          ease: "power4.out",
-          scrollTrigger: { trigger: el, start: "top 90%", once: true },
-          delay: i % 2 === 0 ? 0.05 : 0.28,
-          onComplete: () => {
-            gsap.set(el, { clearProps: "rotateX,transformOrigin,transformStyle,willChange" });
-          },
-        });
-      }
+        if (isMobile) {
+          gsap.set(el, { opacity: 0, y: 50 });
+          gsap.to(el, {
+            opacity: 1,
+            y: 0,
+            duration: 1.8,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 90%", once: true },
+            delay: i * 0.12,
+          });
+        } else {
+          const parent = el.parentElement;
+          if (parent) parent.style.perspective = "1200px";
+
+          gsap.set(el, {
+            opacity: 0,
+            y: 55,
+            rotateX: 16,
+            transformOrigin: "bottom center",
+            transformStyle: "preserve-3d",
+          });
+
+          gsap.to(el, {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            duration: 2.0,
+            ease: "power4.out",
+            scrollTrigger: { trigger: el, start: "top 90%", once: true },
+            delay: i % 2 === 0 ? 0.05 : 0.28,
+            onComplete: () => {
+              gsap.set(el, { clearProps: "rotateX,transformOrigin,transformStyle,willChange" });
+            },
+          });
+        }
+      });
     });
-  }, [visibleCount]);
+
+    return () => cancelAnimationFrame(raf);
+  }, [visibleCount]); // ← visibleItems ki jagah visibleCount — stable dependency
 
   return (
     <section ref={sectionRef} className={styles["grid-wrapper"]}>
