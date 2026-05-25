@@ -9,30 +9,31 @@ const JournalIndividualContent = function () {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const title = searchParams.get("title") || "";
-  const image = searchParams.get("image") || "";
-  const date = searchParams.get("date") || "";
+  const title    = searchParams.get("title")    || "";
+  const image    = searchParams.get("image")    || "";
+  const date     = searchParams.get("date")     || "";
   const duration = searchParams.get("duration") || "";
+  const subtitle = searchParams.get("subtitle") || "";
+
+  let content = [];
+  try {
+    content = JSON.parse(searchParams.get("content") || "[]");
+  } catch {
+    content = [];
+  }
 
   return (
     <article className={styles["article-wrapper"]}>
 
-      {/* Header + Title ek row mein */}
       <div className={styles["header"]}>
-        <button
-          className={styles["back-btn"]}
-          onClick={() => router.back()}
-        >
+        <button className={styles["back-btn"]} onClick={() => router.back()}>
           BACK
         </button>
         <h1>{title}</h1>
       </div>
 
-      {/* Subtitle aur Meta */}
       <div className={styles["title-section"]}>
-        <p className={styles["subtitle"]}>
-          Building meaningful connections that drive collaboration, innovation, and long-term business growth.
-        </p>
+        <p className={styles["subtitle"]}>{subtitle}</p>
         <div className={styles["meta"]}>
           <span>{date}</span>
           <span className={styles["dot"]}>·</span>
@@ -40,92 +41,19 @@ const JournalIndividualContent = function () {
         </div>
       </div>
 
-      {/* Hero Image */}
       <div className={styles["hero-image"]}>
-        <Image
-          src={image}
-          alt={title}
-          fill
-          style={{ objectFit: "cover" }}
-          priority
-        />
+        <Image src={image} alt={title} fill style={{ objectFit: "cover" }} priority />
       </div>
 
-      {/* Article Body */}
       <div className={styles["article-body"]}>
-
-        <section className={styles["section"]}>
-          <h2>Introduction</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </p>
-          <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-        </section>
-
-        <section className={styles["section"]}>
-          <h2>What This Means</h2>
-          <p>
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-            doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-            veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-          </p>
-          <p>
-            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
-            sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-          </p>
-        </section>
-
-        <section className={styles["section"]}>
-          <h2>Driving Innovation Through Connections</h2>
-          <p>
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-            praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
-            excepturi sint occaecati cupiditate non provident.
-          </p>
-        </section>
-
-        <section className={styles["section"]}>
-          <h2>Expanding Business Opportunities</h2>
-          <p>
-            Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
-            saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
-            Itaque earum rerum hic tenetur a sapiente delectus.
-          </p>
-          <p>
-            Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit
-            quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est.
-          </p>
-        </section>
-
-        <section className={styles["section"]}>
-          <h2>Strengthening Organizational Reputation</h2>
-          <p>
-            Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam
-            nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas
-            nulla pariatur.
-          </p>
-        </section>
-
-        <section className={styles["section"]}>
-          <h2>Conclusion</h2>
-          <p>
-            Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore,
-            cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod
-            maxime placeat facere possimus.
-          </p>
-          <p>
-            Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
-            saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
-          </p>
-        </section>
-
+        {content.map((section, index) => (
+          <section key={index} className={styles["section"]}>
+            <h2>{section.heading}</h2>
+            <p>{section.body}</p>
+          </section>
+        ))}
       </div>
+
     </article>
   );
 };
