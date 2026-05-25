@@ -1,6 +1,10 @@
 "use client";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
 import styles from "./measuringvalues.module.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const stats = [
   {
@@ -85,25 +89,123 @@ function StatCard({ stat, animate }) {
 }
 
 const Whatyouget = function () {
-  const sectionRef = useRef(null);
+  const sectionRef  = useRef(null);
+  const tagRef      = useRef(null);
+  const headingRef  = useRef(null);
+  const subtitleRef = useRef(null);
+  const decoBarsRef = useRef(null);
+  const cardRefs    = useRef([]);
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setAnimate(true);
-      },
-      { threshold: 0.2 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
+    const ctx = gsap.context(() => {
+
+      /* ── Tag — clip-path wipe ── */
+      gsap.set(tagRef.current, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
+      gsap.to(tagRef.current, {
+        clipPath: "inset(0 0% 0 0)",
+        duration: 1.6,
+        ease: "expo.out",
+        scrollTrigger: {
+          trigger: tagRef.current,
+          start: "top 85%",
+          once: true,
+        },
+      });
+
+      /* ── Heading — char by char light → dark scroll scrub ── */
+      const rawText = headingRef.current.innerText;
+
+      headingRef.current.innerHTML = rawText
+        .split("\n")
+        .map(line =>
+          line
+            .split("")
+            .map(ch =>
+              ch === " "
+                ? `<span style="display:inline-block;width:0.3em"> </span>`
+                : `<span style="display:inline-block;color:#ffffff22">${ch}</span>`
+            )
+            .join("")
+        )
+        .join("<br/>");
+
+      const charEls = headingRef.current.querySelectorAll("span");
+
+      /* har character ka apna alag ScrollTrigger */
+      charEls.forEach((char, i) => {
+        gsap.to(char, {
+          color: "#ffffff",
+          ease: "none",
+          scrollTrigger: {
+            trigger: headingRef.current,
+            start: `top+=${i * 18} 65%`,
+            end: `top+=${i * 18 + 30} 65%`,
+            scrub: 0.2,
+          },
+        });
+      });
+
+      /* ── Subtitle — fade + y ── */
+      gsap.set(subtitleRef.current, { opacity: 0, y: 24 });
+      gsap.to(subtitleRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1.8,
+        ease: "expo.out",
+        scrollTrigger: {
+          trigger: subtitleRef.current,
+          start: "top 85%",
+          once: true,
+        },
+        delay: 0.5,
+      });
+
+      /* ── Deco bars — scaleX wipe ── */
+      const bars = decoBarsRef.current.querySelectorAll("span");
+      gsap.set(bars, { scaleX: 0, transformOrigin: "left center" });
+      gsap.to(bars, {
+        scaleX: 1,
+        duration: 1.2,
+        ease: "expo.out",
+        stagger: 0.04,
+        scrollTrigger: {
+          trigger: decoBarsRef.current,
+          start: "top 85%",
+          once: true,
+        },
+      });
+
+      /* ── Cards — clip-path wipe ── */
+      gsap.set(cardRefs.current, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
+      cardRefs.current.forEach((el, i) => {
+        if (!el) return;
+        gsap.to(el, {
+          clipPath: "inset(0 0% 0 0)",
+          duration: 1.6,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            once: true,
+          },
+          delay: 0.15 * i,
+          onComplete: () => {
+            if (i === 0) setAnimate(true);
+          },
+        });
+      });
+
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
     <section className={styles["whatyouget"]} ref={sectionRef}>
       <div className={styles["top-row"]}>
         <div className={styles["left-col"]}>
-          <div className={styles["tag"]}>
+          <div className={styles["tag"]} ref={tagRef}>
             <span className={styles["tag-dot"]} />
             02 &nbsp;WHAT YOU GET
           </div>
@@ -112,12 +214,12 @@ const Whatyouget = function () {
         <div className={styles["right-col"]}>
           <div className={styles["right-col-inner"]}>
             <div className={styles["heading-deco-row"]}>
-              <h2 className={styles["heading"]}>
-                MEASURABLE VALUES,
-                <br />
-                <span className={styles["heading-muted"]}>NOT PROMISES.</span>
+
+              <h2 className={styles["heading"]} ref={headingRef}>
+                {`MEASURABLE VALUES,\nNOT PROMISES.`}
               </h2>
-              <div className={styles["deco-bars"]}>
+
+              <div className={styles["deco-bars"]} ref={decoBarsRef}>
                 <div className={styles["deco-bars-gap"]} />
                 <span /><span /><span /><span /><span />
                 <span /><span /><span /><span /><span />
@@ -126,7 +228,6 @@ const Whatyouget = function () {
               </div>
             </div>
 
-            {/* ── DIVIDER ROW — star+line upar, text neeche ── */}
             <div className={styles["divider-row"]}>
               <div className={styles["divider-top"]}>
                 <svg
@@ -151,7 +252,7 @@ const Whatyouget = function () {
                   <line x1="0" y1="0" x2="100%" y2="0" stroke="#fff" strokeWidth="1" />
                 </svg>
               </div>
-              <p className={styles["subtitle"]}>
+              <p className={styles["subtitle"]} ref={subtitleRef}>
                 Clear metrics, transparent
                 <br />
                 process, results you can rely on.
@@ -163,8 +264,13 @@ const Whatyouget = function () {
       </div>
 
       <div className={styles["grid"]}>
-        {stats.map((stat) => (
-          <StatCard key={stat.id} stat={stat} animate={animate} />
+        {stats.map((stat, index) => (
+          <div
+            key={stat.id}
+            ref={(el) => (cardRefs.current[index] = el)}
+          >
+            <StatCard stat={stat} animate={animate} />
+          </div>
         ))}
       </div>
     </section>

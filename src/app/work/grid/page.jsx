@@ -19,7 +19,7 @@ const Work = function () {
   return (
     <div className={styles["particles"]}>
       <ParticleBackground />
-        <Grid />
+      <Grid />
     </div>
   );
 };
