@@ -98,107 +98,118 @@ const Whatyouget = function () {
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    let ctx;
 
-      /* ── Tag — clip-path wipe ── */
-      gsap.set(tagRef.current, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
-      gsap.to(tagRef.current, {
-        clipPath: "inset(0 0% 0 0)",
-        duration: 1.6,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: tagRef.current,
-          start: "top 85%",
-          once: true,
-        },
-      });
+    const timer = setTimeout(() => {
+      ctx = gsap.context(() => {
 
-      /* ── Heading — char by char light → dark scroll scrub ── */
-      const rawText = headingRef.current.innerText;
-
-      headingRef.current.innerHTML = rawText
-        .split("\n")
-        .map(line =>
-          line
-            .split("")
-            .map(ch =>
-              ch === " "
-                ? `<span style="display:inline-block;width:0.3em"> </span>`
-                : `<span style="display:inline-block;color:#ffffff22">${ch}</span>`
-            )
-            .join("")
-        )
-        .join("<br/>");
-
-      const charEls = headingRef.current.querySelectorAll("span");
-
-      /* har character ka apna alag ScrollTrigger */
-      charEls.forEach((char, i) => {
-        gsap.to(char, {
-          color: "#ffffff",
-          ease: "none",
-          scrollTrigger: {
-            trigger: headingRef.current,
-            start: `top+=${i * 18} 65%`,
-            end: `top+=${i * 18 + 30} 65%`,
-            scrub: 0.2,
-          },
-        });
-      });
-
-      /* ── Subtitle — fade + y ── */
-      gsap.set(subtitleRef.current, { opacity: 0, y: 24 });
-      gsap.to(subtitleRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1.8,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: subtitleRef.current,
-          start: "top 85%",
-          once: true,
-        },
-        delay: 0.5,
-      });
-
-      /* ── Deco bars — scaleX wipe ── */
-      const bars = decoBarsRef.current.querySelectorAll("span");
-      gsap.set(bars, { scaleX: 0, transformOrigin: "left center" });
-      gsap.to(bars, {
-        scaleX: 1,
-        duration: 1.2,
-        ease: "expo.out",
-        stagger: 0.04,
-        scrollTrigger: {
-          trigger: decoBarsRef.current,
-          start: "top 85%",
-          once: true,
-        },
-      });
-
-      /* ── Cards — clip-path wipe ── */
-      gsap.set(cardRefs.current, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
-      cardRefs.current.forEach((el, i) => {
-        if (!el) return;
-        gsap.to(el, {
+        /* ── Tag — clip-path wipe ── */
+        gsap.set(tagRef.current, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
+        gsap.to(tagRef.current, {
           clipPath: "inset(0 0% 0 0)",
           duration: 1.6,
           ease: "expo.out",
           scrollTrigger: {
-            trigger: el,
+            trigger: tagRef.current,
+            scroller: document.documentElement,
             start: "top 85%",
             once: true,
           },
-          delay: 0.15 * i,
-          onComplete: () => {
-            if (i === 0) setAnimate(true);
+        });
+
+        /* ── Heading — char by char light → dark scroll scrub ── */
+        const rawText = headingRef.current.innerText;
+
+        headingRef.current.innerHTML = rawText
+          .split("\n")
+          .map(line =>
+            line
+              .split("")
+              .map(ch =>
+                ch === " "
+                  ? `<span style="display:inline-block;width:0.3em"> </span>`
+                  : `<span style="display:inline-block;color:#ffffff22">${ch}</span>`
+              )
+              .join("")
+          )
+          .join("<br/>");
+
+        const charEls = headingRef.current.querySelectorAll("span");
+
+        charEls.forEach((char, i) => {
+          gsap.to(char, {
+            color: "#ffffff",
+            ease: "none",
+            scrollTrigger: {
+              trigger: headingRef.current,
+              scroller: document.documentElement,
+              start: `top+=${i * 18} 65%`,
+              end: `top+=${i * 18 + 30} 65%`,
+              scrub: 0.2,
+            },
+          });
+        });
+
+        /* ── Subtitle — fade + y ── */
+        gsap.set(subtitleRef.current, { opacity: 0, y: 24 });
+        gsap.to(subtitleRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 1.8,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: subtitleRef.current,
+            scroller: document.documentElement,
+            start: "top 85%",
+            once: true,
+          },
+          delay: 0.5,
+        });
+
+        /* ── Deco bars — scaleX wipe ── */
+        const bars = decoBarsRef.current.querySelectorAll("span");
+        gsap.set(bars, { scaleX: 0, transformOrigin: "left center" });
+        gsap.to(bars, {
+          scaleX: 1,
+          duration: 1.2,
+          ease: "expo.out",
+          stagger: 0.04,
+          scrollTrigger: {
+            trigger: decoBarsRef.current,
+            scroller: document.documentElement,
+            start: "top 85%",
+            once: true,
           },
         });
-      });
 
-    }, sectionRef);
+        /* ── Cards — clip-path wipe ── */
+        gsap.set(cardRefs.current, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
+        cardRefs.current.forEach((el, i) => {
+          if (!el) return;
+          gsap.to(el, {
+            clipPath: "inset(0 0% 0 0)",
+            duration: 1.6,
+            ease: "expo.out",
+            scrollTrigger: {
+              trigger: el,
+              scroller: document.documentElement,
+              start: "top 85%",
+              once: true,
+            },
+            delay: 0.15 * i,
+            onComplete: () => {
+              if (i === 0) setAnimate(true);
+            },
+          });
+        });
 
-    return () => ctx.revert();
+      }, sectionRef);
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      ctx?.revert();
+    };
   }, []);
 
   return (

@@ -67,81 +67,92 @@ const Herouniverse = function () {
   const mediaRef    = useRef(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    let ctx;
 
-      /* ── Tag — clip-path wipe left to right ── */
-      gsap.set(tagRef.current, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
-      gsap.to(tagRef.current, {
-        clipPath: "inset(0 0% 0 0)",
-        duration: 1.8,
-        ease: "expo.out",
-        delay: 0.3,
-        scrollTrigger: {
-          trigger: tagRef.current,
-          start: "top 85%",
-          once: true,
-        },
-      });
+    const timer = setTimeout(() => {
+      ctx = gsap.context(() => {
 
-      /* ── Logo — letter by letter curtain reveal ── */
-      const letters = logoRef.current.innerText.split("");
-      logoRef.current.innerHTML = letters
-        .map(l =>
-          l === " "
-            ? "&nbsp;"
-            : `<span style="display:inline-block;overflow:hidden;line-height:1"><i style="display:inline-block;font-style:normal">${l}</i></span>`
-        )
-        .join("");
+        /* ── Tag — clip-path wipe left to right ── */
+        gsap.set(tagRef.current, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
+        gsap.to(tagRef.current, {
+          clipPath: "inset(0 0% 0 0)",
+          duration: 1.8,
+          ease: "expo.out",
+          delay: 0.3,
+          scrollTrigger: {
+            trigger: tagRef.current,
+            scroller: document.documentElement,
+            start: "top 85%",
+            once: true,
+          },
+        });
 
-      const letterEls = logoRef.current.querySelectorAll("i");
-      gsap.set(letterEls, { yPercent: 110 });
-      gsap.to(letterEls, {
-        yPercent: 0,
-        duration: 2.8,
-        ease: "expo.out",
-        stagger: 0.12,
-        scrollTrigger: {
-          trigger: logoRef.current,
-          start: "top 85%",
-          once: true,
-        },
-        delay: 0.2,
-      });
+        /* ── Logo — letter by letter curtain reveal ── */
+        const letters = logoRef.current.innerText.split("");
+        logoRef.current.innerHTML = letters
+          .map(l =>
+            l === " "
+              ? "&nbsp;"
+              : `<span style="display:inline-block;overflow:hidden;line-height:1"><i style="display:inline-block;font-style:normal">${l}</i></span>`
+          )
+          .join("");
 
-      /* ── Description — fade + y ── */
-      gsap.set(descRef.current, { opacity: 0, y: 20 });
-      gsap.to(descRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 2.2,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: descRef.current,
-          start: "top 85%",
-          once: true,
-        },
-        delay: 0.6,
-      });
+        const letterEls = logoRef.current.querySelectorAll("i");
+        gsap.set(letterEls, { yPercent: 110 });
+        gsap.to(letterEls, {
+          yPercent: 0,
+          duration: 2.8,
+          ease: "expo.out",
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: logoRef.current,
+            scroller: document.documentElement,
+            start: "top 85%",
+            once: true,
+          },
+          delay: 0.2,
+        });
 
-      /* ── Media — scale + brightness reveal ── */
-      gsap.set(mediaRef.current, { opacity: 0, scale: 1.08, filter: "blur(8px) brightness(0.4)" });
-      gsap.to(mediaRef.current, {
-        opacity: 1,
-        scale: 1,
-        filter: "blur(0px) brightness(1)",
-        duration: 2.6,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: mediaRef.current,
-          start: "top 80%",
-          once: true,
-        },
-        delay: 0.4,
-      });
+        /* ── Description — fade + y ── */
+        gsap.set(descRef.current, { opacity: 0, y: 20 });
+        gsap.to(descRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 2.2,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: descRef.current,
+            scroller: document.documentElement,
+            start: "top 85%",
+            once: true,
+          },
+          delay: 0.6,
+        });
 
-    }, sectionRef);
+        /* ── Media — scale + brightness reveal ── */
+        gsap.set(mediaRef.current, { opacity: 0, scale: 1.08, filter: "blur(8px) brightness(0.4)" });
+        gsap.to(mediaRef.current, {
+          opacity: 1,
+          scale: 1,
+          filter: "blur(0px) brightness(1)",
+          duration: 2.6,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: mediaRef.current,
+            scroller: document.documentElement,
+            start: "top 80%",
+            once: true,
+          },
+          delay: 0.4,
+        });
 
-    return () => ctx.revert();
+      }, sectionRef);
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      ctx?.revert();
+    };
   }, []);
 
   return (

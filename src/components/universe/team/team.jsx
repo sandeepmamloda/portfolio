@@ -96,102 +96,114 @@ const TeamSection = function () {
   const cardRefs    = useRef([]);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    let ctx;
 
-      /* ── Tag — clip-path wipe ── */
-      gsap.set(tagRef.current, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
-      gsap.to(tagRef.current, {
-        clipPath: "inset(0 0% 0 0)",
-        duration: 2.2,        // 1.6 → 2.2
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: tagRef.current,
-          start: "top 85%",
-          once: true,
-        },
-      });
+    const timer = setTimeout(() => {
+      ctx = gsap.context(() => {
 
-      /* ── Heading — char by char light → dark scroll scrub ── */
-      const rawText = headingRef.current.innerText;
-
-      headingRef.current.innerHTML = rawText
-        .split("\n")
-        .map(line =>
-          line
-            .split("")
-            .map(ch =>
-              ch === " "
-                ? `<span style="display:inline-block;width:0.3em"> </span>`
-                : `<span style="display:inline-block;color:#ffffff22">${ch}</span>`
-            )
-            .join("")
-        )
-        .join("<br/>");
-
-      const charEls = headingRef.current.querySelectorAll("span");
-
-      charEls.forEach((char, i) => {
-        gsap.to(char, {
-          color: "#ffffff",
-          ease: "none",
-          scrollTrigger: {
-            trigger: headingRef.current,
-            start: `top+=${i * 28} 65%`,   // 18 → 28
-            end: `top+=${i * 28 + 50} 65%`, // 30 → 50
-            scrub: 0.8,                      // 0.2 → 0.8
-          },
-        });
-      });
-
-      /* ── Body text — fade + y ── */
-      gsap.set(bodyRef.current, { opacity: 0, y: 24 });
-      gsap.to(bodyRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 2.4,        // 1.8 → 2.4
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: bodyRef.current,
-          start: "top 85%",
-          once: true,
-        },
-        delay: 0.5,           // 0.3 → 0.5
-      });
-
-      /* ── CTA Button — clip-path wipe ── */
-      gsap.set(btnRef.current, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
-      gsap.to(btnRef.current, {
-        clipPath: "inset(0 0% 0 0)",
-        duration: 2,          // 1.4 → 2
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: btnRef.current,
-          start: "top 90%",
-          once: true,
-        },
-        delay: 0.4,           // 0.2 → 0.4
-      });
-
-      /* ── Cards — clip-path wipe staggered ── */
-      cardRefs.current.forEach((el, i) => {
-        if (!el) return;
-        gsap.set(el, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
-        gsap.to(el, {
+        /* ── Tag — clip-path wipe ── */
+        gsap.set(tagRef.current, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
+        gsap.to(tagRef.current, {
           clipPath: "inset(0 0% 0 0)",
-          duration: 2.2,      // 1.6 → 2.2
+          duration: 2.2,
           ease: "expo.out",
           scrollTrigger: {
-            trigger: el,
-            start: "top 88%",
+            trigger: tagRef.current,
+            scroller: document.documentElement,
+            start: "top 85%",
             once: true,
           },
-          delay: i * 0.25,    // 0.15 → 0.25
         });
-      });
 
-    }, sectionRef);
+        /* ── Heading — char by char light → dark scroll scrub ── */
+        const rawText = headingRef.current.innerText;
 
-    return () => ctx.revert();
+        headingRef.current.innerHTML = rawText
+          .split("\n")
+          .map(line =>
+            line
+              .split("")
+              .map(ch =>
+                ch === " "
+                  ? `<span style="display:inline-block;width:0.3em"> </span>`
+                  : `<span style="display:inline-block;color:#ffffff22">${ch}</span>`
+              )
+              .join("")
+          )
+          .join("<br/>");
+
+        const charEls = headingRef.current.querySelectorAll("span");
+
+        charEls.forEach((char, i) => {
+          gsap.to(char, {
+            color: "#ffffff",
+            ease: "none",
+            scrollTrigger: {
+              trigger: headingRef.current,
+              scroller: document.documentElement,
+              start: `top+=${i * 28} 65%`,
+              end: `top+=${i * 28 + 50} 65%`,
+              scrub: 0.8,
+            },
+          });
+        });
+
+        /* ── Body text — fade + y ── */
+        gsap.set(bodyRef.current, { opacity: 0, y: 24 });
+        gsap.to(bodyRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 2.4,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: bodyRef.current,
+            scroller: document.documentElement,
+            start: "top 85%",
+            once: true,
+          },
+          delay: 0.5,
+        });
+
+        /* ── CTA Button — clip-path wipe ── */
+        gsap.set(btnRef.current, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
+        gsap.to(btnRef.current, {
+          clipPath: "inset(0 0% 0 0)",
+          duration: 2,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: btnRef.current,
+            scroller: document.documentElement,
+            start: "top 90%",
+            once: true,
+          },
+          delay: 0.4,
+        });
+
+        /* ── Cards — clip-path wipe staggered ── */
+        cardRefs.current.forEach((el, i) => {
+          if (!el) return;
+          gsap.set(el, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
+          gsap.to(el, {
+            clipPath: "inset(0 0% 0 0)",
+            duration: 2.2,
+            ease: "expo.out",
+            scrollTrigger: {
+              trigger: el,
+              scroller: document.documentElement,
+              start: "top 88%",
+              once: true,
+            },
+            delay: i * 0.25,
+          });
+        });
+
+      }, sectionRef);
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      ctx?.revert();
+    };
   }, []);
 
   return (
