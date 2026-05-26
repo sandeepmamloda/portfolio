@@ -1,6 +1,11 @@
 "use client";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 import styles from "./latest.module.css";
 import { useRouter } from "next/navigation";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const articles = [
   {
@@ -47,6 +52,13 @@ const StarIcon = ({ spin }) => (
 const LatestForm = function () {
   const router = useRouter();
 
+  const sectionRef  = useRef(null);
+  const tagRef      = useRef(null);
+  const headingRef  = useRef(null);
+  const subtitleRef = useRef(null);
+  const btnRef      = useRef(null);
+  const cardRefs    = useRef([]);
+
   const handleCardClick = (article) => {
     router.push(
       `/articles/articles-individual?title=${encodeURIComponent(article.title)}&image=${encodeURIComponent(article.image)}&date=${encodeURIComponent(article.date)}`
@@ -57,28 +69,125 @@ const LatestForm = function () {
     router.push("/articles/articles");
   };
 
+  useEffect(() => {
+    let ctx;
+
+    const timer = setTimeout(() => {
+      ctx = gsap.context(() => {
+
+        /* ── Tag ── */
+        gsap.set(tagRef.current, { clipPath: "inset(0 100% 0 0)", opacity: 0 });
+        gsap.to(tagRef.current, {
+          clipPath: "inset(0 0% 0 0)",
+          opacity: 1,
+          duration: 1.8,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: tagRef.current,
+            scroller: document.documentElement,
+            start: "top 85%",
+            once: true,
+          },
+        });
+
+        /* ── Heading ── */
+        gsap.set(headingRef.current, { clipPath: "inset(0 100% 0 0)", opacity: 0 });
+        gsap.to(headingRef.current, {
+          clipPath: "inset(0 0% 0 0)",
+          opacity: 1,
+          duration: 2.0,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: headingRef.current,
+            scroller: document.documentElement,
+            start: "top 85%",
+            once: true,
+          },
+          delay: 0.15,
+        });
+
+        /* ── Subtitle ── */
+        gsap.set(subtitleRef.current, { clipPath: "inset(0 100% 0 0)", opacity: 0 });
+        gsap.to(subtitleRef.current, {
+          clipPath: "inset(0 0% 0 0)",
+          opacity: 1,
+          duration: 2.0,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: subtitleRef.current,
+            scroller: document.documentElement,
+            start: "top 85%",
+            once: true,
+          },
+          delay: 0.25,
+        });
+
+        /* ── Button ── */
+        gsap.set(btnRef.current, { clipPath: "inset(0 100% 0 0)", opacity: 0 });
+        gsap.to(btnRef.current, {
+          clipPath: "inset(0 0% 0 0)",
+          opacity: 1,
+          duration: 1.8,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: btnRef.current,
+            scroller: document.documentElement,
+            start: "top 90%",
+            once: true,
+          },
+          delay: 0.35,
+        });
+
+        /* ── Cards ── */
+        cardRefs.current.forEach((el, i) => {
+          if (!el) return;
+          gsap.set(el, { clipPath: "inset(0 100% 0 0)", opacity: 0 });
+          gsap.to(el, {
+            clipPath: "inset(0 0% 0 0)",
+            opacity: 1,
+            duration: 2.0,
+            ease: "expo.out",
+            scrollTrigger: {
+              trigger: el,
+              scroller: document.documentElement,
+              start: "top 88%",
+              once: true,
+            },
+            delay: i * 0.15,
+          });
+        });
+
+      }, sectionRef);
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      ctx?.revert();
+    };
+  }, []);
+
   return (
-    <section className={styles.section}>
+    <section className={styles.section} ref={sectionRef}>
 
       {/* ── TOP ROW ── */}
       <div className={styles.topRow}>
         <div className={styles.leftCol}>
-          <div className={styles.tag}>
+          <div className={styles.tag} ref={tagRef}>
             <span className={styles.tagDot} />
             05 &nbsp;INSIGHTS
           </div>
-          <h2 className={styles.heading}>
+          <h2 className={styles.heading} ref={headingRef}>
             LATEST FROM OUR STUDIO
           </h2>
         </div>
 
         <div className={styles.rightCol}>
-          <p className={styles.subtitle}>
+          <p className={styles.subtitle} ref={subtitleRef}>
             Stories, filmmaking insights, and creative explorations shaping the future of
             cinema, visual storytelling, and modern production.
           </p>
 
-          <button className={styles.ctaBtn} onClick={handleAllArticles}>
+          <button className={styles.ctaBtn} onClick={handleAllArticles} ref={btnRef}>
             <span className={styles.btnInner}>
               <span className={`${styles.btnRow} ${styles.btnRowDefault}`}>
                 <StarIcon /> ALL ARTICLES
@@ -96,6 +205,7 @@ const LatestForm = function () {
         {articles.map((article, i) => (
           <div
             key={article.id}
+            ref={(el) => (cardRefs.current[i] = el)}
             className={`${styles.card} ${styles[`card${i + 1}`]}`}
             onClick={() => handleCardClick(article)}
           >
