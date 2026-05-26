@@ -866,6 +866,9 @@
   font-size: 0.74rem;
   line-height: 1.55;
 }
+.vp-inner.vp-fs-active {
+  cursor: default;
+}
 
 /* ── Responsive ── */
 @media (max-width: 768px) {

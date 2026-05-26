@@ -231,7 +231,7 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./grid.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -260,9 +260,7 @@ const Grid = function () {
   const toggleRef    = useRef(null);
   const gridRef      = useRef(null);
   const itemAnimRefs = useRef([]);
-
-  // ── FIX: track how many cards were already animated ──
-  const prevCountRef = useRef(0);
+  const animatedIds  = useRef(new Set());
 
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const visibleItems = gridData.slice(0, visibleCount);
@@ -270,83 +268,144 @@ const Grid = function () {
 
   const handleLoadMore = () => setVisibleCount((prev) => prev + ITEMS_PER_PAGE);
 
-  /* ── Scroll-based animations ── */
+  // ── Header animation — sirf ek baar, Journal wali exact pattern ──
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    let ctx;
 
-      // ── Header animations — only on initial mount ──
-      if (prevCountRef.current === 0) {
+    const timer = setTimeout(() => {
+      ctx = gsap.context(() => {
 
-        /* H1 — letter clip reveal */
+        // H1 — letter clip reveal
         const letters = h1Ref.current.innerText.split("");
         h1Ref.current.innerHTML = letters
           .map(l =>
             l === " "
               ? " "
-              : `<span style="display:inline-block;overflow:hidden;line-height:1"><i style="display:inline-block;font-style:normal">${l}</i></span>`
+              : `<span style="display:inline-block;overflow:hidden;line-height:1.15;vertical-align:bottom"><i style="display:inline-block;font-style:normal;will-change:transform">${l}</i></span>`
           )
           .join("");
 
-        gsap.set(h1Ref.current.querySelectorAll("i"), { yPercent: 110 });
+        gsap.set(h1Ref.current.querySelectorAll("i"), { yPercent: 115 });
         gsap.to(h1Ref.current.querySelectorAll("i"), {
           yPercent: 0,
           duration: 2.2,
           ease: "expo.out",
           stagger: 0.1,
-          delay: 0.3,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            scroller: document.documentElement,
+            start: "top 75%",
+            once: true,
+          },
         });
 
-        /* Description — fade + y */
+        // Description — fade + y
         gsap.set(descRef.current, { opacity: 0, y: 18 });
         gsap.to(descRef.current, {
           opacity: 1,
           y: 0,
           duration: 1.8,
           ease: "expo.out",
-          delay: 0.9,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            scroller: document.documentElement,
+            start: "top 75%",
+            once: true,
+          },
         });
 
-        /* Toggle row — fade + y */
+        // Toggle row — fade + y
         gsap.set(toggleRef.current, { opacity: 0, y: 14 });
         gsap.to(toggleRef.current, {
           opacity: 1,
           y: 0,
           duration: 1.6,
           ease: "expo.out",
-          delay: 1.1,
-        });
-      }
-
-      // ── FIX: only animate NEW cards (from prevCount onward) ──
-      const startIndex = prevCountRef.current;
-      const newItems   = itemAnimRefs.current.slice(startIndex);
-
-      gsap.set(newItems, { clipPath: "inset(0 100% 0 0)" });
-
-      newItems.forEach((el, i) => {
-        if (!el) return;
-        gsap.to(el, {
-          clipPath: "inset(0 0% 0 0)",
-          duration: 1.8,
-          ease: "expo.out",
           scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
+            trigger: sectionRef.current,
+            scroller: document.documentElement,
+            start: "top 75%",
             once: true,
           },
-          delay: i % 2 === 0 ? 0.1 : 0.25,
         });
+
+      }, sectionRef);
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      ctx?.revert();
+    };
+  }, []); // sirf mount pe
+
+  // ── Card animations — Journal wali exact pattern ──
+  useLayoutEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const newItems = visibleItems.filter((item) => !animatedIds.current.has(item.id));
+
+    if (newItems.length === 0) return;
+
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+
+      newItems.forEach((item, i) => {
+        const el = itemAnimRefs.current[visibleItems.indexOf(item)];
+        if (!el) return;
+
+        animatedIds.current.add(item.id);
+
+        if (isMobile) {
+          gsap.set(el, { opacity: 0, y: 50 });
+          gsap.to(el, {
+            opacity: 1,
+            y: 0,
+            duration: 1.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: el,
+              scroller: document.documentElement,
+              start: "top 90%",
+              once: true,
+            },
+            delay: i * 0.12,
+          });
+        } else {
+          const parent = el.parentElement;
+          if (parent) parent.style.perspective = "1200px";
+
+          gsap.set(el, {
+            opacity: 0,
+            y: 55,
+            rotateX: 16,
+            transformOrigin: "bottom center",
+            transformStyle: "preserve-3d",
+          });
+
+          gsap.to(el, {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            duration: 2.0,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: el,
+              scroller: document.documentElement,
+              start: "top 90%",
+              once: true,
+            },
+            delay: i % 2 === 0 ? 0.05 : 0.28,
+            onComplete: () => {
+              gsap.set(el, { clearProps: "rotateX,transformOrigin,transformStyle,willChange" });
+            },
+          });
+        }
       });
+    }, 100);
 
-    }, sectionRef);
-
-    // ── FIX: update prevCount after this render's animations are set up ──
-    prevCountRef.current = visibleCount;
-
-    return () => ctx.revert();
+    return () => clearTimeout(timer);
   }, [visibleCount]);
 
-  /* ── Mobile intersection observer ── */
+  // ── Mobile intersection observer ──
   useEffect(() => {
     const isMobile = window.matchMedia("(max-width: 1066px)").matches;
     if (!isMobile) return;
@@ -432,7 +491,11 @@ const Grid = function () {
         </div>
 
         {/* Grid items */}
-        <div ref={gridRef} className={styles["grid-third-layer"]}>
+        <div
+          ref={gridRef}
+          className={styles["grid-third-layer"]}
+          style={{ perspective: "1200px", overflow: "visible" }}
+        >
           {visibleItems.map((item, index) => (
             <div
               className={styles["grid-items"]}
@@ -444,6 +507,7 @@ const Grid = function () {
               }}
               onMouseEnter={() => handleMouseEnter(item.id)}
               onMouseLeave={() => handleMouseLeave(item.id)}
+              style={{ overflow: "visible" }}
             >
               <div
                 className={styles["video-wrapper"]}

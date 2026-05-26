@@ -360,3 +360,6 @@ body.info-panel-open header {
   #c-dot, #c-ring { display: none; }
   * { cursor: auto; }
 }
+.fullscreen-active * {
+  cursor: default !important;
+}
