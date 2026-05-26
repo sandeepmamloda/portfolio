@@ -374,53 +374,67 @@ const Journal = function () {
 
   const handleLoadMore = () => setVisibleCount((prev) => prev + ITEMS_PER_PAGE);
 
-  // ─── Hero text animation (runs once on mount) ───────────────────────────────
+  // ─── Hero text animation ─────────────────────────────────────────────────────
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    let ctx;
 
-      const letters = h1Ref.current.innerText.split("");
-      h1Ref.current.innerHTML = letters
-        .map(l =>
-          l === " "
-            ? " "
-            : `<span style="display:inline-block;overflow:hidden;line-height:1.15;vertical-align:bottom"><i style="display:inline-block;font-style:normal;will-change:transform">${l}</i></span>`
-        )
-        .join("");
+    const timer = setTimeout(() => {
+      ctx = gsap.context(() => {
 
-      gsap.set(h1Ref.current.querySelectorAll("i"), { yPercent: 115 });
-      gsap.to(h1Ref.current.querySelectorAll("i"), {
-        yPercent: 0,
-        duration: 2.2,
-        ease: "expo.out",
-        stagger: 0.1,
-        delay: 0.3,
-      });
+        const letters = h1Ref.current.innerText.split("");
+        h1Ref.current.innerHTML = letters
+          .map(l =>
+            l === " "
+              ? " "
+              : `<span style="display:inline-block;overflow:hidden;line-height:1.15;vertical-align:bottom"><i style="display:inline-block;font-style:normal;will-change:transform">${l}</i></span>`
+          )
+          .join("");
 
-      gsap.set(descRef.current, { opacity: 0, y: 18 });
-      gsap.to(descRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1.8,
-        ease: "expo.out",
-        delay: 0.9,
-      });
+        gsap.set(h1Ref.current.querySelectorAll("i"), { yPercent: 115 });
+        gsap.to(h1Ref.current.querySelectorAll("i"), {
+          yPercent: 0,
+          duration: 2.2,
+          ease: "expo.out",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            scroller: document.documentElement,
+            start: "top 75%",
+            once: true,
+          },
+        });
 
-    }, sectionRef);
+        gsap.set(descRef.current, { opacity: 0, y: 18 });
+        gsap.to(descRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 1.8,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            scroller: document.documentElement,
+            start: "top 75%",
+            once: true,
+          },
+        });
 
-    return () => ctx.revert();
+      }, sectionRef);
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      ctx?.revert();
+    };
   }, []);
 
   // ─── Card scroll animations ──────────────────────────────────────────────────
-  // FIX 1: useLayoutEffect → DOM paint ke baad fire hota hai, refs already ready hote hain
   useLayoutEffect(() => {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     const newItems = visibleItems.filter((item) => !animatedIds.current.has(item.id));
 
     if (newItems.length === 0) return;
 
-    // FIX 2: requestAnimationFrame → layout settle hone do, phir ScrollTrigger refresh karo
-    const raf = requestAnimationFrame(() => {
-      // FIX 3: ScrollTrigger.refresh() → naye elements ki position GSAP ko batata hai
+    const timer = setTimeout(() => {
       ScrollTrigger.refresh();
 
       newItems.forEach((item, i) => {
@@ -436,7 +450,12 @@ const Journal = function () {
             y: 0,
             duration: 1.8,
             ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 90%", once: true },
+            scrollTrigger: {
+              trigger: el,
+              scroller: document.documentElement,
+              start: "top 90%",
+              once: true,
+            },
             delay: i * 0.12,
           });
         } else {
@@ -457,7 +476,12 @@ const Journal = function () {
             rotateX: 0,
             duration: 2.0,
             ease: "power4.out",
-            scrollTrigger: { trigger: el, start: "top 90%", once: true },
+            scrollTrigger: {
+              trigger: el,
+              scroller: document.documentElement,
+              start: "top 90%",
+              once: true,
+            },
             delay: i % 2 === 0 ? 0.05 : 0.28,
             onComplete: () => {
               gsap.set(el, { clearProps: "rotateX,transformOrigin,transformStyle,willChange" });
@@ -465,10 +489,10 @@ const Journal = function () {
           });
         }
       });
-    });
+    }, 100);
 
-    return () => cancelAnimationFrame(raf);
-  }, [visibleCount]); // ← visibleItems ki jagah visibleCount — stable dependency
+    return () => clearTimeout(timer);
+  }, [visibleCount]);
 
   return (
     <section ref={sectionRef} className={styles["grid-wrapper"]}>

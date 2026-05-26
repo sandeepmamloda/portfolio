@@ -47,81 +47,100 @@ const pressVideos = [
 ];
 
 const Press = function () {
-  const sectionRef   = useRef(null);
-  const h1Ref        = useRef(null);
-  const descRef      = useRef(null);
-  const listRef      = useRef(null);
-  const listHeadRef  = useRef(null);
-  const itemRefs     = useRef([]);
+  const sectionRef  = useRef(null);
+  const h1Ref       = useRef(null);
+  const descRef     = useRef(null);
+  const listRef     = useRef(null);
+  const listHeadRef = useRef(null);
+  const itemRefs    = useRef([]);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    let ctx;
 
-      /* ── H1 — letters clip reveal ── */
-      const letters = h1Ref.current.innerText.split("");
-      h1Ref.current.innerHTML = letters
-        .map(l =>
-          l === " "
-            ? " "
-            : `<span style="display:inline-block;overflow:hidden;line-height:1"><i style="display:inline-block;font-style:normal">${l}</i></span>`
-        )
-        .join("");
+    const timer = setTimeout(() => {
+      ctx = gsap.context(() => {
 
-      const letterEls = h1Ref.current.querySelectorAll("i");
-      gsap.set(letterEls, { yPercent: 110 });
-      gsap.to(letterEls, {
-        yPercent: 0,
-        duration: 2.2,
-        ease: "expo.out",
-        stagger: 0.1,
-        delay: 0.3,
-      });
+        /* ── H1 — letters clip reveal ── */
+        const letters = h1Ref.current.innerText.split("");
+        h1Ref.current.innerHTML = letters
+          .map(l =>
+            l === " "
+              ? " "
+              : `<span style="display:inline-block;overflow:hidden;line-height:1"><i style="display:inline-block;font-style:normal">${l}</i></span>`
+          )
+          .join("");
 
-      /* ── Description — fade + y ── */
-      gsap.set(descRef.current, { opacity: 0, y: 16 });
-      gsap.to(descRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1.6,
-        ease: "expo.out",
-        delay: 0.9,
-      });
-
-      /* ── List head — clip-path wipe ── */
-      gsap.set(listHeadRef.current, { clipPath: "inset(0 100% 0 0)" });
-      gsap.to(listHeadRef.current, {
-        clipPath: "inset(0 0% 0 0)",
-        duration: 1.4,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: listRef.current,
-          start: "top 80%",
-          once: true,
-        },
-        delay: 0.1,
-      });
-
-      /* ── List items — clip-path wipe ── */
-      gsap.set(itemRefs.current, { clipPath: "inset(0 100% 0 0)" });
-
-      itemRefs.current.forEach((el, i) => {
-        if (!el) return;
-        gsap.to(el, {
-          clipPath: "inset(0 0% 0 0)",
-          duration: 1.6,
+        const letterEls = h1Ref.current.querySelectorAll("i");
+        gsap.set(letterEls, { yPercent: 110 });
+        gsap.to(letterEls, {
+          yPercent: 0,
+          duration: 2.2,
           ease: "expo.out",
+          stagger: 0.1,
           scrollTrigger: {
-            trigger: listRef.current,
+            trigger: sectionRef.current,
+            scroller: document.documentElement,
             start: "top 75%",
             once: true,
           },
-          delay: 0.2 + i * 0.15,
         });
-      });
 
-    }, sectionRef);
+        /* ── Description — fade + y ── */
+        gsap.set(descRef.current, { opacity: 0, y: 16 });
+        gsap.to(descRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 1.6,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            scroller: document.documentElement,
+            start: "top 75%",
+            once: true,
+          },
+        });
 
-    return () => ctx.revert();
+        /* ── List head — clip-path wipe ── */
+        gsap.set(listHeadRef.current, { clipPath: "inset(0 100% 0 0)" });
+        gsap.to(listHeadRef.current, {
+          clipPath: "inset(0 0% 0 0)",
+          duration: 1.4,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: listRef.current,
+            scroller: document.documentElement,
+            start: "top 80%",
+            once: true,
+          },
+          delay: 0.1,
+        });
+
+        /* ── List items — clip-path wipe ── */
+        gsap.set(itemRefs.current, { clipPath: "inset(0 100% 0 0)" });
+
+        itemRefs.current.forEach((el, i) => {
+          if (!el) return;
+          gsap.to(el, {
+            clipPath: "inset(0 0% 0 0)",
+            duration: 1.6,
+            ease: "expo.out",
+            scrollTrigger: {
+              trigger: listRef.current,
+              scroller: document.documentElement,
+              start: "top 75%",
+              once: true,
+            },
+            delay: 0.2 + i * 0.15,
+          });
+        });
+
+      }, sectionRef);
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      ctx?.revert();
+    };
   }, []);
 
   return (
