@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import styles from "./latest.module.css";
 import { useRouter } from "next/navigation";
+import { articlesData } from "./articlesdata";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -60,8 +61,11 @@ const LatestForm = function () {
   const cardRefs    = useRef([]);
 
   const handleCardClick = (article) => {
+    const fullData = articlesData.find(
+      (a) => a.title.toLowerCase() === article.title.toLowerCase()
+    );
     router.push(
-      `/articles/articles-individual?title=${encodeURIComponent(article.title)}&image=${encodeURIComponent(article.image)}&date=${encodeURIComponent(article.date)}`
+      `/articles/articles-individual?title=${encodeURIComponent(article.title)}&image=${encodeURIComponent(article.image)}&date=${encodeURIComponent(article.date)}&duration=${encodeURIComponent(fullData?.duration || "")}&subtitle=${encodeURIComponent(fullData?.subtitle || "")}&content=${encodeURIComponent(JSON.stringify(fullData?.content || []))}`
     );
   };
 
