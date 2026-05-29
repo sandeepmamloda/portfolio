@@ -126,6 +126,7 @@
     max-width: 100%;
     text-align: center;
     order: -1;
+    height:14rem;
   }
   .hero-text-left-2 {
     position: relative;
@@ -145,7 +146,7 @@
     max-width: 100%;
   }
 }/* ── RESPONSIVE: 1066px ── */
-@media (max-width: 1066px) {
+@media (max-width: 1073px) {
   .heroabout-wrapper {
     height: 80rem;
   }
@@ -175,6 +176,7 @@
     max-width: 100%;
     text-align: center;
     order: -1;
+    height:8rem;
   }
   .hero-text-left-1 h1 {
     font-size: 3rem;
@@ -211,7 +213,7 @@
   }
 }
 /* ── RESPONSIVE: 480px ── */
-@media (max-width: 480px) {
+@media (max-width: 555px) {
   .heroabout-wrapper {
     height: 80rem;
   }
