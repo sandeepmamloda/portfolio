@@ -32,7 +32,7 @@
   align-items: center;
   gap: 0.5rem;
   border-radius: 999px;
-  padding: 0.9rem 1.2rem;
+  padding: 0.7rem 1.2rem;
   color: #fff;
   font-family: 'DMMonoMedium';
   font-size: 1.2rem;
@@ -43,11 +43,10 @@
   margin-bottom: 0.7rem;
 }
 
-.tagDot {
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  background: #8A38F5;
+.tag-dot-canvas {
+  width: 28px;
+  height: 28px;
+  display: block;
   flex-shrink: 0;
 }
 
@@ -245,7 +244,7 @@
   .card4 .cardImageWrap { height: 30rem; }
 }
 
-/* ── RESPONSIVE: 1024px ── */
+/* ── RESPONSIVE: 1146px ── */
 @media (max-width: 1146px) {
   .topRow {
     flex-direction: column;
@@ -299,8 +298,8 @@
     font-size: 2.2rem;
     text-align: center;
   }
-  .tag{
-    margin-inline:auto;
+  .tag {
+    margin-inline: auto;
   }
   .subtitle {
     font-size: 1.2rem;
@@ -372,8 +371,8 @@
     font-size: 0.9rem;
     padding: 0.6rem 0.9rem;
   }
-  .tagDot {
-    width: 0.8rem;
-    height: 0.8rem;
+  .tag-dot-canvas {
+    width: 22px;
+    height: 22px;
   }
 }

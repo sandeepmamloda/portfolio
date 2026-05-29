@@ -36,7 +36,7 @@
   align-items: center;
   gap: 0.5rem;
   border-radius: 999px;
-  padding: 1rem 1.5rem;
+  padding: 0.7rem 1rem;
   color: #fff;
   font-family: 'DMMonoMedium';
   font-size: 1.3rem;
@@ -107,7 +107,7 @@
 
   .tag {
     font-size: 1.1rem;
-    padding: 0.8rem 1.2rem;
+    /* padding: 0.8rem 1.2rem; */
     margin-bottom: 1rem;
     margin-inline: auto;
   }
@@ -135,7 +135,7 @@
 
   .tag {
     font-size: 1rem;
-    padding: 0.7rem 1rem;
+    padding: 0.5rem 0.8rem;
     margin-bottom: 1.5rem;
     margin-inline: auto;
   }
