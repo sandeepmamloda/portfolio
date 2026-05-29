@@ -119,11 +119,11 @@
 
 .cardHovered {
   transform: translateY(-0.25rem);
-  box-shadow: 
+  /* box-shadow: 
     0 0 2rem rgba(138, 56, 245, 0.25),
     0 0 5rem rgba(138, 56, 245, 0.2),
     0 0 8rem rgba(138, 56, 245, 0.15),
-    0 0 12rem rgba(138, 56, 245, 0.1);
+    0 0 12rem rgba(138, 56, 245, 0.1); */
 }
 
 .cardImageWrap {

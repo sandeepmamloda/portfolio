@@ -10,6 +10,9 @@ export default function ParticleBackground() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // ── Tablet/Mobile pe disable ──
+    if (window.innerWidth <= 1024) return;
+
     const renderer = new THREE.WebGLRenderer({ 
       canvas, 
       antialias: true, 
@@ -33,7 +36,7 @@ export default function ParticleBackground() {
     const vx = new Float32Array(COUNT);
     const vy = new Float32Array(COUNT);
 
-    const MAX_VEL = 0.06; // velocity cap — multiple clicks pe bhi itne se zyada nahi jaayenge
+    const MAX_VEL = 0.06;
 
     for (let i = 0; i < COUNT; i++) {
       positions[i * 3]     = (Math.random() - 0.5) * 12; 
@@ -90,11 +93,9 @@ export default function ParticleBackground() {
 
     const onClick = () => {
       for (let i = 0; i < COUNT; i++) {
-        // velocity add karo
         vx[i] += (Math.random() - 0.5) * 0.08;
         vy[i] += (Math.random() - 0.5) * 0.08;
 
-        // cap lagao — MAX_VEL se zyada kabhi nahi jaayega
         if (vx[i] >  MAX_VEL) vx[i] =  MAX_VEL;
         if (vx[i] < -MAX_VEL) vx[i] = -MAX_VEL;
         if (vy[i] >  MAX_VEL) vy[i] =  MAX_VEL;
@@ -118,16 +119,13 @@ export default function ParticleBackground() {
       for (let i = 0; i < COUNT; i++) {
         const i3 = i * 3;
 
-        // normal rising + floating
         pos[i3 + 1] += speeds[i] * 0.005;
         if (pos[i3 + 1] > 5) pos[i3 + 1] = -5;
         pos[i3] += Math.sin(t * 0.5 + phases[i]) * 0.0015;
 
-        // velocity apply karo
         pos[i3]     += vx[i];
         pos[i3 + 1] += vy[i];
 
-        // tezi se damp karo — jaldi settle, lag nahi lagega
         vx[i] *= 0.88;
         vy[i] *= 0.88;
       }
