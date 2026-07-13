@@ -238,13 +238,13 @@ gsap.registerPlugin(ScrollTrigger);
 
 const gridData = [
   { id: 1, title: "Heer",                          date: "October 8, 2015",  duration: "13 min.",  video: "/videos/home/hero/hero.mp4"       },
-  { id: 2, title: "I Am A Banana",                  date: "Feb , 2015",       duration: "13 min.",  video: "/videos/home/hero/footer.mp4"     },
-  { id: 3, title: "Daily life of a Teenager",       date: "Jan 23, 2026",     duration: "10:41",    video: "/videos/home/hero/work-ui-1.mp4"  },
-  { id: 4, title: "Vibrant Day at the Dead Parade", date: "Feb 04, 2026",     duration: "27:21",    video: "/videos/home/hero/footer.mp4"     },
+  { id: 2, title: "I Am A Banana",                  date: "Feb , 2015",       duration: "13 min.",  video: "/videos/home/hero/work-ui-1.mp4"     },
+  { id: 3, title: "Daily life of a Teenager",       date: "Jan 23, 2026",     duration: "10:41",    video: "/videos/home/hero/hero.mp4"  },
+  { id: 4, title: "Vibrant Day at the Dead Parade", date: "Feb 04, 2026",     duration: "27:21",    video: "/videos/home/hero/work-ui-1.mp4"     },
   { id: 5, title: "Heer",                          date: "October 8, 2015",  duration: "13 min.",  video: "/videos/home/hero/hero.mp4"       },
-  { id: 6, title: "I Am A Banana",                  date: "Feb , 2015",       duration: "13 min.",  video: "/videos/home/hero/footer.mp4"     },
-  { id: 7, title: "Daily life of a Teenager",       date: "Jan 23, 2026",     duration: "10:41",    video: "/videos/home/hero/work-ui-1.mp4"  },
-  { id: 8, title: "Vibrant Day at the Dead Parade", date: "Feb 04, 2026",     duration: "27:21",    video: "/videos/home/hero/footer.mp4"     },
+  { id: 6, title: "I Am A Banana",                  date: "Feb , 2015",       duration: "13 min.",  video: "/videos/home/hero/work-ui-1.mp4"     },
+  { id: 7, title: "Daily life of a Teenager",       date: "Jan 23, 2026",     duration: "10:41",    video: "/videos/home/hero/hero.mp4"  },
+  { id: 8, title: "Vibrant Day at the Dead Parade", date: "Feb 04, 2026",     duration: "27:21",    video: "/videos/home/hero/work-ui-1.mp4"     },
 ];
 
 const ITEMS_PER_PAGE = 4;
