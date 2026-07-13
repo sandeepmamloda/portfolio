@@ -10,11 +10,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 const workVideos = [
   { title: "Amplifying the Tuner",           type: "Commercial",  duration: "15:30", video: "/videos/work/work.mp4"       },
-  { title: "Everyone has somewhere to be",   type: "Social",      duration: "17:21", video: "/videos/work/footer.mp4"     },
+  { title: "Everyone has somewhere to be",   type: "Social",      duration: "17:21", video: "/videos/work/contact-us.mp4"     },
   { title: "Daily life of a Teenager",       type: "Social",      duration: "10:41", video: "/videos/work/work.mp4"       },
-  { title: "Vibrant Day at the Dead Parade", type: "Promotional", duration: "27:21", video: "/videos/work/footer.mp4"     },
+  { title: "Vibrant Day at the Dead Parade", type: "Promotional", duration: "27:21", video: "/videos/work/contact-us.mp4"     },
   { title: "Beyond the Game",                type: "Commercial",  duration: "21:10", video: "/videos/work/hero.mp4"       },
-  { title: "The Price of Silence",           type: "Social",      duration: "18:20", video: "/videos/work/footer.mp4"     },
+  { title: "The Price of Silence",           type: "Social",      duration: "18:20", video: "/videos/work/contact-us.mp4"     },
   { title: "Fragments of Reality",           type: "Social",      duration: "11:40", video: "/videos/work/contact-us.mp4" },
 ];
 

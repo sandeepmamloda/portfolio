@@ -156,7 +156,7 @@ const Navbar = function () {
 
           <div className={styles["header-right"]}>
             <nav className={styles["logo"]} ref={logoRef}>
-              <Link href="/" onClick={closeMenu}>Portfolio</Link>
+              <Link href="/" onClick={closeMenu}>HONEY</Link>
             </nav>
           </div>
 

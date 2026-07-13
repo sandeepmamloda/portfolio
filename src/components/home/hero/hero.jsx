@@ -164,7 +164,7 @@ export default function Hero() {
           </div>
           <div className={styles["content"]}>
             <p>BASED IN</p>
-            <p>ABU DHABI, UAE</p>
+            <p>Abu Dhabi, UAE & Singapore</p>
           </div>
         </div>
       </div>

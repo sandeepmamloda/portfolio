@@ -246,6 +246,16 @@
     justify-content: space-between;
   }
 }
+@media (max-width:606px){
+  .bottom-content {
+    margin-top: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .content:last-child {
+    align-self: flex-end;
+  }
+}
 /* ---- RESPONSIVE: 480px (Small Mobile) ---- */
 @media (max-width: 480px) {
   .home-section-top-text-wrapper {
@@ -281,5 +291,10 @@
   }
   .project-active {
     display: block;
+  }
+}
+@media (max-width:340px){
+  .content:last-child p{
+    text-align:end;
   }
 }
